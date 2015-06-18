@@ -1,0 +1,43 @@
+[pipeline:main]
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache tempurl ratelimit tempauth proxy-logging proxy-server
+
+[app:proxy-server]
+use = egg:oioswift#main
+sds_namespace = <%= @ns %>
+sds_proxy_url = <%= @oioproxy_url %>
+bind_port = <%= @port %>
+user = <%= scope['openiosds::user'] %>
+object_post_as_copy = false
+
+[filter:tempauth]
+use = egg:swift#tempauth
+user_test_tester = testing .admin
+
+[filter:gatekeeper]
+use = egg:swift#gatekeeper
+
+[filter:proxy-logging]
+use = egg:swift#proxy_logging
+
+[filter:tempurl]
+use = egg:swift#tempurl
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+
+[filter:ratelimit]
+use = egg:swift#ratelimit
+
+[filter:healthcheck]
+use = egg:swift#healthcheck
+
+[filter:cache]
+use = egg:swift#memcache
+memcache_servers = <%= @memcache_servers %>
+
+[filter:swift3]
+use = egg:swift3#swift3
+
+[filter:staticweb]
+use = egg:swift#staticweb
+

@@ -1,0 +1,50 @@
+[loggers]
+keys=root,gunicorn.access, gunicorn.error
+
+[logger_root]
+handlers=console
+level=<%= scope['openiosds::log_level'].upcase %>
+
+[logger_gunicorn.access]
+level=<%= scope['openiosds::log_level'].upcase %>
+handlers=syslog1
+propagate=0
+qualname=gunicorn.access
+
+[logger_gunicorn.error]
+level=<%= scope['openiosds::log_level'].upcase %>
+handlers=syslog0
+propagate=1
+qualname=gunicorn.error
+
+[formatters]
+keys=oio,generic
+
+[formatter_oio]
+format=OIO,<%= @ns %>,<%= @type %>,<%= @num %>: %(message)s
+class=logging.Formatter
+
+[formatter_generic]
+format=OIO,<%= @ns %>,<%= @type %>,<%= @num %>: %(asctime)s [%(process)d] [%(levelname)s] %(message)s
+datefmt=%Y-%m-%d %H:%M:%S
+class=logging.Formatter
+
+[handlers]
+keys=syslog0,syslog1,console
+
+[handler_console]
+class=StreamHandler
+formatter=generic
+args=(sys.stdout, )
+
+[handler_syslog0]
+class=handlers.SysLogHandler
+level=<%= scope['openiosds::log_level'].upcase %>
+formatter=oio
+args=('/dev/log', handlers.SysLogHandler.LOG_LOCAL0)
+
+[handler_syslog1]
+class=handlers.SysLogHandler
+level=<%= scope['openiosds::log_level'].upcase %>
+formatter=oio
+args=('/dev/log', handlers.SysLogHandler.LOG_LOCAL1)

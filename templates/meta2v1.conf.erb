@@ -1,0 +1,49 @@
+[General]
+daemon=false
+to_op=300000
+to_cnx=300000
+pidfile=<%= @runstatedir %>/<%= @type %>-<%= @num %>.pid
+
+[Service]
+namespace=<%= @options['ns'] %>
+type=meta2
+register=true
+load_ns_info=true
+
+[ServiceTags]
+type=m2v1
+
+[Server.meta2]
+min_workers=30
+min_spare_workers=30
+max_spare_workers=500
+max_workers=1000
+listen=<%= @options['ipaddress'] %>:<%= @options['port'] %>
+
+plugins=meta2,stats,fallback,ping
+
+[Plugin.stats]
+path=<%= @libdir %>/grid/msg_stats.so
+
+[Plugin.fallback]
+path=<%= @libdir %>/grid/msg_fallback.so
+
+[Plugin.ping]
+path=<%= @libdir %>/grid/msg_ping.so
+
+[Plugin.meta2]
+path=<%= @libdir %>/grid/msg_meta2.so
+param_namespace=<%= @options['ns'] %>
+param_url=<%= @options['dburl'] %>
+param_meta2_address=<%= @options['ipaddress'] %>:<%= @options['port'] %>
+param_standard_deviation_shortening=no
+param_db_shema_path=<%= @prefixdix %>/share/grid/meta2.shema
+<% if @options["shorten_ratio"] and @options["shorten_ratio"] != '' %>
+param_RR_shorten_ratio=<%= @options["shorten_ratio"] %>
+<% else %>
+param_RR_shorten_ratio=1.01
+<% end %>
+param_service_nums=
+param_lb.rawx=RR
+<% if @options['vns'] %>param_quota_managed=true
+<% end %>

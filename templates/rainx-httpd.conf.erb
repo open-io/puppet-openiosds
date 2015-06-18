@@ -1,0 +1,61 @@
+LoadModule dav_module           <%= @options["httpd_moduledir"] ? @options["httpd_moduledir"] : '/usr/lib64/httpd/modules' %>/mod_dav.so
+LoadModule dav_rainx_module      <%= @options["httpd_moduledir"] ? @options["httpd_moduledir"] : '/usr/lib64/httpd/modules' %>/mod_dav_rainx.so
+LoadModule log_config_module    <%= @options["httpd_moduledir"] ? @options["httpd_moduledir"] : '/usr/lib64/httpd/modules' %>/mod_log_config.so
+LoadModule mime_module          <%= @options["httpd_moduledir"] ? @options["httpd_moduledir"] : '/usr/lib64/httpd/modules' %>/mod_mime.so
+LoadModule logio_module          <%= @options["httpd_moduledir"] ? @options["httpd_moduledir"] : '/usr/lib64/httpd/modules' %>/mod_logio.so
+
+Listen <%= @options["ipaddress"] %>:<%= @options["port"] %>
+PidFile <%= @localstatedir %>/<%= @type %>-<%= @num %>-httpd.pid
+ServerRoot <%= @sharedstatedir %>/coredump
+ServerName localhost
+ServerSignature Off
+ServerTokens Prod
+DocumentRoot <%= @localstatedir %>
+TypesConfig /etc/mime.types
+
+User  <%= @options["user"] ? @options["user"] : 'openio' %>
+Group <%= @options["group"] ? @options["group"] : 'openio' %>
+
+LogFormat "%h %l %t \"%r\" %>s %b %D" log/common
+ErrorLog <%= @logstatedir %>/rainx-<%= @num %>-httpd-errors.log
+CustomLog <%= @logstatedir %>/rainx-<%= @num %>-httpd-access.log log/common
+LogLevel <%= @options["httpd_loglevel"] ? @options["httpd_loglevel"] : 'info' %>
+
+<IfModule mod_env.c>
+SetEnv nokeepalive 1
+SetEnv downgrade-1.0 1
+SetEnv force-response-1.0 1
+</IfModule>
+
+<IfModule prefork.c>
+MaxClients       150
+StartServers       5
+MinSpareServers    5
+MaxSpareServers   10
+</IfModule>
+
+<IfModule worker.c>
+StartServers           5
+MaxClients           100
+MinSpareThreads        5
+MaxSpareThreads       25
+ThreadsPerChild       10
+MaxRequestsPerChild    0
+</IfModule>
+
+DavDepthInfinity Off
+
+grid_hash_width 2
+grid_hash_depth 2
+grid_docroot <%= @sharedstatedir %>
+grid_namespace <%= @options["ns"] %>
+grid_dir_run <%= @localstatedir %>
+
+<Directory />
+DAV rainx
+AllowOverride None
+</Directory>
+
+<VirtualHost <%= @options["ipaddress"] %>:<%= @options["port"] %>>
+# DO NOT REMOVE (even if empty) !
+</VirtualHost>

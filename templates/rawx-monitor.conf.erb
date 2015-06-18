@@ -1,0 +1,22 @@
+[Default]
+daemon=false
+pidfile=<%= scope['openiosds::runstatedir'] %>/<%= @ns %>-<%= @type %>-<%= @num %>-monitor.pid
+
+[Child]
+command=/usr/sbin/httpd -D FOREGROUND -f <%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd.conf
+respawn=true
+rlimit.stack_size=1048576
+rlimit.core_size=-1
+rlimit.max_files=32768
+
+[Service]
+ns=<%= @ns %>
+type=<%= @type %>
+location=default
+stgclass=DEFAULT
+addr=<%= @ipaddress %>:<%= @port %>
+
+[Volume]
+docroot=<%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>
+filer.user=<%= scope['openiosds::user'] %>
+filer.pwd=<%= scope['openiosds::group'] %>

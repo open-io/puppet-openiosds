@@ -1,0 +1,26 @@
+[server:main]
+use = egg:gunicorn#main
+host = <%= @ipaddress %>
+port = <%= @port %>
+workers = <%= @workers %>
+worker_class = eventlet
+preload_app = True
+daemon = False
+user = <%= scope['openiosds::user'] %>
+group = <%= scope['openiosds::group'] %>
+logconfig = %(here)s/<%= @type %>-<%= @num %>-logging.conf
+
+[pipeline:main]
+pipeline = fakeauth server
+
+[app:server]
+use = egg:oio-sds-swift#main
+sds_namespace = <%= @ns %>
+sds_proxy_url = <%= @oioproxy_url %>
+
+[filter:fakeauth]
+use = egg:oio-sds-swift#fakeauth
+user_admin_admin = admin
+user_test_tester = testing
+auth_override = False
+token = DummyToken

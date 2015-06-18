@@ -1,0 +1,79 @@
+[General]
+### Now is 'daemon' ignored (this is managed at the CLI)
+### Now is 'pidfile' ingnored (managed at CLI too)
+# Timeout on read operations
+to_op=1000
+# Timeout on accepting connections
+to_cnx=1000
+
+flag.NOLINGER=true
+flag.SHUTDOWN=false
+flag.KEEPALIVE=false
+flag.QUICKACK=false
+
+[Server.conscience]
+min_workers=<%= @min_workers %>
+min_spare_workers=<%= @min_spare_workers %>
+max_spare_workers=<%= @max_spare_workers %>
+max_workers=<%= @max_workers %>
+listen=<%= @ipaddress %>:<%= @port %>
+plugins=conscience,stats,fallback
+
+[Service]
+namespace=<%= @ns %>
+type=conscience
+register=false
+load_ns_info=false
+
+[Plugin.stats]
+path=<%= scope['openiosds::libdir'] %>/grid/msg_stats.so
+
+[Plugin.fallback]
+path=<%= scope['openiosds::libdir'] %>/grid/msg_fallback.so
+[Plugin.conscience]
+path=<%= scope['openiosds::libdir'] %>/grid/msg_conscience.so
+param_namespace=<%= @ns %>
+param_chunk_size=<%= @chunk_size %>
+param_score_timeout=86400
+
+param_option.ns_status=<%= @ns_status %>
+param_option.WORM=<%= @worm %>
+param_option.service_update_policy=<%= @service_update_policy %>
+param_option.automatic_open=<%= @automatic_open %>
+param_option.meta2_max_versions=<%= @meta2_max_versions %>
+param_option.storage_policy=<%= @storage_policy %>
+
+param_option.meta2_check.put.GAPS=false
+param_option.meta2_check.put.DISTANCE=false
+param_option.meta2_check.put.STGCLASS=false
+param_option.meta2_check.put.SRVINFO=false
+<% if @vns -%>param_option.vns_list=<%= @vns %>
+<%end -%>
+
+param_storage_conf=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-policies.conf
+
+param_events=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-events.conf
+
+param_service.default.score_timeout=30
+param_service.default.score_variation_bound=5
+param_service.default.score_expr=100
+
+param_service.meta0.score_timeout=3600
+param_service.meta0.score_variation_bound=5
+param_service.meta0.score_expr=(num stat.cpu)
+
+param_service.meta1.score_timeout=120
+param_service.meta1.score_variation_bound=5
+param_service.meta1.score_expr=root(2,((num stat.cpu) * (num stat.req_idle)))
+
+param_service.meta2.score_timeout=120
+param_service.meta2.score_variation_bound=5
+param_service.meta2.score_expr=((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.req_idle)*(num stat.space)))
+
+param_service.rawx.score_timeout=120
+param_service.rawx.score_variation_bound=5
+param_service.rawx.score_expr=((num stat.space)>=3) * root(2,((num stat.cpu)*(num stat.space)))
+
+param_service.sqlx.score_timeout=120
+param_service.sqlx.score_variation_bound=5
+param_service.sqlx.score_expr=((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.req_idle)*(num stat.space)))

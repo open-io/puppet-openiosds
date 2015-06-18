@@ -1,0 +1,36 @@
+{
+  "name": "openiosds",
+  "version": "0.99",
+  "author": "Romain Acciari",
+  "summary": "Puppet module for OpenIO SDS solution",
+  "license": "Apache License, version 2.0",
+  "source": "http://www.openio.io",
+  "project_page": "http://www.openio.io",
+  "issues_url": "http://www.openio.io",
+  "tags": [
+    "openio",
+    "sds",
+    "openiosds",
+    "redhat",
+    "centos",
+    "rhel"
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+  ],
+  "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":">= 4.4.0"}
+  ]
+}
+

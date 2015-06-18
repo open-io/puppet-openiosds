@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE log4c SYSTEM "">
+<log4c>
+  <config>
+    <bufsize>2048</bufsize>
+    <debug level="4"/>
+    <nocleanup>0</nocleanup>
+  </config>
+
+  <category name="root" priority="info" appender="OIO,<%= @ns %>,<%= @type %>,<%= @num %>"/>
+  <appender name="OIO,<%= @ns %>,<%= @type %>,<%= @num %>" type="syslog" layout="dated_r"/>
+  <layout name="dated_r" type="dated_r"/>
+
+</log4c>

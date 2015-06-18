@@ -1,0 +1,39 @@
+[General]
+user=<%= scope['openiosds::user'] %>
+group=<%= scope['openiosds::group'] %>
+
+cluster_update_freq=2
+service_check_freq=2
+
+period_get_ns=1
+period_get_srv=1
+period_get_srvtype=1
+#period_get_evtconfig=30
+period_push_srv=1
+
+#enable_broken_elements=false
+#period_broken_push=30
+#period_broken_get=30
+
+events.spool.dir=<%= scope['openiosds::spoolstatedir'] %>
+events.spool.size=9999
+events.mode.dir=755
+events.mode.file=644
+events.manage.enable=yes
+events.receive.enable=yes
+
+events.max_pushes_per_round=10
+events.max_status_per_round=20
+events.max_incoming_per_round=50
+events.max_pending=100
+events.incoming_delay=2
+
+[server.inet]
+port=<%= @port %>
+
+[server.unix]
+mode=0600
+uid=<%= scope['openiosds::user'] %>
+gid=<%= scope['openiosds::group'] %>
+path=<%= scope['openiosds::runstatedir'] %>/<%= @type %>-<%= @num %>.sock
+backlog=8192

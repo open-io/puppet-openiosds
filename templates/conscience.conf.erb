@@ -77,3 +77,7 @@ param_service.rawx.score_expr=((num stat.space)>=3) * root(2,((num stat.cpu)*(nu
 param_service.sqlx.score_timeout=120
 param_service.sqlx.score_variation_bound=5
 param_service.sqlx.score_expr=((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.req_idle)*(num stat.space)))
+
+param_service.account.score_timeout=30
+param_service.account.score_variation_bound=5
+param_service.account.score_expr=100

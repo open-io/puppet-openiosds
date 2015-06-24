@@ -43,6 +43,7 @@ define openiosds::oioswift (
       conscience_url => $conscience_url,
       zookeeper_url  => $zookeeper_url,
       oioproxy_url   => $oioproxy_url,
+      eventagent_url => $eventagent_url,
       no_exec        => $no_exec,
     }
   }

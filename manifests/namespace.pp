@@ -4,6 +4,7 @@ define openiosds::namespace (
   $conscience_url = undef,
   $zookeeper_url  = undef,
   $oioproxy_url   = undef,
+  $eventagent_url = undef,
   $no_exec        = false,
 ) {
 
@@ -16,6 +17,7 @@ define openiosds::namespace (
   if $conscience_url { validate_string($conscience_url) }
   if $zookeeper_url { validate_string($zookeeper_url) }
   if $oioproxy_url { validate_string($oioproxy_url) }
+  if $eventagent_url { validate_string($eventagent_url) }
   validate_bool($no_exec)
 
   if $openiosds::action == 'create' {

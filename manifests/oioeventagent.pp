@@ -13,6 +13,11 @@ define openiosds::oioeventagent (
   $log_name     = undef,
   $log_address  = '/dev/log',
 
+  $conscience_url = undef,
+  $zookeeper_url  = undef,
+  $oioproxy_url   = undef,
+  $eventagent_url = undef,
+
   $no_exec      = false,
 ) {
 
@@ -49,6 +54,7 @@ define openiosds::oioeventagent (
       conscience_url => $conscience_url,
       zookeeper_url  => $zookeeper_url,
       oioproxy_url   => $oioproxy_url,
+      eventagent_url => $eventagent_url,
       no_exec        => $no_exec,
     }
   }

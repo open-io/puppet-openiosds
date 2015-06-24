@@ -1,0 +1,11 @@
+[account-server]
+bind_addr = <%= @ipaddress %>
+bind_port = <%= @port %>
+backlog = 2048
+workers = 2
+redis_host = <%= @redis_host %>
+redis_port = <%= @redis_port %>
+log_level = INFO
+log_facility = LOG_LOCAL0
+log_address = /dev/log
+syslog_prefix = OIO,<%= @ns %>,<%= @type %>,<%= @num %>

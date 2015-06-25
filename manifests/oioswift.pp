@@ -50,6 +50,12 @@ define openiosds::oioswift (
 
 
   # Packages
+  package { 'rdo-release':
+    ensure   => present,
+    source   => 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm',
+    provider => rpm,
+    allow_virtual => false,
+  } ->
   package { ['openio-sds-swift','openstack-swift-proxy']:
     ensure        => $openiosds::package_ensure,
     provider      => $openiosds::package_provider,

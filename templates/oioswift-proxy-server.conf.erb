@@ -1,5 +1,5 @@
 [pipeline:main]
-pipeline = catch_errors gatekeeper healthcheck proxy-logging cache tempurl ratelimit tempauth proxy-logging proxy-server
+pipeline = catch_errors proxy-logging authtoken cache healthcheck keystoneauth proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:oioswift#main
@@ -19,8 +19,22 @@ use = egg:swift#gatekeeper
 [filter:proxy-logging]
 use = egg:swift#proxy_logging
 
-[filter:tempurl]
-use = egg:swift#tempurl
+#[filter:tempurl]
+#use = egg:swift#tempurl
+#user_test_tester = 
+
+[filter:keystoneauth]
+use = egg:swift#keystoneauth
+operator_roles = <%= @operator_roles %>
+
+[filter:authtoken]
+paste.filter_factory = keystonemiddleware.auth_token:filter_factory
+auth_uri = <%= @auth_uri %>
+identity_uri = <%= @identity_uri %>
+admin_tenant_name = <%= @admin_tenant_name %>
+admin_user = <%= @admin_user %>
+admin_password = <%= @admin_password %>
+delay_auth_decision = <%= @delay_auth_decision %>
 
 [filter:catch_errors]
 use = egg:swift#catch_errors

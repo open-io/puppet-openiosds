@@ -10,6 +10,12 @@ define openiosds::oioswift (
   $oioproxy_url        = "http://${ipaddress}:6006",
   $object_post_as_copy = false,
   $memcache_servers    = "${ipaddress}:11211",
+  $auth_uri            = "http://${ipaddress}:5000/v2.0",
+  $identity_uri        = "http://10.0.2.15:35357",
+  $admin_tenant_name   = "services",
+  $admin_user          = "swift",
+  $admin_password      = "SWIFT_PASS",
+  $delay_auth_decision = "true",
 
   $conscience_url      = undef,
   $zookeeper_url       = undef,

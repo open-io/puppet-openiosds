@@ -32,6 +32,7 @@ define openiosds::redis (
   # Package
   package { "redis":
     ensure => installed,
+    allow_virtual => false,
   } ->
   # Service
   openiosds::service {"${ns}-${type}-${num}":

@@ -48,6 +48,11 @@ define openiosds::redis (
     content => template("openiosds/${type}.conf.erb"),
     mode    => $openiosds::file_mode,
   } ->
+  file { "${openiosds::logdir}/${ns}/${type}-${num}/${type}-${num}.log":
+    ensure  => $openiosds::file_ensure,
+    owner => $openiosds::user,
+    group => $openiosds::group,
+  } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,

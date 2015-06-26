@@ -7,7 +7,7 @@ define openiosds::oioswift (
   $ipaddress           = "${ipaddress}",
   $port                = '6007',
   $workers             = '2',
-  $oioproxy_url        = "http://${ipaddress}:6006",
+  $sds_proxy_url       = "http://${ipaddress}:6006",
   $object_post_as_copy = false,
   $memcache_servers    = "${ipaddress}:11211",
   $auth_uri            = "http://${ipaddress}:5000/v2.0",
@@ -16,6 +16,7 @@ define openiosds::oioswift (
   $admin_user          = "swift",
   $admin_password      = "SWIFT_PASS",
   $delay_auth_decision = "true",
+  $operator_roles      = "admin,_member_",
 
   $conscience_url      = undef,
   $zookeeper_url       = undef,

@@ -4,20 +4,20 @@ pipeline = catch_errors proxy-logging authtoken cache healthcheck keystoneauth p
 [app:proxy-server]
 use = egg:oioswift#main
 sds_namespace = <%= @ns %>
-sds_proxy_url = <%= @oioproxy_url %>
+sds_proxy_url = <%= @sds_proxy_url %>
 bind_port = <%= @port %>
 user = <%= scope['openiosds::user'] %>
 object_post_as_copy = <%= @object_post_as_copy %>
-
-[filter:tempauth]
-use = egg:swift#tempauth
-user_test_tester = testing .admin
 
 [filter:gatekeeper]
 use = egg:swift#gatekeeper
 
 [filter:proxy-logging]
 use = egg:swift#proxy_logging
+
+#[filter:tempauth]
+#use = egg:swift#tempauth
+#user_test_tester = testing .admin
 
 #[filter:tempurl]
 #use = egg:swift#tempurl

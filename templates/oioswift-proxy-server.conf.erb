@@ -8,6 +8,8 @@ sds_proxy_url = <%= @sds_proxy_url %>
 bind_port = <%= @port %>
 user = <%= scope['openiosds::user'] %>
 object_post_as_copy = <%= @object_post_as_copy %>
+allow_account_management = true
+account_autocreate = true
 
 [filter:gatekeeper]
 use = egg:swift#gatekeeper

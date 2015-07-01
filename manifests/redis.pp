@@ -56,7 +56,8 @@ define openiosds::redis (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-svc-monitor -s OIO,${ns},${type},${num} -p 1 -m ${openiosds::bindir}/oio-redis-monitor.py -i '${ns}|${type}|${ipaddress}:${port}' -c '/usr/bin/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf --daemonize no'",
+    #command => "${openiosds::bindir}/oio-svc-monitor -s OIO,${ns},${type},${num} -p 1 -m ${openiosds::bindir}/oio-redis-monitor.py -i '${ns}|${type}|${ipaddress}:${port}' -c '/usr/bin/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf --daemonize no'",
+    command => "${openiosds::bindir}/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf --daemonize no",
     group   => "${ns},${type},${type}-${num}",
     uid => $openiosds::user,
     gid => $openiosds::group,

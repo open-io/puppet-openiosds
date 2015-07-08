@@ -3,11 +3,12 @@ define openiosds::account (
   $type           = 'account',
   $num            = '0',
 
-  $ns             = undef,
-  $ipaddress      = "${ipaddress}",
-  $port           = '6009',
-  $redis_host     = "${ipaddress}",
-  $redis_port     = '6010',
+  $ns                     = undef,
+  $ipaddress              = "${ipaddress}",
+  $port                   = '6009',
+  $redis_default_install  = false,
+  $redis_host             = "${ipaddress}",
+  $redis_port             = '6010',
 
   $conscience_url = undef,
   $zookeeper_url  = undef,
@@ -30,6 +31,17 @@ define openiosds::account (
     }
   }
 
+  # Redis
+  if $redis_default_install {
+    package { 'redis':
+      ensure => installed,
+    } ->
+    service { 'redis':
+      ensure => running,
+      enable => true,
+      before => Openiosds::Service["${ns}-${type}-${num}"],
+    }
+  }
 
   # Service
   openiosds::service {"${ns}-${type}-${num}":

@@ -5,6 +5,7 @@ pipeline = catch_errors proxy-logging authtoken cache healthcheck keystoneauth p
 use = egg:oioswift#main
 sds_namespace = <%= @ns %>
 sds_proxy_url = <%= @sds_proxy_url %>
+bind_ip = <%= @ipaddress %>
 bind_port = <%= @port %>
 user = <%= scope['openiosds::user'] %>
 object_post_as_copy = <%= @object_post_as_copy %>

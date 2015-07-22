@@ -13,6 +13,7 @@ define openiosds::zookeeper (
   $servers                   = undef,
   $autopurge_snapretaincount = '3',
   $autopurge_purgeinterval   = '1',
+  $bootstrap                 = false,
 
   $conscience_url            = undef,
   $zookeeper_url             = undef,
@@ -106,13 +107,15 @@ define openiosds::zookeeper (
     uid => $openiosds::user,
     gid => $openiosds::group,
     no_exec => $no_exec,
-  } ->
-  # ZooKeeper init
-  exec { 'bootstrap':
-    command => "/bin/sleep 6 && ${openiosds::bindir}/zk-bootstrap.py $ns",
-    onlyif  => "/usr/bin/test -r ${openiosds::sysconfdir_globald}/${ns}",
-    unless  => "/bin/sleep 3 && echo \"ls /hc\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep volumes" ,
-    require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace["$ns"]],
+  }
+  # ZooKeeper Bootstrap
+  if $bootstrap {
+    exec { 'bootstrap':
+      command => "/bin/sleep 6 && ${openiosds::bindir}/zk-bootstrap.py $ns",
+      onlyif  => "/usr/bin/test -r ${openiosds::sysconfdir_globald}/${ns}",
+      unless  => "/bin/sleep 3 && echo \"ls /hc\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep volumes" ,
+      require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace["$ns"]],
+    }
   }
 
 }

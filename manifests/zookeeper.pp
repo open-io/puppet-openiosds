@@ -6,9 +6,14 @@ define openiosds::zookeeper (
   $ns                        = undef,
   $ipaddress                 = "${ipaddress}",
   $port                      = '6005',
-
+  $tickTime                  = '2000',
+  $initLimit                 = '10',
+  $syncLimit                 = '5',
+  $maxClientCnxns            = '200',
+  $servers                   = undef,
   $autopurge_snapretaincount = '3',
   $autopurge_purgeinterval   = '1',
+
   $conscience_url            = undef,
   $zookeeper_url             = undef,
   $oioproxy_url              = undef,
@@ -43,6 +48,11 @@ define openiosds::zookeeper (
   if ! has_interface_with('ipaddress',$ipaddress) { fail("$ipaddress is invalid.") }
   if type($port) != 'integer' { fail("$port is not an integer.") }
 
+  if $servers {
+    if is_string($servers) { $servers_array = split($servers,'[;,]') }
+    elsif is_array($servers) { $servers_array = $servers }
+    else { fail("${servers} is not an array.") }
+  }
   if type($autopurge_snapretaincount) != 'integer' { fail("${autopurge_snapretaincount} is not an integer.") }
   if type($autopurge_purgeinterval) != 'integer' { fail("${autopurge_purgeinterval} is not an integer.") }
 

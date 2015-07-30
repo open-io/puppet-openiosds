@@ -5,7 +5,9 @@ define openiosds::service (
   $ns      = undef,
 ) {
 
-  include openiosds
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
 
   # Validation
   $actions = ['create','remove']

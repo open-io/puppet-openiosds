@@ -8,15 +8,12 @@ define openiosds::meta1 (
   $port           = '6002',
   $debug          = false,
 
-  $conscience_url = undef,
-  $zookeeper_url  = undef,
-  $oioproxy_url   = undef,
-  $eventagent_url = undef,
-
   $no_exec        = false,
 ) {
 
-  include openiosds
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
 
   # Validation
   $actions = ['create','remove']
@@ -33,14 +30,8 @@ define openiosds::meta1 (
 
   # Namespace
   if $action == 'create' {
-    openiosds::namespace {$ns:
-      action         => $action,
-      ns             => $ns,
-      conscience_url => $conscience_url,
-      zookeeper_url  => $zookeeper_url,
-      oioproxy_url   => $oioproxy_url,
-      eventagent_url => $eventagent_url,
-      no_exec        => $no_exec,
+    if ! defined(Openiosds::Namespace[$ns]) {
+      fail('You must include the namespace class before using OpenIO defined types.')
     }
   }
 

@@ -13,15 +13,12 @@ define openiosds::oioeventagent (
   $log_name     = undef,
   $log_address  = '/dev/log',
 
-  $conscience_url = undef,
-  $zookeeper_url  = undef,
-  $oioproxy_url   = undef,
-  $eventagent_url = undef,
-
   $no_exec      = false,
 ) {
 
-  include openiosds
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
 
   # Validation
   $actions = ['create','remove']
@@ -48,17 +45,10 @@ define openiosds::oioeventagent (
 
   # Namespace
   if $action == 'create' {
-    openiosds::namespace {$ns:
-      action         => $action,
-      ns             => $ns,
-      conscience_url => $conscience_url,
-      zookeeper_url  => $zookeeper_url,
-      oioproxy_url   => $oioproxy_url,
-      eventagent_url => $eventagent_url,
-      no_exec        => $no_exec,
+    if ! defined(Openiosds::Namespace[$ns]) {
+      fail('You must include the namespace class before using OpenIO defined types.')
     }
   }
-
 
   # Service
   openiosds::service {"${ns}-${type}-${num}":
@@ -68,8 +58,7 @@ define openiosds::oioeventagent (
     ns     => $ns,
   } ->
   # Configuration
-  file { "${type}-${num}/${type}-${num}.conf":
-    path    => "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
     mode    => $openiosds::file_mode,

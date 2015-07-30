@@ -8,8 +8,9 @@ define openiosds::sdsagent (
   $no_exec = false,
 ) {
 
-  include openiosds
-
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
 
   # Validation
   $actions = ['create','remove']
@@ -41,7 +42,6 @@ define openiosds::sdsagent (
   } ->
   # Files
   file { "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.conf":
-    path => "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.conf",
     ensure => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
     owner   => $openiosds::user,
@@ -51,7 +51,6 @@ define openiosds::sdsagent (
     require => Openiosds::Service["${type}-${num}"],
   } ->
   file { "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.log4crc":
-    path => "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.log4crc",
     ensure => $file_ensure,
     content => template("openiosds/log4crc.erb"),
     owner   => $openiosds::user,

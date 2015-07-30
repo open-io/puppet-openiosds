@@ -1,11 +1,12 @@
 define openiosds::rainx (
-  $action='create',
-  $type='rainx',
-  $num='0',
+  $action = 'create',
+  $type   = 'rainx',
+  $num    = '0',
 ) {
 
-  include openiosds
-
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
 
   # Validation
   $actions = ['create','remove']
@@ -20,14 +21,10 @@ define openiosds::rainx (
 
   # Namespace
   if $action == 'create' {
-    openiosds::namespace {$ns:
-      action         => $action,
-      ns             => $ns,
-      conscience_url => $conscience_url,
-      zookeeper_url  => $zookeeper_url,
+    if ! defined(Openiosds::Namespace[$ns]) {
+      fail('You must include the namespace class before using OpenIO defined types.')
     }
   }
-
 
   # Packages
   package { 'openio-sds-mod-httpd':

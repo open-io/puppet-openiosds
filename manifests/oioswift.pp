@@ -18,14 +18,12 @@ define openiosds::oioswift (
   $delay_auth_decision = "true",
   $operator_roles      = "admin,_member_",
 
-  $conscience_url      = undef,
-  $zookeeper_url       = undef,
-  $oioproxy_url        = undef,
-
   $no_exec             = false,
 ) {
 
-  include openiosds
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
 
   # Validation
   $actions = ['create','remove']
@@ -44,17 +42,10 @@ define openiosds::oioswift (
 
   # Namespace
   if $action == 'create' {
-    openiosds::namespace {$ns:
-      action         => $action,
-      ns             => $ns,
-      conscience_url => $conscience_url,
-      zookeeper_url  => $zookeeper_url,
-      oioproxy_url   => $oioproxy_url,
-      eventagent_url => $eventagent_url,
-      no_exec        => $no_exec,
+    if ! defined(Openiosds::Namespace[$ns]) {
+      fail('You must include the namespace class before using OpenIO defined types.')
     }
   }
-
 
   # Packages
   package { 'rdo-release':
@@ -79,8 +70,7 @@ define openiosds::oioswift (
   file { "/etc/swift/swift.conf":
     mode => "0644",
   } ->
-  file { "${type}-${num}/proxy-server.conf":
-    path    => "${openiosds::sysconfdir}/${ns}/${type}-${num}/proxy-server.conf",
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/proxy-server.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}-proxy-server.conf.erb"),
     mode    => $openiosds::file_mode,

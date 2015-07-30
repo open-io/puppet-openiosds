@@ -15,15 +15,12 @@ define openiosds::zookeeper (
   $autopurge_purgeinterval   = '1',
   $bootstrap                 = false,
 
-  $conscience_url            = undef,
-  $zookeeper_url             = undef,
-  $oioproxy_url              = undef,
-  $eventagent_url            = undef,
-
   $no_exec                   = false,
 ) {
 
-  include openiosds
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
 
   # OS dependent parameters
   case $::operatingsystem {
@@ -59,17 +56,10 @@ define openiosds::zookeeper (
 
   # Namespace
   if $action == 'create' {
-    openiosds::namespace {$ns:
-      action         => $action,
-      ns             => $ns,
-      conscience_url => $conscience_url,
-      zookeeper_url  => $zookeeper_url,
-      oioproxy_url   => $oioproxy_url,
-      eventagent_url => $eventagent_url,
-      no_exec        => $no_exec,
+    if ! defined(Openiosds::Namespace[$ns]) {
+      fail('You must include the namespace class before using OpenIO defined types.')
     }
   }
-
 
   # Packages
   # openjdk mandatory for zookeeper. gcj is bullhsit
@@ -111,9 +101,9 @@ define openiosds::zookeeper (
   # ZooKeeper Bootstrap
   if $bootstrap {
     exec { 'bootstrap':
-      command => "/bin/sleep 6 && ${openiosds::bindir}/zk-bootstrap.py $ns",
+      command => "/bin/sleep 10 && ${openiosds::bindir}/zk-bootstrap.py $ns",
       onlyif  => "/usr/bin/test -r ${openiosds::sysconfdir_globald}/${ns}",
-      unless  => "/bin/sleep 3 && echo \"ls /hc\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep volumes" ,
+      unless  => "/bin/sleep 3 && echo \"ls /hc/ns/$ns\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep srv" ,
       require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace["$ns"]],
     }
   }

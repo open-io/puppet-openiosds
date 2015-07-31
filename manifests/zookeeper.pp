@@ -14,6 +14,7 @@ define openiosds::zookeeper (
   $autopurge_snapretaincount = '3',
   $autopurge_purgeinterval   = '1',
   $bootstrap                 = false,
+  $myid                      = undef,
 
   $no_exec                   = false,
 ) {
@@ -53,6 +54,7 @@ define openiosds::zookeeper (
   }
   if type($autopurge_snapretaincount) != 'integer' { fail("${autopurge_snapretaincount} is not an integer.") }
   if type($autopurge_purgeinterval) != 'integer' { fail("${autopurge_purgeinterval} is not an integer.") }
+  if type($myid) != 'integer' { fail("$myid is not an integer.") }
 
   # Namespace
   if $action == 'create' {
@@ -105,6 +107,14 @@ define openiosds::zookeeper (
       onlyif  => "/usr/bin/test -r ${openiosds::sysconfdir_globald}/${ns}",
       unless  => "/bin/sleep 3 && echo \"ls /hc/ns/$ns\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep srv" ,
       require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace["$ns"]],
+    }
+  }
+  if $myid {
+    file {"${openiosds::sharedstatedir}/${ns}/${type}-${num}/data/myid":
+      ensure => $openiosds::file_ensure,
+      owner => $openiosds::user,
+      group => $openiosds::group,
+      content => "$myid",
     }
   }
 

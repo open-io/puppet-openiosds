@@ -36,7 +36,7 @@ class openiosds::params {
   # Packages
   $package_ensure           = 'installed'
   $package_provider         = 'yum'
-  $package_names           = ['openio-sds-server','openio-sds-mod-snmp','openio-sds-rsyslog','openio-sds-logrotate','log4c']
+  $package_names           = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
   # Logging
   $logfile_maxbytes         = '50MB'
   $logfile_backups          = '14'

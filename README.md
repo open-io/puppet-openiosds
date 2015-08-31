@@ -25,20 +25,3 @@ REQUIREMENTS
  * Puppetlabs/stdlib module.  Can be obtained here http://forge.puppetlabs.com/puppetlabs/stdlib or with the command `puppet-module install puppetlabs/stdlib`
 
 
-CONFIGURATION
-=============
-
-You must declare a namespace class
-There is one class (bacula) that needs to be declared on all nodes managing any component of bacula.
-These nodes are configured using one of two methods.
-
- 1. Using Top Scope (e.g. Dashboard) parameters 
- 2. Declare the bacula class on node definitions in your manifest.
-
-NOTE: The two methods can be mixed and matched, but take care not to create the same Top Scope parameter and class parameter simultaneously (See below for class parameters and their matching Top Scope parameter) as you may get unexpected results.
-Order of parameter precendence:
-
- * Class Parameter
- * Top Scope Parameter
- * Hard Coded value
-

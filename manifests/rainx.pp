@@ -40,22 +40,19 @@ define openiosds::rainx (
     ns     => $ns,
   } ->
   # Configuration files
-  file { "${type}-httpd.conf":
-    path    => "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}-httpd.conf.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
   } ->
-  file { "${type}-monitor.conf":
-    path    => "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.conf",
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}-monitor.conf.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
   } ->
-  file { "${type}-monitor.log4c":
-    path    => "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.log4crc",
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.log4crc":
     ensure  => $openiosds::file_ensure,
     content => template('openiosds/log4crc.erb'),
     owner   => $openiosds::user,

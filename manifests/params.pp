@@ -23,9 +23,9 @@ class openiosds::params {
   $sharedstatedir           = "${localstatedir}/lib/${project_name}/${product_name}"
   $logdir_global            = "${localstatedir}/log/${project_name}"
   $logdir                   = "${localstatedir}/log/${project_name}/${product_name}"
-  $httpd_daemon             = "/usr/sbin/httpd"
+  $httpd_daemon             = '/usr/sbin/httpd'
   $httpd_moduledir          = "${libdir}/httpd/modules"
-  $globaldirs               = ["$sysconfdir_global","$sysconfdir_globald","$spoolstatedir_global","$logdir_global"]
+  $globaldirs               = [$sysconfdir_global,$sysconfdir_globald,$spoolstatedir_global,$logdir_global]
   # Administration
   $user                     = 'openio'
   $user_ensure              = 'present'

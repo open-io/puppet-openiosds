@@ -48,7 +48,7 @@ define openiosds::sdsagent (
     require => Openiosds::Service["${type}-${num}"],
   } ->
   file { "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.log4crc":
-    ensure  => $file_ensure,
+    ensure  => $openiosds::file_ensure,
     content => template('openiosds/log4crc.erb'),
     owner   => $openiosds::user,
     group   => $openiosds::group,

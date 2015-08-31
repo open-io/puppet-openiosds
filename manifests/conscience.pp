@@ -36,24 +36,24 @@ define openiosds::conscience (
   if type($num) != 'integer' { fail("${num} is not an integer.") }
 
   validate_string($ns)
-  if ! has_interface_with('ipaddress',$ipaddress) { fail("$ipaddress is invalid.") }
-  if type($port) != 'integer' { fail("$port is not an integer.") }
-  if type($chunk_size) != 'integer' { fail("$chunk_size is not an integer.") }
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type($port) != 'integer' { fail("${port} is not an integer.") }
+  if type($chunk_size) != 'integer' { fail("${chunk_size} is not an integer.") }
   $valid_ns_status = ['STANDALONE','MASTER','SLAVE']
-  validate_re($ns_status,$valid_ns_status,"$ns_status is invalid.")
+  validate_re($ns_status,$valid_ns_status,"${ns_status} is invalid.")
   validate_bool($worm)
   validate_bool($auto_container)
   if $vns { validate_string($vns) }
   $valid_storage_policy = ['SINGLE','TWOCOPIES','THREECOPIES','FIVECOPIES','RAIN']
-  validate_re($storage_policy,$valid_storage_policy,"$storage_policy is invalid.")
+  validate_re($storage_policy,$valid_storage_policy,"${storage_policy} is invalid.")
   validate_string($service_update_policy)
   validate_bool($automatic_open)
-  if type($meta2_max_versions) != 'integer' { fail("$meta2_max_versions is not an integer.") }
-  if type($min_workers) != 'integer' { fail("$min_workers is not an integer.") }
-  if type($min_spare_workers) != 'integer' { fail("$min_spare_workers is not an integer.") }
-  if type($max_spare_workers) != 'integer' { fail("$max_spare_workers is not an integer.") }
-  if type($max_workers) != 'integer' { fail("$max_workers is not an integer.") }
-  if type($score_timeout) != 'integer' { fail("$score_timeout is not an integer.") }
+  if type($meta2_max_versions) != 'integer' { fail("${meta2_max_versions} is not an integer.") }
+  if type($min_workers) != 'integer' { fail("${min_workers} is not an integer.") }
+  if type($min_spare_workers) != 'integer' { fail("${min_spare_workers} is not an integer.") }
+  if type($max_spare_workers) != 'integer' { fail("${max_spare_workers} is not an integer.") }
+  if type($max_workers) != 'integer' { fail("${max_workers} is not an integer.") }
+  if type($score_timeout) != 'integer' { fail("${score_timeout} is not an integer.") }
 
 
   # Namespace
@@ -76,7 +76,7 @@ define openiosds::conscience (
     content => template("openiosds/${type}.conf.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
-    mode    => "0644",
+    mode    => '0644',
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
     require => Class['openiosds'],
   } ->
@@ -85,7 +85,7 @@ define openiosds::conscience (
     content => template("openiosds/${type}.events.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
-    mode    => "0644",
+    mode    => '0644',
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-policies.conf":
@@ -93,7 +93,7 @@ define openiosds::conscience (
     content => template("openiosds/${type}.storage.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
-    mode    => "0644",
+    mode    => '0644',
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
   } ->
   # Init

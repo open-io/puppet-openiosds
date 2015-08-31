@@ -19,14 +19,14 @@ class openiosds::install inherits openiosds {
   }
 
   # Path
-  file { $globaldirs:
+  file { $openiosds::globaldirs:
     ensure => $openiosds::directory_ensure,
     owner  => $openiosds::user,
     group  => $openiosds::group,
     mode   => $openiosds::directory_mode,
   }
 
-  file { $sharedstatedir_global:
+  file { $openiosds::sharedstatedir_global:
     ensure => $openiosds::directory_ensure,
     owner  => $openiosds::user,
     group  => $openiosds::group,

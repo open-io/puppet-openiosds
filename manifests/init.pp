@@ -84,19 +84,19 @@ class openiosds(
 #  validate_absolute_path($globaldirs)
   validate_string($user)
   $valid_user_ensure = ['present','absent','role']
-  validate_re($user_ensure,$valid_user_ensure,'$user_ensure is invalid.')
+  validate_re($user_ensure,$valid_user_ensure,"${user_ensure} is invalid.")
   if type($uid) != 'integer' { fail("${uid} is not an integer.") }
   validate_string($group)
   $valid_group_ensure = ['present','absent']
-  validate_re($group_ensure,$valid_group_ensure,'$group_ensure is invalid.')
+  validate_re($group_ensure,$valid_group_ensure,"${group_ensure} is invalid.")
   if type($gid) != 'integer' { fail("${gid} is not an integer.") }
   $valid_package_ensure = ['present','installed','absent','purged','held','latest']
-  validate_re($package_ensure,$valid_package_ensure,'$package_ensure is invalid.')
-  $valid_package_provider = ['yum','rpm']
-  validate_re($package_provider,$valid_package_provider,'$package_provider is invalid.')
+  validate_re($package_ensure,$valid_package_ensure,"${package_ensure} is invalid.")
+  $valid_package_providers = ['yum','rpm']
+  validate_re($package_provider,$valid_package_providers,"${package_provider} is invalid.")
   validate_array($package_names)
-  $valid_log_level = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
-  validate_re($log_level, $log_levels, "${log_level} is invalid.")
+  $valid_log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
+  validate_re($log_level, $valid_log_levels, "${log_level} is invalid.")
   validate_bool($no_exec)
 
   validate_hash($consciences)

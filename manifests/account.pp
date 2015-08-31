@@ -7,7 +7,7 @@ define openiosds::account (
   $ipaddress              = $::ipaddress,
   $port                   = '6009',
   $redis_default_install  = false,
-  $redis_host             = $::ipaddress",
+  $redis_host             = $::ipaddress,
   $redis_port             = '6010',
 
   $no_exec        = false,

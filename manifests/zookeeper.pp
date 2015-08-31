@@ -106,9 +106,9 @@ define openiosds::zookeeper (
   # ZooKeeper Bootstrap
   if $bootstrap {
     exec { 'bootstrap':
-      command => "/bin/sleep 10 && ${openiosds::bindir}/zk-bootstrap.py $ns",
+      command => "/bin/sleep 10 && ${openiosds::bindir}/zk-bootstrap.py ${ns}",
       onlyif  => "/usr/bin/test -r ${openiosds::sysconfdir_globald}/${ns}",
-      unless  => "/bin/sleep 3 && echo \"ls /hc/ns/$ns\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep srv" ,
+      unless  => "/bin/sleep 3 && echo \"ls /hc/ns/${ns}\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep srv" ,
       require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace[$ns]],
     }
   }

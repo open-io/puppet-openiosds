@@ -15,7 +15,7 @@ define openiosds::oioswift (
   $admin_tenant_name   = 'services',
   $admin_user          = 'swift',
   $admin_password      = 'SWIFT_PASS',
-  $delay_auth_decision = 'true',
+  $delay_auth_decision = true,
   $operator_roles      = 'admin,_member_',
 
   $no_exec             = false,

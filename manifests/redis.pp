@@ -22,7 +22,7 @@ define openiosds::redis (
   }
 
   # Package
-  package { "redis":
+  package { 'redis':
     ensure        => installed,
     allow_virtual => false,
   } ->

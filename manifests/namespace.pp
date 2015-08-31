@@ -23,7 +23,7 @@ define openiosds::namespace (
 
   if $openiosds::action == 'create' {
     # Path
-    $required_path = ["$openiosds::sysconfdir","$openiosds::sysconfdir/$ns","$openiosds::logdir","$openiosds::logdir/$ns","$openiosds::sharedstatedir","$openiosds::sharedstatedir/$ns","$openiosds::sharedstatedir/$ns/coredump","$openiosds::runstatedir","$openiosds::spoolstatedir","$openiosds::spoolstatedir/$ns"]
+    $required_path = [$openiosds::sysconfdir,"${openiosds::sysconfdir}/${ns}",$openiosds::logdir,"${openiosds::logdir}/${ns}",$openiosds::sharedstatedir,"${openiosds::sharedstatedir}/${ns}","${openiosds::sharedstatedir}/${ns}/coredump",$openiosds::runstatedir,$openiosds::spoolstatedir,"${openiosds::spoolstatedir}/${ns}"]
     file { $required_path:
       ensure => $openiosds::directory_ensure,
       owner  => $openiosds::user,

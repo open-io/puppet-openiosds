@@ -49,14 +49,14 @@ define openiosds::rainx (
   } ->
   file { "${type}-monitor.conf":
     path    => "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.conf",
-    ensure  => $file_ensure,
+    ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}-monitor.conf.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
   } ->
   file { "${type}-monitor.log4c":
     path    => "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.log4crc",
-    ensure  => $file_ensure,
+    ensure  => $openiosds::file_ensure,
     content => template('openiosds/log4crc.erb'),
     owner   => $openiosds::user,
     group   => $openiosds::group,

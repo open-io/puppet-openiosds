@@ -17,17 +17,14 @@ define openiosds::sdsagent (
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
   if type($num) != 'integer' { fail("${num} is not an integer.") }
-
-  if type($port) != 'integer' { fail("$port is not an integer.") }
-
+  if type($port) != 'integer' { fail("${port} is not an integer.") }
   validate_bool($no_exec)
- 
 
   if $action == 'create' {
     file { "${openiosds::sysconfdir_global}/sds.conf":
       ensure  => $openiosds::file_ensure,
       replace => false,
-      content => template("openiosds/sds.conf.erb"),
+      content => template('openiosds/sds.conf.erb'),
       owner   => $openiosds::user,
       group   => $openiosds::group,
       mode    => $openiosds::file_mode,
@@ -52,7 +49,7 @@ define openiosds::sdsagent (
   } ->
   file { "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.log4crc":
     ensure => $file_ensure,
-    content => template("openiosds/log4crc.erb"),
+    content => template('openiosds/log4crc.erb'),
     owner   => $openiosds::user,
     group   => $openiosds::group,
     mode    => $openiosds::file_mode,

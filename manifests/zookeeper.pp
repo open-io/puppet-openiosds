@@ -92,7 +92,7 @@ define openiosds::zookeeper (
     ensure => $openiosds::file_ensure,
     owner => $openiosds::user,
     group => $openiosds::group,
-    content => template("openiosds/zoo.cfg.erb"),
+    content => template('openiosds/zoo.cfg.erb'),
     require => Package['zookeeper'],
   } ~>
   gridinit::program { "${ns}-${type}-${num}":
@@ -109,7 +109,7 @@ define openiosds::zookeeper (
       command => "/bin/sleep 10 && ${openiosds::bindir}/zk-bootstrap.py $ns",
       onlyif  => "/usr/bin/test -r ${openiosds::sysconfdir_globald}/${ns}",
       unless  => "/bin/sleep 3 && echo \"ls /hc/ns/$ns\" | ${openiosds::bindir}/zkCli.sh -server ${ipaddress}:${port} | grep srv" ,
-      require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace["$ns"]],
+      require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace[$ns]],
     }
   }
   if $myid {

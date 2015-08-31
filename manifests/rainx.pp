@@ -14,7 +14,6 @@ define openiosds::rainx (
   validate_string($type)
   if type($num) != 'integer' { fail("${num} is not an integer.") }
 
-  validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   if type($port) != 'integer' { fail("${port} is not an integer.") }
 

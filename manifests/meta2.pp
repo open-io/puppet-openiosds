@@ -22,8 +22,8 @@ define openiosds::meta2 (
   if type($num) != 'integer' { fail("${num} is not an integer.") }
 
   validate_string($ns)
-  if ! has_interface_with('ipaddress',$ipaddress) { fail("$ipaddress is invalid.") }
-  if type($port) != 'integer' { fail("$port is not an integer.") }
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type($port) != 'integer' { fail("${port} is not an integer.") }
   validate_bool($debug)
   if $debug { $verbose = '-v ' }
 

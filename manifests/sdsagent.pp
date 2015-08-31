@@ -59,7 +59,7 @@ define openiosds::sdsagent (
   # Init
   gridinit::program { "${type}-${num}":
     command => "${openiosds::bindir}/oio-cluster-agent --child-req -s OIO,local,${type},${num} ${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.conf",
-    group   => "${type}",
+    group   => $type,
     uid     => $openiosds::user,
     gid     => $openiosds::group,
     no_exec => $no_exec,

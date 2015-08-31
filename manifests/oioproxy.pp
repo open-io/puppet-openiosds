@@ -24,8 +24,8 @@ define openiosds::oioproxy (
   if $debug { $verbose = '-v ' }
 
   validate_string($ns)
-  if ! has_interface_with('ipaddress',$ipaddress) { fail("$ipaddress is invalid.") }
-  if type($port) != 'integer' { fail("$port is not an integer.") }
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type($port) != 'integer' { fail("${port} is not an integer.") }
 
 
   # Namespace

@@ -27,18 +27,18 @@ define openiosds::oioeventagent (
   if type($num) != 'integer' { fail("${num} is not an integer.") }
 
   validate_string($ns)
-  if ! has_interface_with('ipaddress',$ipaddress) { fail("$ipaddress is invalid.") }
-  if type($port) != 'integer' { fail("$port is not an integer.") }
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type($port) != 'integer' { fail("${port} is not an integer.") }
   if $bind_addr { $_bind_addr = $bind_addr }
   else { $_bind_addr = "tcp://${ipaddress}:${port}" }
-  if type($workers) != 'integer' { fail("$workers is not an integer.") }
+  if type($workers) != 'integer' { fail("${workers} is not an integer.") }
   $valid_log_facilities = ['LOG_LOCAL0','LOG_LOCAL1','LOG_LOCAL2','LOG_LOCAL3','LOG_LOCAL4','LOG_LOCAL5','LOG_LOCAL6','LOG_LOCAL7']
-  validate_re($log_facility,$valid_log_facilities,"$log_facility is invalid.")
+  validate_re($log_facility,$valid_log_facilities,"${log_facility} is invalid.")
   $valid_log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
   validate_re($log_level, $valid_log_levels, "${log_level} is invalid.")
   if $log_name { $_log_name = $log_name }
   else { $_log_name = "${type}-${num}" }
-  validate_string($log_name)
+  validate_string($_log_name)
 
   validate_bool($no_exec)
 

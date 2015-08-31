@@ -1,7 +1,9 @@
 define openiosds::rainx (
-  $action = 'create',
-  $type   = 'rainx',
-  $num    = '0',
+  $action    = 'create',
+  $type      = 'rainx',
+  $num       = '0',
+  $ns        = undef,
+  $ipaddress = $::ipaddress,
 ) {
 
   if ! defined(Class['openiosds']) {

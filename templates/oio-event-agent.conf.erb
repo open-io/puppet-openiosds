@@ -1,8 +1,12 @@
 [event-agent]
 namespace = <%= @ns %>
+user = %= scope['openiosds::user'] %>
 bind_addr = <%= @_bind_addr %>
 workers = <%= @workers %>
+queue_location = <%= scope['openiosds::sharedstatedir'] %>/oio-event-queue.db
+retry_interval = 30
 log_facility = <%= @log_facility %>
 log_level = <%= @log_level %>
 log_name = <%= @_log_name %>
 log_address = <%= @log_address %>
+syslog_prefix = OIO,<% @ns %>,<% @type %>,<% @num %>

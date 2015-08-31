@@ -15,8 +15,8 @@ define openiosds::rainx (
   if type($num) != 'integer' { fail("${num} is not an integer.") }
 
   validate_string($ns)
-  if ! has_interface_with('ipaddress',$ipaddress) { fail("$ipaddress is invalid.") }
-  if type($port) != 'integer' { fail("$port is not an integer.") }
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type($port) != 'integer' { fail("${port} is not an integer.") }
 
 
   # Namespace
@@ -55,7 +55,7 @@ define openiosds::rainx (
   file { "${type}-monitor.log4c":
     path    => "${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.log4crc",
     ensure  => $file_ensure,
-    content => template("openiosds/log4crc.erb"),
+    content => template('openiosds/log4crc.erb'),
     owner   => $openiosds::user,
     group   => $openiosds::group,
   } ->

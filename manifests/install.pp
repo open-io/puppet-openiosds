@@ -1,5 +1,5 @@
 class openiosds::install inherits openiosds {
-   # User
+  # User
   user { $openiosds::user:
     ensure => $openiosds::user_ensure,
     uid     => $openiosds::uid,
@@ -16,7 +16,7 @@ class openiosds::install inherits openiosds {
     ensure   => $openiosds::package_ensure,
     provider => $openiosds::package_provider,
     allow_virtual => false,
-  } 
+  }
 
   # Path
   file { $globaldirs:

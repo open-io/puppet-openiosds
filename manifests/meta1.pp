@@ -4,7 +4,7 @@ define openiosds::meta1 (
   $num            = '0',
 
   $ns             = undef,
-  $ipaddress      = "${ipaddress}",
+  $ipaddress      = $::ipaddress,
   $port           = '6002',
   $debug          = false,
 

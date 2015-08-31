@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Romain Acciari",
   "summary": "Puppet module for OpenIO SDS solution",
-  "license": "Apache License, version 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/open-io/puppet-openiosds",
   "project_page": "http://www.openio.io",
   "issues_url": "https://github.com/open-io/puppet-openiosds/issues",
@@ -19,7 +19,7 @@
     }
   ],
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 4.4.0"}
+    {"name":"puppetlabs/stdlib","version_requirement":">= 4.4.0 5.0.0"}
   ]
 }
 

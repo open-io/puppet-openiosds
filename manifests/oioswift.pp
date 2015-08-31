@@ -4,7 +4,7 @@ define openiosds::oioswift (
   $num                 = '0',
 
   $ns                  = undef,
-  $ipaddress           = "${ipaddress}",
+  $ipaddress           = $::ipaddress,
   $port                = '6007',
   $workers             = '2',
   $sds_proxy_url       = "http://${ipaddress}:6006",
@@ -12,11 +12,11 @@ define openiosds::oioswift (
   $memcache_servers    = "${ipaddress}:11211",
   $auth_uri            = "http://${ipaddress}:5000/v2.0",
   $identity_uri        = "http://${ipaddress}:35357",
-  $admin_tenant_name   = "services",
-  $admin_user          = "swift",
-  $admin_password      = "SWIFT_PASS",
-  $delay_auth_decision = "true",
-  $operator_roles      = "admin,_member_",
+  $admin_tenant_name   = 'services',
+  $admin_user          = 'swift',
+  $admin_password      = 'SWIFT_PASS',
+  $delay_auth_decision = 'true',
+  $operator_roles      = 'admin,_member_',
 
   $no_exec             = false,
 ) {

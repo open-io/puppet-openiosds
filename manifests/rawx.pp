@@ -4,7 +4,7 @@ define openiosds::rawx (
   $num            = '0',
 
   $ns             = undef,
-  $ipaddress      = "${ipaddress}",
+  $ipaddress      = $::ipaddress,
   $port           = '6004',
 
   $no_exec        = false,

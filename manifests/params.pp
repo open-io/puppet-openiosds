@@ -43,7 +43,7 @@ class openiosds::params {
   $log_level                = 'info'
   # Services
   $service_ensure           = 'running'
-  $server_ipaddress         = "${ipaddress}"
+  $server_ipaddress         = $ipaddress
   $conscience_port          = '6000'
   $meta0_port               = '6001'
   $meta1_port               = '6002'

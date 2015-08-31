@@ -1,6 +1,6 @@
 define openiosds::namespace (
   $action         = 'create',
-  $ns,
+  $ns             = undef,
   $conscience_url = undef,
   $zookeeper_url  = undef,
   $oioproxy_url   = undef,
@@ -37,7 +37,7 @@ define openiosds::namespace (
       }
       file { "${openiosds::sysconfdir_globald}/${ns}":
         ensure => $openiosds::file_ensure,
-        content => template("openiosds/sds-ns.conf.erb"),
+        content => template('openiosds/sds-ns.conf.erb'),
         owner => $openiosds::user,
         group => $openiosds::group,
         mode => $openiosds::file_mode,

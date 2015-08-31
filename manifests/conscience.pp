@@ -4,7 +4,7 @@ define openiosds::conscience (
   $num                   = '0',
 
   $ns                    = undef,
-  $ipaddress             = "${ipaddress}",
+  $ipaddress             = $::ipaddress,
   $port                  = '6000',
   $chunk_size            = '10485760',
   $ns_status             = 'STANDALONE',
@@ -74,8 +74,8 @@ define openiosds::conscience (
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
-    owner   => "openio",
-    group   => "openio",
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
     mode    => "0644",
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
     require => Class['openiosds'],
@@ -83,16 +83,16 @@ define openiosds::conscience (
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-events.conf":
     ensure => $openiosds::file_ensure,
     content => template("openiosds/${type}.events.erb"),
-    owner => "openio",
-    group => "openio",
+    owner => $openiosds::user,
+    group => $openiosds::group,
     mode => "0644",
     notify => Gridinit::Program["${ns}-${type}-${num}"],
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-policies.conf":
     ensure => $openiosds::file_ensure,
     content => template("openiosds/${type}.storage.erb"),
-    owner => "openio",
-    group => "openio",
+    owner => $openiosds::user,
+    group => $openiosds::group,
     mode => "0644",
     notify => Gridinit::Program["${ns}-${type}-${num}"],
   } ->

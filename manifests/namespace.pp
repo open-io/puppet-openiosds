@@ -26,9 +26,9 @@ define openiosds::namespace (
     $required_path = ["$openiosds::sysconfdir","$openiosds::sysconfdir/$ns","$openiosds::logdir","$openiosds::logdir/$ns","$openiosds::sharedstatedir","$openiosds::sharedstatedir/$ns","$openiosds::sharedstatedir/$ns/coredump","$openiosds::runstatedir","$openiosds::spoolstatedir","$openiosds::spoolstatedir/$ns"]
     file { $required_path:
       ensure => $openiosds::directory_ensure,
-      owner => $openiosds::user,
-      group => $openiosds::group,
-      mode => $openiosds::directory_mode,
+      owner  => $openiosds::user,
+      group  => $openiosds::group,
+      mode   => $openiosds::directory_mode,
     }
 
     if $conscience_url or $zookeeper_url or $oioproxy_url or $eventagent_url {
@@ -36,12 +36,12 @@ define openiosds::namespace (
         fail('You must include a sdsagent class to configure a namespace.')
       }
       file { "${openiosds::sysconfdir_globald}/${ns}":
-        ensure => $openiosds::file_ensure,
+        ensure  => $openiosds::file_ensure,
         content => template('openiosds/sds-ns.conf.erb'),
-        owner => $openiosds::user,
-        group => $openiosds::group,
-        mode => $openiosds::file_mode,
-        notify => Openiosds::Sdsagent['sds-agent-0'],
+        owner   => $openiosds::user,
+        group   => $openiosds::group,
+        mode    => $openiosds::file_mode,
+        notify  => Openiosds::Sdsagent['sds-agent-0'],
       }
     }
   }

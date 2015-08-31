@@ -44,11 +44,11 @@ define openiosds::oioproxy (
   } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
-    action => $action,
+    action  => $action,
     command => "${openiosds::bindir}/oio-proxy ${verbose} -p ${openiosds::runstatedir}/${ns}-${type}-${num}.pid -s OIO,${ns},${type},${num} ${ipaddress}:${port} ${ns}",
-    group => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    group   => "${ns},${type},${type}-${num}",
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
 

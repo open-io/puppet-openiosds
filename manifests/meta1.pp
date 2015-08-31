@@ -45,11 +45,11 @@ define openiosds::meta1 (
   } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
-    action => $action,
+    action  => $action,
     command => "${openiosds::bindir}/oio-meta1-server ${verbose} -p ${openiosds::runstatedir}/${ns}-${type}-${num}.pid -s OIO,${ns},${type},${num} -O Endpoint=${ipaddress}:${port} ${ns} ${openiosds::sharedstatedir}/${ns}/${type}-${num}",
-    group => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    group   => "${ns},${type},${type}-${num}",
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
 

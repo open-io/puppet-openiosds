@@ -69,7 +69,7 @@ define openiosds::zookeeper (
   # Packages
   # openjdk mandatory for zookeeper. gcj is bullhsit
   package { $packages:
-    ensure => $openiosds::package_ensure,
+    ensure        => $openiosds::package_ensure,
     allow_virtual => false,
   } ->
   # Service
@@ -81,26 +81,26 @@ define openiosds::zookeeper (
   } ->
   # Data path
   file { "${openiosds::sharedstatedir}/${ns}/${type}-${num}/data":
-    ensure => $openiosds::directory_ensure,
-    owner  => $openiosds::user,
-    group  => $openiosds::group,
-    mode   => $openiosds::directory_mode,
+    ensure  => $openiosds::directory_ensure,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
+    mode    => $openiosds::directory_mode,
     require => Openiosds::Service["${ns}-${type}-${num}"]
   } ->
   # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/zoo.cfg":
-    ensure => $openiosds::file_ensure,
-    owner => $openiosds::user,
-    group => $openiosds::group,
+    ensure  => $openiosds::file_ensure,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
     content => template('openiosds/zoo.cfg.erb'),
     require => Package['zookeeper'],
   } ~>
   gridinit::program { "${ns}-${type}-${num}":
-    action => $action,
+    action  => $action,
     command => "java -Dzookeeper.log.dir=${openiosds::logdir}/${ns}/${type}-${num} -Dzookeeper.root.logger=INFO,ROLLINGFILE -cp ${openiosds::sysconfdir}/${ns}/${type}-${num}:${classpath} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${openiosds::sysconfdir}/${ns}/${type}-${num}/zoo.cfg",
-    group => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    group   => "${ns},${type},${type}-${num}",
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
   # ZooKeeper Bootstrap
@@ -114,9 +114,9 @@ define openiosds::zookeeper (
   }
   if $myid {
     file {"${openiosds::sharedstatedir}/${ns}/${type}-${num}/data/myid":
-      ensure => $openiosds::file_ensure,
-      owner => $openiosds::user,
-      group => $openiosds::group,
+      ensure  => $openiosds::file_ensure,
+      owner   => $openiosds::user,
+      group   => $openiosds::group,
       content => $myid,
     }
   }

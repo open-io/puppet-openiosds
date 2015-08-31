@@ -39,29 +39,29 @@ define openiosds::sdsagent (
   } ->
   # Files
   file { "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.conf":
-    ensure => $openiosds::file_ensure,
+    ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
     mode    => $openiosds::file_mode,
-    notify => Gridinit::Program["${type}-${num}"],
+    notify  => Gridinit::Program["${type}-${num}"],
     require => Openiosds::Service["${type}-${num}"],
   } ->
   file { "${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.log4crc":
-    ensure => $file_ensure,
+    ensure  => $file_ensure,
     content => template('openiosds/log4crc.erb'),
     owner   => $openiosds::user,
     group   => $openiosds::group,
     mode    => $openiosds::file_mode,
-    notify => Gridinit::Program["${type}-${num}"],
+    notify  => Gridinit::Program["${type}-${num}"],
     require => Openiosds::Service["${type}-${num}"],
   } ->
   # Init
   gridinit::program { "${type}-${num}":
     command => "${openiosds::bindir}/oio-cluster-agent --child-req -s OIO,local,${type},${num} ${openiosds::sysconfdir}/${type}-${num}/${type}-${num}.conf",
-    group => "${type}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    group   => "${type}",
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
 

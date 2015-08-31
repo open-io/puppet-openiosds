@@ -49,9 +49,9 @@ define openiosds::oioswift (
 
   # Packages
   package { 'rdo-release':
-    ensure   => present,
-    source   => 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm',
-    provider => rpm,
+    ensure        => present,
+    source        => 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm',
+    provider      => rpm,
     allow_virtual => false,
   } ->
   package { ['openio-sds-swift','openstack-swift-proxy']:
@@ -67,8 +67,8 @@ define openiosds::oioswift (
     ns     => $ns,
   } ->
   # Configuration files
-  file { "/etc/swift/swift.conf":
-    mode => "0644",
+  file { '/etc/swift/swift.conf':
+    mode => '0644',
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/proxy-server.conf":
     ensure  => $openiosds::file_ensure,
@@ -80,8 +80,8 @@ define openiosds::oioswift (
     action  => $action,
     command => "${openiosds::bindir}/swift-proxy-server  ${openiosds::sysconfdir}/${ns}/${type}-${num}/proxy-server.conf",
     group   => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
 

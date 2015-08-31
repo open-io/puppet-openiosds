@@ -39,33 +39,33 @@ define openiosds::rainx (
   } ->
   # Configuration files
   file { "${type}-httpd.conf":
-    path => "${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
-    ensure => $openiosds::file_ensure,
+    path    => "${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
+    ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}-httpd.conf.erb"),
-    owner => $openiosds::user,
-    group => $openiosds::group,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
   } ->
   file { "${type}-monitor.conf":
-    path => "${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.conf",
-    ensure => $file_ensure,
+    path    => "${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.conf",
+    ensure  => $file_ensure,
     content => template("openiosds/${type}-monitor.conf.erb"),
-    owner => $openiosds::user,
-    group => $openiosds::group,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
   } ->
   file { "${type}-monitor.log4c":
-    path => "${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.log4crc",
-    ensure => $file_ensure,
+    path    => "${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.log4crc",
+    ensure  => $file_ensure,
     content => template("openiosds/log4crc.erb"),
-    owner => $openiosds::user,
-    group => $openiosds::group,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
   } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
-    action => $action,
+    action  => $action,
     command => "${openiosds::bindir}/${type}-monitor.py ${sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.conf ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-monitor.log4crc",
-    group => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    group   => "${ns},${type},${type}-${num}",
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
   }
 
 }

@@ -23,7 +23,7 @@ define openiosds::redis (
 
   # Package
   package { "redis":
-    ensure => installed,
+    ensure        => installed,
     allow_virtual => false,
   } ->
   # Service
@@ -40,9 +40,9 @@ define openiosds::redis (
     mode    => $openiosds::file_mode,
   } ->
   file { "${openiosds::logdir}/${ns}/${type}-${num}/${type}-${num}.log":
-    ensure  => $openiosds::file_ensure,
-    owner => $openiosds::user,
-    group => $openiosds::group,
+    ensure => $openiosds::file_ensure,
+    owner  => $openiosds::user,
+    group  => $openiosds::group,
   } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
@@ -50,8 +50,8 @@ define openiosds::redis (
     #command => "${openiosds::bindir}/oio-svc-monitor -s OIO,${ns},${type},${num} -p 1 -m ${openiosds::bindir}/oio-redis-monitor.py -i '${ns}|${type}|${ipaddress}:${port}' -c '/usr/bin/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf --daemonize no'",
     command => "${openiosds::bindir}/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf --daemonize no",
     group   => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
 

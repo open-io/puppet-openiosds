@@ -81,28 +81,28 @@ define openiosds::conscience (
     require => Class['openiosds'],
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-events.conf":
-    ensure => $openiosds::file_ensure,
+    ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.events.erb"),
-    owner => $openiosds::user,
-    group => $openiosds::group,
-    mode => "0644",
-    notify => Gridinit::Program["${ns}-${type}-${num}"],
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
+    mode    => "0644",
+    notify  => Gridinit::Program["${ns}-${type}-${num}"],
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-policies.conf":
-    ensure => $openiosds::file_ensure,
+    ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.storage.erb"),
-    owner => $openiosds::user,
-    group => $openiosds::group,
-    mode => "0644",
-    notify => Gridinit::Program["${ns}-${type}-${num}"],
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
+    mode    => "0644",
+    notify  => Gridinit::Program["${ns}-${type}-${num}"],
   } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
-    action => $action,
+    action  => $action,
     command => "${openiosds::bindir}/oio-daemon -s OIO,${ns},${type},${num} ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
-    group => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    group   => "${ns},${type},${type}-${num}",
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
 

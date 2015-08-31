@@ -24,10 +24,10 @@ define openiosds::rawx (
   # Packages
   if ! defined(Package['openio-sds-mod-httpd']) {
     package { 'openio-sds-mod-httpd':
-      ensure => installed,
-      provider => $openiosds::package_provider,
+      ensure        => installed,
+      provider      => $openiosds::package_provider,
       allow_virtual => false,
-      before => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
+      before        => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
     }
   }
   # Service
@@ -48,8 +48,8 @@ define openiosds::rawx (
     action  => $action,
     command => "${openiosds::bindir}/oio-svc-monitor -s OIO,${ns},${type},${num} -p 1 -m ${openiosds::bindir}/oio-rawx-monitor.py -i '${ns}|${type}|${ipaddress}:${port}' -c '${openiosds::httpd_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf'",
     group   => "${ns},${type},${type}-${num}",
-    uid => $openiosds::user,
-    gid => $openiosds::group,
+    uid     => $openiosds::user,
+    gid     => $openiosds::group,
     no_exec => $no_exec,
   }
 

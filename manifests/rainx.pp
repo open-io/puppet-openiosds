@@ -4,6 +4,7 @@ define openiosds::rainx (
   $num       = '0',
   $ns        = undef,
   $ipaddress = $::ipaddress,
+  $port      = '6009',
 ) {
 
   if ! defined(Class['openiosds']) {

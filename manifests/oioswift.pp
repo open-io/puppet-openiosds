@@ -35,7 +35,7 @@ define openiosds::oioswift (
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   if type($port) != 'integer' { fail("${port} is not an integer.") }
   if type($workers) != 'integer' { fail("${workers} is not an integer.") }
-  validate_string($oioproxy_url)
+  validate_string($sds_proxy_url)
   validate_bool($object_post_as_copy)
   validate_string($memcache_servers)
 

@@ -9,7 +9,7 @@ define openiosds::oioeventagent (
   $port         = '6008',
   $workers      = '2',
   $log_facility = 'LOG_LOCAL0',
-  $log_level    = 'INFO',
+  $log_level    = 'info',
   $log_name     = undef,
   $log_address  = '/dev/log',
 

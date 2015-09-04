@@ -57,7 +57,7 @@ define openiosds::zookeeper (
   }
   if type($autopurge_snapretaincount) != 'integer' { fail("${autopurge_snapretaincount} is not an integer.") }
   if type($autopurge_purgeinterval) != 'integer' { fail("${autopurge_purgeinterval} is not an integer.") }
-  if type($myid) != 'integer' { fail("${myid} is not an integer.") }
+  if $myid and (type($myid) != 'integer') { fail("${myid} is not an integer.") }
 
   # Namespace
   if $action == 'create' {

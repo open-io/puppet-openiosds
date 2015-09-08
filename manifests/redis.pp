@@ -4,7 +4,7 @@ define openiosds::redis (
   $num            = '0',
 
   $ns             = undef,
-  $ipaddress      = $ipaddress,
+  $ipaddress      = $::ipaddress,
   $port           = '6010',
 
   $no_exec        = false,

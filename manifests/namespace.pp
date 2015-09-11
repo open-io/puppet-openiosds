@@ -32,13 +32,16 @@ define openiosds::namespace (
     }
 
     if $conscience_url or $zookeeper_url or $oioproxy_url or $eventagent_url {
+      if defined(Openiosds::Sdsagent['sds-agent-0']) {
+        $notify = Openiosds::Sdsagent['sds-agent-0']
+      }
       file { "${openiosds::sysconfdir_globald}/${ns}":
         ensure  => $openiosds::file_ensure,
         content => template('openiosds/sds-ns.conf.erb'),
         owner   => $openiosds::user,
         group   => $openiosds::group,
         mode    => $openiosds::file_mode,
-        notify  => Openiosds::Sdsagent['sds-agent-0'],
+        notify  => $notify,
       }
     }
   }

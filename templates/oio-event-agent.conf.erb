@@ -5,6 +5,7 @@ bind_addr = <%= @_bind_addr %>
 workers = <%= @workers %>
 queue_location = <%= scope['openiosds::sharedstatedir'] %>/oio-event-queue.db
 retry_interval = 30
+acct_update = <%= @acct_update %>
 log_facility = <%= @log_facility %>
 log_level = <%= @log_level %>
 log_name = <%= @_log_name %>

@@ -12,6 +12,7 @@ define openiosds::oioeventagent (
   $log_level    = 'info',
   $log_name     = undef,
   $log_address  = '/dev/log',
+  $acct_update  = true,
 
   $no_exec      = false,
 ) {
@@ -39,6 +40,7 @@ define openiosds::oioeventagent (
   if $log_name { $_log_name = $log_name }
   else { $_log_name = "${type}-${num}" }
   validate_string($_log_name)
+  validate_bool($acct_update)
 
   validate_bool($no_exec)
 

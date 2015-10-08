@@ -7,9 +7,27 @@ class openiosds::params {
   $product_name             = 'sds'
   # Path
   $prefixdir                = '/usr'
-  case $::architecture {
-    'x86_64': { $libdir     = "${prefixdir}/lib64" }
-    default: { $libdir     = "${prefixdir}/lib" }
+  case $::osfamily {
+    'Debian': {
+      $libdir               = "${prefixdir}/lib"
+      $package_provider     = 'apt'
+      $httpd_daemon         = '/usr/sbin/apache2'
+      $httpd_moduledir      = "${libdir}/apache2/modules"
+      $httpd_package_name   = ['openio-sds']
+      $package_names        = ['openio-sds']
+    }
+    'RedHat': {
+      case $::architecture {
+        'x86_64': { $libdir = "${prefixdir}/lib64" }
+        default:  { $libdir = "${prefixdir}/lib" }
+      }
+      $package_provider     = 'yum'
+      $httpd_daemon         = '/usr/sbin/httpd'
+      $httpd_moduledir      = "${libdir}/httpd/modules"
+      $httpd_package_name   = ['openio-sds-mod-httpd']
+      $package_names        = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
+    }
+    default: { fail("osfamily $::osfamily not supported.") }
   }
   $bindir                   = "${prefixdir}/bin"
   $sysconfdir_global        = "/etc/${project_name}"
@@ -23,8 +41,6 @@ class openiosds::params {
   $sharedstatedir           = "${localstatedir}/lib/${project_name}/${product_name}"
   $logdir_global            = "${localstatedir}/log/${project_name}"
   $logdir                   = "${localstatedir}/log/${project_name}/${product_name}"
-  $httpd_daemon             = '/usr/sbin/httpd'
-  $httpd_moduledir          = "${libdir}/httpd/modules"
   $globaldirs               = [$sysconfdir_global,$sysconfdir_globald,$spoolstatedir_global,$logdir_global]
   # Administration
   $user                     = 'openio'
@@ -35,8 +51,6 @@ class openiosds::params {
   $gid                      = '220'
   # Packages
   $package_ensure           = 'installed'
-  $package_provider         = 'yum'
-  $package_names           = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
   # Logging
   $logfile_maxbytes         = '50MB'
   $logfile_backups          = '14'

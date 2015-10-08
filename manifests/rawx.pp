@@ -22,8 +22,8 @@ define openiosds::rawx (
   }
 
   # Packages
-  if ! defined(Package['openio-sds-mod-httpd']) {
-    package { 'openio-sds-mod-httpd':
+  if ! defined(Package[$openiosds::httpd_package_name]) {
+    package { $openiosds::httpd_package_name:
       ensure        => installed,
       provider      => $openiosds::package_provider,
       allow_virtual => false,

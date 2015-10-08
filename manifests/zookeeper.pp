@@ -24,19 +24,27 @@ define openiosds::zookeeper (
   }
 
   # OS dependent parameters
-  case $::operatingsystem {
-    'Fedora': {
-      case $::operatingsystemrelease {
-        '21': {$classpath = '/usr/share/java/log4j12-1.2.17.jar:/usr/share/java/zookeeper/zookeeper.jar:/usr/share/java/slf4j/slf4j-simple.jar:/usr/share/java/slf4j/api.jar:/usr/share/java/slf4j/nop.jar:/usr/share/java/slf4j/slf4j-api.jar:/usr/share/java/slf4j/slf4j-nop.jar:/usr/share/java/slf4j/simple.jar:/usr/share/java/slf4j/slf4j-api.jar:/usr/lib/java/jline1/jline-1.0.jar:/usr/share/java/netty3-3.6.6.jar'}
+  case $::osfamily {
+    'Debian': {
+       $classpath = '/etc/zookeeper/conf:/usr/share/java/jline.jar:/usr/share/java/log4j-1.2.jar:/usr/share/java/xercesImpl.jar:/usr/share/java/xmlParserAPIs.jar:/usr/share/java/netty.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-log4j12.jar:/usr/share/java/zookeeper.jar'
+       $packages = ['zookeeperd','python-zookeeper']
+    }
+    'RedHat': {
+      case $::operatingsystem {
+        'Fedora': {
+          case $::operatingsystemrelease {
+            '21': {$classpath = '/usr/share/java/log4j12-1.2.17.jar:/usr/share/java/zookeeper/zookeeper.jar:/usr/share/java/slf4j/slf4j-simple.jar:/usr/share/java/slf4j/api.jar:/usr/share/java/slf4j/nop.jar:/usr/share/java/slf4j/slf4j-api.jar:/usr/share/java/slf4j/slf4j-nop.jar:/usr/share/java/slf4j/simple.jar:/usr/share/java/slf4j/slf4j-api.jar:/usr/lib/java/jline1/jline-1.0.jar:/usr/share/java/netty3-3.6.6.jar'}
+            default: {
+                $classpath = '/usr/share/zookeeper/log4j-1.2.16.jar:/usr/share/zookeeper/netty-3.7.0.Final.jar:/usr/share/zookeeper/slf4j-api-1.6.1.jar:/usr/share/zookeeper/slf4j-log4j12-1.6.1.jar:/usr/share/zookeeper/zookeeper-3.4.6.jar'
+            }
+          }
+          $packages = ['zookeeper','java-1.8.0-openjdk-headless','python-zookeeper']
+        }
         default: {
           $classpath = '/usr/share/zookeeper/log4j-1.2.16.jar:/usr/share/zookeeper/netty-3.7.0.Final.jar:/usr/share/zookeeper/slf4j-api-1.6.1.jar:/usr/share/zookeeper/slf4j-log4j12-1.6.1.jar:/usr/share/zookeeper/zookeeper-3.4.6.jar'
+          $packages = ['zookeeper','java-1.7.0-openjdk-headless','python-ZooKeeper']
         }
       }
-      $packages = ['zookeeper','java-1.8.0-openjdk-headless','python-zookeeper']
-    }
-    default: {
-      $classpath = '/usr/share/zookeeper/log4j-1.2.16.jar:/usr/share/zookeeper/netty-3.7.0.Final.jar:/usr/share/zookeeper/slf4j-api-1.6.1.jar:/usr/share/zookeeper/slf4j-log4j12-1.6.1.jar:/usr/share/zookeeper/zookeeper-3.4.6.jar'
-      $packages = ['zookeeper','java-1.7.0-openjdk-headless','python-ZooKeeper']
     }
   }
 
@@ -93,7 +101,7 @@ define openiosds::zookeeper (
     owner   => $openiosds::user,
     group   => $openiosds::group,
     content => template('openiosds/zoo.cfg.erb'),
-    require => Package['zookeeper'],
+    require => Package[$packages],
   } ~>
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,

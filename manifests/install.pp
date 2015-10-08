@@ -1,15 +1,15 @@
 class openiosds::install inherits openiosds {
   # User
-  user { $openiosds::user:
-    ensure  => $openiosds::user_ensure,
-    uid     => $openiosds::uid,
-    require => Group[$openiosds::group],
-  }
+#  user { $openiosds::user:
+#    ensure  => $openiosds::user_ensure,
+#    uid     => $openiosds::uid,
+#    require => Group[$openiosds::group],
+#  }
   # Group
-  group { $openiosds::group:
-    ensure => $openiosds::group_ensure,
-    gid    => $openiosds::gid,
-  }
+#  group { $openiosds::group:
+#    ensure => $openiosds::group_ensure,
+#    gid    => $openiosds::gid,
+#  }
 
   # Packages
   package { $openiosds::package_names:

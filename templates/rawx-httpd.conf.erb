@@ -1,10 +1,12 @@
 LoadModule mpm_worker_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_mpm_worker.so
 LoadModule authz_core_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_authz_core.so
-LoadModule unixd_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_unixd.so
 LoadModule dav_module          <%= scope['openiosds::httpd_moduledir'] %>/mod_dav.so
-LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_log_config.so
 LoadModule mime_module         <%= scope['openiosds::httpd_moduledir'] %>/mod_mime.so
 LoadModule dav_rawx_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_dav_rawx.so
+<% if @osfamily == 'RedHat' -%>
+LoadModule unixd_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_unixd.so
+LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_log_config.so
+<% end -%>
 
 Listen          <%= @ipaddress %>:<%= @port %>
 PidFile         <%= scope['openiosds::runstatedir'] %>/<%= @ns %>-<%= @type %>-<%= @num %>-httpd.pid

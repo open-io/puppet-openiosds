@@ -92,7 +92,7 @@ class openiosds(
   if type($gid) != 'integer' { fail("${gid} is not an integer.") }
   $valid_package_ensure = ['present','installed','absent','purged','held','latest']
   validate_re($package_ensure,$valid_package_ensure,"${package_ensure} is invalid.")
-  $valid_package_providers = ['yum','rpm']
+  $valid_package_providers = ['yum','rpm','apt','dpkg']
   validate_re($package_provider,$valid_package_providers,"${package_provider} is invalid.")
   validate_array($package_names)
   $valid_log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']

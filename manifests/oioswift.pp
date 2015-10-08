@@ -55,9 +55,10 @@ define openiosds::oioswift (
     allow_virtual => false,
   } ->
   package { ['openio-sds-swift','openstack-swift-proxy']:
-    ensure        => $openiosds::package_ensure,
-    provider      => $openiosds::package_provider,
-    allow_virtual => false,
+    ensure          => $openiosds::package_ensure,
+    provider        => $openiosds::package_provider,
+    allow_virtual   => false,
+    install_options => $package_install_options,
   } ->
   # Service
   openiosds::service {"${ns}-${type}-${num}":

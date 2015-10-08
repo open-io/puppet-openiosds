@@ -9,23 +9,25 @@ class openiosds::params {
   $prefixdir                = '/usr'
   case $::osfamily {
     'Debian': {
-      $libdir               = "${prefixdir}/lib"
-      $package_provider     = 'apt'
-      $httpd_daemon         = '/usr/sbin/apache2'
-      $httpd_moduledir      = "${libdir}/apache2/modules"
-      $httpd_package_name   = ['openio-sds']
-      $package_names        = ['openio-sds']
+      $libdir                  = "${prefixdir}/lib"
+      $package_provider        = 'apt'
+      $httpd_daemon            = '/usr/sbin/apache2'
+      $httpd_moduledir         = "${libdir}/apache2/modules"
+      $httpd_package_name      = ['openio-sds']
+      $package_names           = ['openio-sds']
+      $package_install_options = '--force-yes'
     }
     'RedHat': {
       case $::architecture {
         'x86_64': { $libdir = "${prefixdir}/lib64" }
         default:  { $libdir = "${prefixdir}/lib" }
       }
-      $package_provider     = 'yum'
-      $httpd_daemon         = '/usr/sbin/httpd'
-      $httpd_moduledir      = "${libdir}/httpd/modules"
-      $httpd_package_name   = ['openio-sds-mod-httpd']
-      $package_names        = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
+      $package_provider        = 'yum'
+      $httpd_daemon            = '/usr/sbin/httpd'
+      $httpd_moduledir         = "${libdir}/httpd/modules"
+      $httpd_package_name      = ['openio-sds-mod-httpd']
+      $package_names           = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
+      $package_install_options = ''
     }
     default: { fail("osfamily $::osfamily not supported.") }
   }

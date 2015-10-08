@@ -27,6 +27,7 @@ For a standalone simple OpenIO namespace, you must declare a namespace and deplo
 
 Here is an example for a namespace called 'OPENIO':
 
+```
 openiosds::namespace {'OPENIO':
   ns => 'OPENIO',
   conscience_url => "${ipaddress}:6000",
@@ -40,7 +41,7 @@ openiosds::conscience {'conscience-1':
 openiosds::meta0 {'meta0-1':
   num => '1',
   ns => 'OPENIO',
-}
+}  
 openiosds::meta1 {'meta1-1':
   num => '1',
   ns => 'OPENIO',
@@ -53,26 +54,27 @@ openiosds::rawx {'rawx-1':
   num => '1',
   ns => 'OPENIO',
 }
+```
 
 ## Reference
 
-A number of defined types are availables:
-* openiosds::namespace
-* openiosds::conscience
-* openiosds::meta0
-* openiosds::meta1
-* openiosds::meta2
-* openiosds::rawx
-* openiosds::account
-* openiosds::oioeventagent
-* openiosds::zookeeper
-* openiosds::sdsagent
-* openiosds::oioswift
-* openiosds::oioproxy
+A number of defined types are availables:    
+* openiosds::namespace  
+* openiosds::conscience  
+* openiosds::meta0  
+* openiosds::meta1  
+* openiosds::meta2  
+* openiosds::rawx  
+* openiosds::account  
+* openiosds::oioeventagent  
+* openiosds::zookeeper  
+* openiosds::sdsagent  
+* openiosds::oioswift  
+* openiosds::oioproxy  
 
 ## Limitations
 
-The module is actually limited to RedHat/CentOS/Fedora distributions but Debian/Ubuntu support is under development.
+The module works under the latest stable RedHat, CentOS and Fedora, Debian and Ubuntu (LTS & latest).
 
 ## Development
 
@@ -80,8 +82,8 @@ You can report issues or request informations using [GitHub](https://github.com/
 
 ## Release Notes/Contributors/Etc.
 
-Author: Romain Acciari <romain.acciari@openio.io>
-Copyright (c) 2015, OpenIO.
-Released under Apache License v2.
+Author: Romain Acciari <romain.acciari@openio.io>  
+Copyright (c) 2015, OpenIO.  
+Released under Apache License v2.  
 
 

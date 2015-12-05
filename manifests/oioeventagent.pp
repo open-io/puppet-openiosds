@@ -25,14 +25,14 @@ define openiosds::oioeventagent (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type($num) != 'integer' { fail("${num} is not an integer.") }
+  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
 
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type($port) != 'integer' { fail("${port} is not an integer.") }
+  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
   if $bind_addr { $_bind_addr = $bind_addr }
   else { $_bind_addr = "tcp://${ipaddress}:${port}" }
-  if type($workers) != 'integer' { fail("${workers} is not an integer.") }
+  if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
   $valid_log_facilities = ['LOG_LOCAL0','LOG_LOCAL1','LOG_LOCAL2','LOG_LOCAL3','LOG_LOCAL4','LOG_LOCAL5','LOG_LOCAL6','LOG_LOCAL7']
   validate_re($log_facility,$valid_log_facilities,"${log_facility} is invalid.")
   $valid_log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']

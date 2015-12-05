@@ -52,20 +52,20 @@ define openiosds::zookeeper (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type($num) != 'integer' { fail("${num} is not an integer.") }
+  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
 
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type($port) != 'integer' { fail("${port} is not an integer.") }
+  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
 
   if $servers {
     if is_string($servers) { $servers_array = split($servers,'[;,]') }
     elsif is_array($servers) { $servers_array = $servers }
     else { fail("${servers} is not an array.") }
   }
-  if type($autopurge_snapretaincount) != 'integer' { fail("${autopurge_snapretaincount} is not an integer.") }
-  if type($autopurge_purgeinterval) != 'integer' { fail("${autopurge_purgeinterval} is not an integer.") }
-  if $myid and (type($myid) != 'integer') { fail("${myid} is not an integer.") }
+  if type3x($autopurge_snapretaincount) != 'integer' { fail("${autopurge_snapretaincount} is not an integer.") }
+  if type3x($autopurge_purgeinterval) != 'integer' { fail("${autopurge_purgeinterval} is not an integer.") }
+  if $myid and (type3x($myid) != 'integer') { fail("${myid} is not an integer.") }
 
   # Namespace
   if $action == 'create' {

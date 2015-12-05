@@ -7,10 +7,9 @@ class openiosds::params {
   $product_name             = 'sds'
   # Path
   $prefixdir                = '/usr'
-  case $::osfamily {
+  case $::os['family'] {
     'Debian': {
       $libdir                  = "${prefixdir}/lib"
-      $package_provider        = 'apt'
       $httpd_daemon            = '/usr/sbin/apache2'
       $httpd_moduledir         = "${libdir}/apache2/modules"
       $httpd_package_name      = ['openio-sds']
@@ -22,7 +21,6 @@ class openiosds::params {
         'x86_64': { $libdir = "${prefixdir}/lib64" }
         default:  { $libdir = "${prefixdir}/lib" }
       }
-      $package_provider        = 'yum'
       $httpd_daemon            = '/usr/sbin/httpd'
       $httpd_moduledir         = "${libdir}/httpd/modules"
       $httpd_package_name      = ['openio-sds-mod-httpd']

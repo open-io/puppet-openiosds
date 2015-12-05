@@ -33,7 +33,6 @@ class openiosds(
   $group_ensure             = $openiosds::params::group_ensure,
   $gid                      = $openiosds::params::gid,
   $package_ensure           = $openiosds::params::package_ensure,
-  $package_provider         = $openiosds::params::package_provider,
   $package_names            = $openiosds::params::package_names,
   $logfile_maxbytes         = $openiosds::params::logfile_maxbytes,
   $logfile_backups          = $openiosds::params::logfile_backups,
@@ -85,15 +84,13 @@ class openiosds(
   validate_string($user)
   $valid_user_ensure = ['present','absent','role']
   validate_re($user_ensure,$valid_user_ensure,"${user_ensure} is invalid.")
-  if type($uid) != 'integer' { fail("${uid} is not an integer.") }
+  if type3x($uid) != 'integer' { fail("${uid} is not an integer.") }
   validate_string($group)
   $valid_group_ensure = ['present','absent']
   validate_re($group_ensure,$valid_group_ensure,"${group_ensure} is invalid.")
-  if type($gid) != 'integer' { fail("${gid} is not an integer.") }
+  if type3x($gid) != 'integer' { fail("${gid} is not an integer.") }
   $valid_package_ensure = ['present','installed','absent','purged','held','latest']
   validate_re($package_ensure,$valid_package_ensure,"${package_ensure} is invalid.")
-  $valid_package_providers = ['yum','rpm','apt','dpkg']
-  validate_re($package_provider,$valid_package_providers,"${package_provider} is invalid.")
   validate_array($package_names)
   $valid_log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
   validate_re($log_level, $valid_log_levels, "${log_level} is invalid.")

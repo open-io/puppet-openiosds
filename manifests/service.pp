@@ -13,7 +13,7 @@ define openiosds::service (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type($num) != 'integer' { fail("${num} is not an integer.") }
+  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
   if $ns { validate_string($ns) }
 
   # Path

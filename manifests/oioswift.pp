@@ -29,12 +29,12 @@ define openiosds::oioswift (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type($num) != 'integer' { fail("${num} is not an integer.") }
+  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
 
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type($port) != 'integer' { fail("${port} is not an integer.") }
-  if type($workers) != 'integer' { fail("${workers} is not an integer.") }
+  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
   validate_string($sds_proxy_url)
   validate_bool($object_post_as_copy)
   validate_string($memcache_servers)
@@ -56,7 +56,6 @@ define openiosds::oioswift (
   } ->
   package { ['openio-sds-swift','openstack-swift-proxy']:
     ensure          => $openiosds::package_ensure,
-    provider        => $openiosds::package_provider,
     allow_virtual   => false,
     install_options => $package_install_options,
   } ->

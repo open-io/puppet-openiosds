@@ -14,7 +14,6 @@ class openiosds::install inherits openiosds {
   # Packages
   package { $openiosds::package_names:
     ensure          => $openiosds::package_ensure,
-    provider        => $openiosds::package_provider,
     allow_virtual   => false,
     install_options => $package_install_options,
   }

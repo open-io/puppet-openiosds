@@ -1,3 +1,4 @@
+# Configure and install an OpenIO oioeventagent service
 define openiosds::oioeventagent (
   $action       = 'create',
   $type         = 'oio-event-agent',

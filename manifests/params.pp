@@ -25,9 +25,9 @@ class openiosds::params {
       $httpd_moduledir         = "${libdir}/httpd/modules"
       $httpd_package_name      = ['openio-sds-mod-httpd']
       $package_names           = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
-      $package_install_options = ''
+      $package_install_options = undef
     }
-    default: { fail("osfamily $::osfamily not supported.") }
+    default: { fail("osfamily ${::osfamily} not supported.") }
   }
   $bindir                   = "${prefixdir}/bin"
   $sysconfdir_global        = "/etc/${project_name}"

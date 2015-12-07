@@ -1,3 +1,4 @@
+# Configure and install an OpenIO service
 define openiosds::service (
   $action  = 'create',
   $type    = undef,

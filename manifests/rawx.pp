@@ -1,3 +1,4 @@
+# Configure and install an OpenIO rawx service
 define openiosds::rawx (
   $action         = 'create',
   $type           = 'rawx',
@@ -26,7 +27,7 @@ define openiosds::rawx (
     package { $openiosds::httpd_package_name:
       ensure          => installed,
       allow_virtual   => false,
-      install_options => $package_install_options,
+      install_options => $openiosds::package_install_options,
       before          => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
     }
   }

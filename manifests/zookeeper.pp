@@ -1,3 +1,4 @@
+# Configure and install an OpenIO zookeeper service
 define openiosds::zookeeper (
   $action                    = 'create',
   $type                      = 'zookeeper',
@@ -26,8 +27,8 @@ define openiosds::zookeeper (
   # OS dependent parameters
   case $::osfamily {
     'Debian': {
-       $classpath = '/etc/zookeeper/conf:/usr/share/java/jline.jar:/usr/share/java/log4j-1.2.jar:/usr/share/java/xercesImpl.jar:/usr/share/java/xmlParserAPIs.jar:/usr/share/java/netty.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-log4j12.jar:/usr/share/java/zookeeper.jar'
-       $packages = ['zookeeperd','python-zookeeper']
+      $classpath = '/etc/zookeeper/conf:/usr/share/java/jline.jar:/usr/share/java/log4j-1.2.jar:/usr/share/java/xercesImpl.jar:/usr/share/java/xmlParserAPIs.jar:/usr/share/java/netty.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-log4j12.jar:/usr/share/java/zookeeper.jar'
+      $packages = ['zookeeperd','python-zookeeper']
     }
     'RedHat': {
       case $::operatingsystem {

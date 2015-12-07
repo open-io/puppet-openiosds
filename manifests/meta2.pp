@@ -1,3 +1,4 @@
+# Configure and install an OpenIO meta2 service
 define openiosds::meta2 (
   $action         = 'create',
   $type           = 'meta2',

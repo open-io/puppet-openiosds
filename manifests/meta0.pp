@@ -1,3 +1,4 @@
+# Configure and install an OpenIO meta0 service
 define openiosds::meta0 (
   $action         = 'create',
   $type           = 'meta0',

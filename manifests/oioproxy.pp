@@ -1,3 +1,4 @@
+# Configure and install an OpenIO oioproxy service
 define openiosds::oioproxy (
   $action         = 'create',
   $type           = 'oioproxy',

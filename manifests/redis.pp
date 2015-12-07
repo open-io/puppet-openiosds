@@ -1,3 +1,4 @@
+# Configure and install an OpenIO redis service
 define openiosds::redis (
   $action         = 'create',
   $type           = 'redis',

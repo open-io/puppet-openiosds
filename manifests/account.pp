@@ -1,3 +1,4 @@
+# Configure and install an OpenIO account service
 define openiosds::account (
   $action         = 'create',
   $type           = 'account',

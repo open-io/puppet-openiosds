@@ -1,3 +1,4 @@
+# Configure and install an OpenIO rainx service
 define openiosds::rainx (
   $action    = 'create',
   $type      = 'rainx',

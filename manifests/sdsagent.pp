@@ -1,3 +1,4 @@
+# Configure and install an OpenIO sdsagent service
 define openiosds::sdsagent (
   $action  = 'create',
   $type    = 'sds-agent',

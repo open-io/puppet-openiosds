@@ -1,3 +1,4 @@
+# Configure and install an OpenIO namespace
 define openiosds::namespace (
   $action         = 'create',
   $ns             = undef,

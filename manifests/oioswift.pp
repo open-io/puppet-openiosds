@@ -1,3 +1,4 @@
+# Configure and install an OpenIO oioswift service
 define openiosds::oioswift (
   $action              = 'create',
   $type                = 'oioswift',
@@ -57,7 +58,7 @@ define openiosds::oioswift (
   package { ['openio-sds-swift','openstack-swift-proxy']:
     ensure          => $openiosds::package_ensure,
     allow_virtual   => false,
-    install_options => $package_install_options,
+    install_options => $openiosds::package_install_options,
   } ->
   # Service
   openiosds::service {"${ns}-${type}-${num}":

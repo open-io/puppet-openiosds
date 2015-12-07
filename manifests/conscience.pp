@@ -1,3 +1,4 @@
+# Configure and install an OpenIO conscience service
 define openiosds::conscience (
   $action                = 'create',
   $type                  = 'conscience',

@@ -1,5 +1,5 @@
 [pipeline:main]
-pipeline = catch_errors proxy-logging authtoken cache healthcheck keystoneauth proxy-logging proxy-server
+pipeline = catch_errors proxy-logging cache swift3 s3token authtoken healthcheck keystoneauth proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:oioswift#main
@@ -57,3 +57,9 @@ use = egg:swift3#swift3
 
 [filter:staticweb]
 use = egg:swift#staticweb
+
+[filter:s3token]
+paste.filter_factory = keystonemiddleware.s3_token:filter_factory
+auth_port = <%= @auth_port %>
+auth_protocol = <%= @auth_protocol %>
+auth_host = <%= @auth_host %>

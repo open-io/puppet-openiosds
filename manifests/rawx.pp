@@ -1,14 +1,15 @@
 # Configure and install an OpenIO rawx service
 define openiosds::rawx (
-  $action         = 'create',
-  $type           = 'rawx',
-  $num            = '0',
+  $action                 = 'create',
+  $type                   = 'rawx',
+  $num                    = '0',
 
-  $ns             = undef,
-  $ipaddress      = $::ipaddress,
-  $port           = '6004',
+  $ns                     = undef,
+  $ipaddress              = $::ipaddress,
+  $port                   = '6004',
+  $default_oioblobindexer = false,
 
-  $no_exec        = false,
+  $no_exec                = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -52,6 +53,14 @@ define openiosds::rawx (
     uid     => $openiosds::user,
     gid     => $openiosds::group,
     no_exec => $no_exec,
+  }
+  if $default_oioblobindexer {
+    openiosds::oioblobindexer { "oio-blob-indexer-${num}":
+      num       => $num,
+      ns        => $ns,
+#      require   => Gridinit::Program["${ns}-${type}-${num}"],
+      no_exec   => $no_exec,
+    }
   }
 
 }

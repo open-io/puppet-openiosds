@@ -44,6 +44,7 @@ class openiosds(
   $meta1_port               = $openiosds::params::meta1_port,
   $meta2_port               = $openiosds::params::meta2_port,
   $rawx_port                = $openiosds::params::rawx_port,
+  $rdir_port                = $openiosds::params::rdir_port,
   $zookeeper_port           = $openiosds::params::zookeeper_port,
   $conscience_url           = $openiosds::params::conscience_url,
   $zookeeper_url            = $openiosds::params::zookeeper_url,

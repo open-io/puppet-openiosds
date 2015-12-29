@@ -68,6 +68,7 @@ class openiosds::params {
   $oioswift_port            = '6007'
   $oioeventagent_port       = '6008'
   $rainx_port               = '6009'
+  $rdir_port                = '6010'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

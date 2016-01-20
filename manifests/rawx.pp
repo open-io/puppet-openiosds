@@ -8,6 +8,7 @@ define openiosds::rawx (
   $ipaddress              = $::ipaddress,
   $port                   = '6004',
   $default_oioblobindexer = false,
+  $grid_docroot           = undef,
 
   $no_exec                = false,
 ) {
@@ -15,6 +16,10 @@ define openiosds::rawx (
   if ! defined(Class['openiosds']) {
     include openiosds
   }
+
+  # Defaults
+  validate_string($ns)
+  if ! $grid_docroot { $grid_docroot = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
 
   # Namespace
   if $action == 'create' {

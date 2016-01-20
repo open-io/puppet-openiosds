@@ -51,7 +51,7 @@ DavDepthInfinity Off
 
 grid_hash_width 2
 grid_hash_depth 2
-grid_docroot    <%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>
+grid_docroot    <%= @grid_docroot %>
 grid_namespace  <%= @ns %>
 grid_dir_run    <%= scope['openiosds::runstatedir'] %>
 #grid_upload_blocksize 65536

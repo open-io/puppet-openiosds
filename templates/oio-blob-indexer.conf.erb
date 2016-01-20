@@ -1,0 +1,10 @@
+[blob-indexer]
+namespace = <%= @ns %>
+user = <%= scope['openiosds::user'] %>
+volume = <%= @volume %>
+report_interval = <%= @report_interval %>
+chunks_per_second = <%= @chunks_per_second %>
+log_level = <%= scope['openiosds::log_level'] %>
+log_facility = LOG_LOCAL0
+log_address = /dev/log
+syslog_prefix = OIO,<%= @ns %>,<%= @type %>,<%= @num %>

@@ -1,0 +1,11 @@
+[rdir-server]
+bind_addr = <%= @ipaddress %>
+bind_port = <%= @port %>
+namespace = <%= @ns %>
+# Currently, only 1 worker is allowed to avoid concurrent access to leveldb database
+workers = <%= @workers %>
+db_path=<%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>
+log_facility = LOG_LOCAL0
+log_level = <%= scope['openiosds::log_level'] %>
+log_address = /dev/log
+syslog_prefix = OIO,<%= @ns %>,<%= @type %>,<%= @num %>

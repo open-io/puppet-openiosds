@@ -10,11 +10,11 @@ LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_lo
 
 Listen          <%= @ipaddress %>:<%= @port %>
 PidFile         <%= scope['openiosds::runstatedir'] %>/<%= @ns %>-<%= @type %>-<%= @num %>-httpd.pid
-ServerRoot      <%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/coredump
+ServerRoot      <%= @_serverRoot %>
 ServerName      localhost
 ServerSignature Off
 ServerTokens    Prod
-DocumentRoot    <%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>
+DocumentRoot    <%= @_documentRoot %>
 TypesConfig     /etc/mime.types
 
 User  <%= scope['openiosds::user'] %>
@@ -51,7 +51,7 @@ DavDepthInfinity Off
 
 grid_hash_width 2
 grid_hash_depth 2
-grid_docroot    <%= @grid_docroot %>
+grid_docroot    <%= @_documentRoot %>
 grid_namespace  <%= @ns %>
 grid_dir_run    <%= scope['openiosds::runstatedir'] %>
 #grid_upload_blocksize 65536

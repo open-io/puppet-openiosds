@@ -7,6 +7,9 @@ define openiosds::redis (
   $ns             = undef,
   $ipaddress      = $::ipaddress,
   $port           = '6010',
+  $dir            = undef,
+  $logfile        = undef,
+  $pidfile        = undef,
 
   $no_exec        = false,
 ) {
@@ -14,6 +17,17 @@ define openiosds::redis (
   if ! defined(Class['openiosds']) {
     include openiosds
   }
+
+  # Validation
+  validate_string($ns)
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  if $dir { $_dir = $dir }
+  else { $_dir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
+  if $logfile { $_logfile = $logfile }
+  else { $_logfile = "${openiosds::logdir}/${ns}/${type}-${num}/${type}-${num}.log" }
+  if $pidfile { $_pidfile = $pidfile }
+  else { $_pidfile = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/${type}-${num}.pid" }
 
   # Namespace
   if $action == 'create' {

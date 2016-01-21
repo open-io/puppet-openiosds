@@ -12,9 +12,9 @@ define openiosds::oioswift (
   $object_post_as_copy = false,
   $memcache_servers    = "${ipaddress}:11211",
   $auth_uri            = "http://${ipaddress}:5000/v2.0",
-  $auth_protocol       = "http",
+  $auth_protocol       = 'http',
   $auth_host           = "${ipaddress}",
-  $auth_port           = "35357",
+  $auth_port           = '35357',
   $identity_uri        = "http://${ipaddress}:35357",
   $admin_tenant_name   = 'services',
   $admin_user          = 'swift',
@@ -34,7 +34,6 @@ define openiosds::oioswift (
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
   if type3x($num) != 'integer' { fail("${num} is not an integer.") }
-
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   if type3x($port) != 'integer' { fail("${port} is not an integer.") }
@@ -42,6 +41,16 @@ define openiosds::oioswift (
   validate_string($sds_proxy_url)
   validate_bool($object_post_as_copy)
   validate_string($memcache_servers)
+  validate_string($auth_uri)
+  validate_string($auth_protocol)
+  validate_string($auth_host)
+  if type3x($auth_port) != 'integer' { fail("${auth_port} is not an integer.") }
+  validate_string($identity_uri)
+  validate_string($admin_tenant_name)
+  validate_string($admin_user)
+  validate_string($admin_password)
+  validate_bool($delay_auth_decision)
+  validate_string($operator_roles)
 
 
   # Namespace

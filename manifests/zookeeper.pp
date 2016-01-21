@@ -16,6 +16,7 @@ define openiosds::zookeeper (
   $autopurge_purgeinterval   = '1',
   $bootstrap                 = false,
   $myid                      = undef,
+  $dataDir                   = undef,
 
   $no_exec                   = false,
 ) {
@@ -67,6 +68,8 @@ define openiosds::zookeeper (
   if type3x($autopurge_snapretaincount) != 'integer' { fail("${autopurge_snapretaincount} is not an integer.") }
   if type3x($autopurge_purgeinterval) != 'integer' { fail("${autopurge_purgeinterval} is not an integer.") }
   if $myid and (type3x($myid) != 'integer') { fail("${myid} is not an integer.") }
+  if $dataDir { $_dataDir = $dataDir }
+  else { $_dataDir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/data" }
 
   # Namespace
   if $action == 'create' {

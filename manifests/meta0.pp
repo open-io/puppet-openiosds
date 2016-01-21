@@ -8,6 +8,8 @@ define openiosds::meta0 (
   $ipaddress      = $::ipaddress,
   $port           = '6001',
   $debug          = false,
+  $volume         = undef,
+  $pidfile        = undef,
 
   $no_exec        = false,
 ) {
@@ -21,12 +23,15 @@ define openiosds::meta0 (
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
   if type3x($num) != 'integer' { fail("${num} is not an integer.") }
-  validate_bool($debug)
-  if $debug { $verbose = '-v ' }
-
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  validate_bool($debug)
+  if $debug { $verbose = '-v ' }
+  if $volume { $_volume = $volume }
+  else { $_volume = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
+  if $pidfile { $_pidfile = $pidfile }
+  else { $_pidfile = "${openiosds::runstatedir}/${ns}-${type}-${num}.pid" }
 
 
   # Namespace
@@ -46,7 +51,7 @@ define openiosds::meta0 (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-meta0-server ${verbose} -p ${openiosds::runstatedir}/${ns}-${type}-${num}.pid -s OIO,${ns},${type},${num} -O Endpoint=${ipaddress}:${port} ${ns} ${openiosds::sharedstatedir}/${ns}/${type}-${num}",
+    command => "${openiosds::bindir}/oio-meta0-server ${verbose} -p ${_pidfile} -s OIO,${ns},${type},${num} -O Endpoint=${ipaddress}:${port} ${ns} ${_volume}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

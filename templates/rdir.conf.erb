@@ -4,7 +4,7 @@ bind_port = <%= @port %>
 namespace = <%= @ns %>
 # Currently, only 1 worker is allowed to avoid concurrent access to leveldb database
 workers = <%= @workers %>
-db_path=<%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>
+db_path= <%= @_db_path %>
 log_facility = LOG_LOCAL0
 log_level = <%= scope['openiosds::log_level'] %>
 log_address = /dev/log

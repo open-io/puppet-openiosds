@@ -1,12 +1,12 @@
 daemonize no
-pidfile <%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>.pid
+pidfile <%= @_pidfile %>
 port <%= @port %>
 tcp-backlog 511
 bind <%= @ipaddress %>
 timeout 0
 tcp-keepalive 0
 loglevel notice
-logfile <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>.log
+logfile <%= @_logfile %>
 databases 16
 save 900 1
 save 300 10
@@ -15,7 +15,7 @@ stop-writes-on-bgsave-error yes
 rdbcompression yes
 rdbchecksum yes
 dbfilename dump.rdb
-dir <%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>
+dir <%= @_dir %>
 slave-serve-stale-data yes
 slave-read-only yes
 repl-diskless-sync no

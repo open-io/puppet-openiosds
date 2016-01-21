@@ -8,7 +8,8 @@ define openiosds::rawx (
   $ipaddress              = $::ipaddress,
   $port                   = '6004',
   $default_oioblobindexer = false,
-  $grid_docroot           = undef,
+  $documentRoot           = undef,
+  $serverRoot             = undef,
 
   $no_exec                = false,
 ) {
@@ -17,9 +18,12 @@ define openiosds::rawx (
     include openiosds
   }
 
-  # Defaults
+  # Validation
   validate_string($ns)
-  if ! $grid_docroot { $grid_docroot = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
+  if ! $documentRoot { $_documentRoot = $documentRoot }
+  else { $_documentRoot = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
+  if ! $serverRoot { $_serverRoot = $serverRoot }
+  else { $_serverRoot = "${openiosds::sharedstatedir}/${ns}/coredump" }
 
   # Namespace
   if $action == 'create' {
@@ -65,6 +69,15 @@ define openiosds::rawx (
       ns        => $ns,
 #      require   => Gridinit::Program["${ns}-${type}-${num}"],
       no_exec   => $no_exec,
+    }
+  }
+  if $documentRoot {
+    file { $documentRoot:
+      ensure  => $openiosds::directory_ensure,
+      owner   => $openiosds::user,
+      group   => $openiosds::group,
+      mode    => $openiosds::file_mode,
+      before  => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
     }
   }
 

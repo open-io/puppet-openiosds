@@ -1,21 +1,23 @@
 # Configure and install an OpenIO oioeventagent service
 define openiosds::oioeventagent (
-  $action       = 'create',
-  $type         = 'oio-event-agent',
-  $num          = '0',
+  $action         = 'create',
+  $type           = 'oio-event-agent',
+  $num            = '0',
 
-  $ns           = undef,
-  $ipaddress    = $::ipaddress,
-  $bind_addr    = undef,
-  $port         = '6008',
-  $workers      = '2',
-  $log_facility = 'LOG_LOCAL0',
-  $log_level    = 'info',
-  $log_name     = undef,
-  $log_address  = '/dev/log',
-  $acct_update  = true,
+  $ns             = undef,
+  $ipaddress      = $::ipaddress,
+  $bind_addr      = undef,
+  $port           = '6008',
+  $workers        = '2',
+  $log_facility   = 'LOG_LOCAL0',
+  $log_level      = 'info',
+  $log_name       = undef,
+  $log_address    = '/dev/log',
+  $acct_update    = true,
+  $queue_location = undef,
+  $retry_interval = '30',
 
-  $no_exec      = false,
+  $no_exec         = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -27,7 +29,6 @@ define openiosds::oioeventagent (
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
   if type3x($num) != 'integer' { fail("${num} is not an integer.") }
-
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   if type3x($port) != 'integer' { fail("${port} is not an integer.") }
@@ -42,6 +43,9 @@ define openiosds::oioeventagent (
   else { $_log_name = "${type}-${num}" }
   validate_string($_log_name)
   validate_bool($acct_update)
+  if queue_location { $_queue_location = $queue_location }
+  else { $_queue_location = "${openiosds::sharedstatedir}/oio-event-queue.db" }
+  if type3x($retry_interval) != 'integer' { fail("${retry_interval} is not an integer.") }
 
   validate_bool($no_exec)
 

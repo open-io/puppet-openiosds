@@ -15,7 +15,7 @@ period_push_srv=1
 #period_broken_push=30
 #period_broken_get=30
 
-events.spool.dir=<%= scope['openiosds::spoolstatedir'] %>
+events.spool.dir=<%= @_events_spool_dir %>
 events.spool.size=9999
 events.mode.dir=755
 events.mode.file=644
@@ -32,8 +32,8 @@ events.incoming_delay=2
 port=<%= @port %>
 
 [server.unix]
-mode=0600
+mode=<%= @mode %>
 uid=<%= scope['openiosds::user'] %>
 gid=<%= scope['openiosds::group'] %>
-path=<%= scope['openiosds::runstatedir'] %>/<%= @type %>-<%= @num %>.sock
-backlog=8192
+path=<%= @_path %>
+backlog=<%= @backlog %>

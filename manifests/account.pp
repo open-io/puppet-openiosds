@@ -1,8 +1,8 @@
 # Configure and install an OpenIO account service
 define openiosds::account (
-  $action         = 'create',
-  $type           = 'account',
-  $num            = '0',
+  $action                 = 'create',
+  $type                   = 'account',
+  $num                    = '0',
 
   $ns                     = undef,
   $ipaddress              = $::ipaddress,
@@ -11,12 +11,24 @@ define openiosds::account (
   $redis_host             = $::ipaddress,
   $redis_port             = '6010',
 
-  $no_exec        = false,
+  $no_exec                = false,
 ) {
 
   if ! defined(Class['openiosds']) {
     include openiosds
   }
+
+  # Validation
+  $actions = ['create','remove']
+  validate_re($action,$actions,"${action} is invalid.")
+  validate_string($type)
+  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
+  validate_string($ns)
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  validate_bool($redis_default_install)
+  validate_string($redis_host)
+  if type3x($redis_port) != 'integer' { fail("${redis_port} is not an integer.") }
 
   # Namespace
   if $action == 'create' {

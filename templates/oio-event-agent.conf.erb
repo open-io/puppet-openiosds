@@ -3,8 +3,8 @@ namespace = <%= @ns %>
 user = <%= scope['openiosds::user'] %>
 bind_addr = <%= @_bind_addr %>
 workers = <%= @workers %>
-queue_location = <%= scope['openiosds::sharedstatedir'] %>/oio-event-queue.db
-retry_interval = 30
+queue_location = <%= @_queue_location %>
+retry_interval = <%= @retry_interval %>
 acct_update = <%= @acct_update %>
 log_facility = <%= @log_facility %>
 log_level = <%= @log_level %>

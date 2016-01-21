@@ -8,6 +8,7 @@ define openiosds::rdir (
   $ipaddress      = $::ipaddress,
   $port           = '6010',
   $workers        = '1',
+  $db_path        = undef,
 
   $no_exec        = false,
 ) {
@@ -15,6 +16,14 @@ define openiosds::rdir (
   if ! defined(Class['openiosds']) {
     include openiosds
   }
+
+  # Validation
+  validate_string($ns)
+  if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
+  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
+  if $db_path { $_db_path = $db_path }
+  else { $_db_path = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
 
   # Namespace
   if $action == 'create' {

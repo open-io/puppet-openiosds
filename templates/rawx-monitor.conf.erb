@@ -17,6 +17,6 @@ stgclass=DEFAULT
 addr=<%= @ipaddress %>:<%= @port %>
 
 [Volume]
-docroot=<%= scope['openiosds::sharedstatedir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>
+docroot=<%= @_documentRoot %>
 filer.user=<%= scope['openiosds::user'] %>
 filer.pwd=<%= scope['openiosds::group'] %>

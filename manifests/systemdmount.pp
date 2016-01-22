@@ -12,10 +12,10 @@ define openiosds::systemdmount (
   validate_string($fstype)
   validate_string($fsoptions)
 
-  $mountpoint_name = "$(systemd-escape --path --suffix=mount $mountpoint)"
+  $mountpoint_name = systemd_escape($mountpoint)
 
   # Configuration file
-  file { "/etc/systemd/system/${mountpoint_name}.mount":
+  file { "/etc/systemd/system/${mountpoint_name}":
     ensure  => present,
     content => template('openiosds/systemd.mount.conf.erb'),
     mode    => '0644',
@@ -26,8 +26,7 @@ define openiosds::systemdmount (
     owner  => 'root',
     group  => 'root',
   } ->
-  exec { "/usr/bin/systemctl start ${mountpoint_name}.mount":
-#    command => "/usr/bin/systemctl start ${mountpoint_name}.mount":
+  exec { "/usr/bin/systemctl start ${mountpoint_name}":
   }
 
 }

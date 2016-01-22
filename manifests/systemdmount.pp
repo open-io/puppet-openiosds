@@ -7,13 +7,12 @@ define openiosds::systemdmount (
 ) {
 
   # Validation
-#  validate_string($uuid)
-#  validate_string($mountpoint)
-#  validate_string($fstype)
-#  validate_string($fsoptions)
+  validate_string($uuid)
+  validate_string($mountpoint)
+  validate_string($fstype)
+  validate_string($fsoptions)
 
-  $mountpoint_sub1 = regsubst($mountpoint, '/', '-', 'G')
-  $mountpoint_name = regsubst($mountpoint_sub1, '-', '')
+  $mountpoint_name = "$(systemd-escape --path --suffix=mount $mountpoint)"
 
   # Configuration file
   file { "/etc/systemd/system/${mountpoint_name}.mount":

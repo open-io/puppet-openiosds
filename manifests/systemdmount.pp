@@ -26,7 +26,7 @@ define openiosds::systemdmount (
     owner  => 'root',
     group  => 'root',
   } ->
-  exec { "/usr/bin/systemctl start ${mountpoint_name}":
+  exec { "/usr/bin/systemctl start \'${mountpoint_name}\'":
   }
 
 }

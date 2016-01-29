@@ -68,8 +68,13 @@ define openiosds::zookeeper (
   if type3x($autopurge_snapretaincount) != 'integer' { fail("${autopurge_snapretaincount} is not an integer.") }
   if type3x($autopurge_purgeinterval) != 'integer' { fail("${autopurge_purgeinterval} is not an integer.") }
   if $myid and (type3x($myid) != 'integer') { fail("${myid} is not an integer.") }
-  if $dataDir { $_dataDir = $dataDir }
-  else { $_dataDir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/data" }
+  if $dataDir {
+    $_dataDir = $dataDir
+    $rootDir = dirname($_dataDir)
+  } else {
+    $_dataDir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/data"
+    $rootDir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}"
+  }
 
   # Namespace
   if $action == 'create' {
@@ -90,9 +95,10 @@ define openiosds::zookeeper (
     type   => $type,
     num    => $num,
     ns     => $ns,
+    volume => $rootDir,
   } ->
   # Data path
-  file { "${openiosds::sharedstatedir}/${ns}/${type}-${num}/data":
+  file { $_dataDir:
     ensure  => $openiosds::directory_ensure,
     owner   => $openiosds::user,
     group   => $openiosds::group,

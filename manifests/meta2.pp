@@ -47,6 +47,7 @@ define openiosds::meta2 (
     type   => $type,
     num    => $num,
     ns     => $ns,
+    volume => $_volume,
   } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":

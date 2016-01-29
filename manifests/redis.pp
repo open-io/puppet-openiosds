@@ -47,6 +47,7 @@ define openiosds::redis (
     type   => $type,
     num    => $num,
     ns     => $ns,
+    volume => $_dir,
   } ->
   # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":

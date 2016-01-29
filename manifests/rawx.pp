@@ -54,6 +54,7 @@ define openiosds::rawx (
     type   => $type,
     num    => $num,
     ns     => $ns,
+    volume => $_documentRoot,
   } ->
   # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf":

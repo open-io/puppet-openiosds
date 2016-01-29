@@ -38,6 +38,7 @@ define openiosds::rdir (
     type   => $type,
     num    => $num,
     ns     => $ns,
+    volume => $_db_path,
   } ->
   # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":

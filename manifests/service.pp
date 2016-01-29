@@ -4,6 +4,7 @@ define openiosds::service (
   $type    = undef,
   $num     = undef,
   $ns      = undef,
+  $volume  = undef,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -16,11 +17,13 @@ define openiosds::service (
   validate_string($type)
   if type3x($num) != 'integer' { fail("${num} is not an integer.") }
   if $ns { validate_string($ns) }
+  if $volume { validate_string($volume) }
 
   # Path
   if $ns { $service_path = "${ns}/${type}-${num}" }
   else   { $service_path = "${type}-${num}" }
-  $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}","${openiosds::sharedstatedir}/${service_path}","${openiosds::logdir}/${service_path}"]
+  if $volume { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}",$volume,"${openiosds::logdir}/${service_path}"] }
+  else { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}","${openiosds::logdir}/${service_path}"] }
 
   file { $required_path:
     ensure => $openiosds::directory_ensure,

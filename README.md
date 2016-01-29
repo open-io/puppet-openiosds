@@ -54,6 +54,10 @@ openiosds::rawx {'rawx-1':
   num => '1',
   ns => 'OPENIO',
 }
+openiosds::rdir {'rdir-1':
+  num => '1',
+  ns => 'OPENIO',
+}
 ```
 
 ## Reference
@@ -65,6 +69,7 @@ A number of defined types are availables:
 * openiosds::meta1  
 * openiosds::meta2  
 * openiosds::rawx  
+* openiosds::rdir
 * openiosds::account  
 * openiosds::oioeventagent  
 * openiosds::zookeeper  

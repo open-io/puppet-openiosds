@@ -1,13 +1,13 @@
 # Configure mountpoints
 define openiosds::systemdmount (
-  $uuid           = undef,
+  $device         = undef,
   $mountpoint     = undef,
   $fstype         = 'xfs',
   $fsoptions      = 'defaults,noatime,noexec',
 ) {
 
   # Validation
-  validate_string($uuid)
+  validate_string($device)
   validate_string($mountpoint)
   validate_string($fstype)
   validate_string($fsoptions)
@@ -15,10 +15,13 @@ define openiosds::systemdmount (
   $mountpoint_name = systemd_escape($mountpoint)
 
   # Configuration file
-  file { "/etc/systemd/system/${mountpoint_name}":
-    ensure  => present,
-    content => template('openiosds/systemd.mount.conf.erb'),
-    mode    => '0644',
+  exec { "mkdir_p_${device}":
+    command => "/usr/bin/mkdir -p \'${device}\'",
+    unless  => "/usr/bin/test -e \'${device}\'",
+  } ->
+  exec { "mkdir_p_${mountpoint}":
+    command => "/usr/bin/mkdir -p \'${mountpoint}\'",
+    unless  => "/usr/bin/test -d \'${mountpoint}\'",
   } ->
   file { $mountpoint:
     ensure => directory,
@@ -26,7 +29,14 @@ define openiosds::systemdmount (
     owner  => 'root',
     group  => 'root',
   } ->
-  exec { "/usr/bin/systemctl start \'${mountpoint_name}\'":
+  file { "/etc/systemd/system/${mountpoint_name}":
+    ensure  => present,
+    content => template('openiosds/systemd.mount.conf.erb'),
+    mode    => '0644',
+  }
+  service { $mountpoint_name:
+    ensure  => running,
+    require => File["/etc/systemd/system/${mountpoint_name}"],
   }
 
 }

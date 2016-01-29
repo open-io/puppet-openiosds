@@ -1,9 +1,9 @@
 [Unit]
-Description=Mount partition with uuid <%= @uuid %>
+Description=Mount <%= @device %> to <%= @mountpoint %>
+After=<%= @after %>
 
 [Mount]
-What=/dev/disk/by-uuid/<%= @uuid %>
+What=<%= @device %>
 Where=<%= @mountpoint %>
 Type=<%= @fstype %>
 Options=<%= @fsoptions %>
-

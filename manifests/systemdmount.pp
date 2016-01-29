@@ -4,6 +4,7 @@ define openiosds::systemdmount (
   $mountpoint     = undef,
   $fstype         = 'xfs',
   $fsoptions      = 'defaults,noatime,noexec',
+  $after          = undef,
 ) {
 
   # Validation
@@ -11,6 +12,7 @@ define openiosds::systemdmount (
   validate_string($mountpoint)
   validate_string($fstype)
   validate_string($fsoptions)
+  if $after { validate_string($after) }
 
   $mountpoint_name = systemd_escape($mountpoint)
 

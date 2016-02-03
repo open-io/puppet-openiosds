@@ -44,7 +44,7 @@ define openiosds::oioeventagent (
   else { $_log_name = "${type}-${num}" }
   validate_string($_log_name)
   validate_bool($acct_update)
-  if queue_location { $_queue_location = $queue_location }
+  if $queue_location { $_queue_location = $queue_location }
   else { $_queue_location = "${openiosds::sharedstatedir}/oio-event-queue.db" }
   if type3x($retry_interval) != 'integer' { fail("${retry_interval} is not an integer.") }
   validate_bool($rdir_update)

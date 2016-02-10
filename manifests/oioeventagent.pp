@@ -65,6 +65,7 @@ define openiosds::oioeventagent (
     type   => $type,
     num    => $num,
     ns     => $ns,
+    volume => dirname($_queue_location),
   } ->
   # Configuration
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":

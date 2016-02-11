@@ -10,6 +10,8 @@ define openiosds::account (
   $redis_default_install  = false,
   $redis_host             = $::ipaddress,
   $redis_port             = '6010',
+  $checks                 = undef,
+  $stats                  = undef,
 
   $no_exec                = false,
 ) {
@@ -29,6 +31,10 @@ define openiosds::account (
   validate_bool($redis_default_install)
   validate_string($redis_host)
   if type3x($redis_port) != 'integer' { fail("${redis_port} is not an integer.") }
+  if $checks { $_checks = $checks }
+  else { $_checks = ['{type: tcp}'] }
+  if $stats { $_stats = $stats }
+  else { $_stats = ['{type: http, path: /status, parser: json}','{type: system}'] }
 
   # Namespace
   if $action == 'create' {
@@ -55,11 +61,14 @@ define openiosds::account (
   if $redis_default_install {
     package { $redis_package_name:
       ensure => installed,
-    } ->
-    service { $redis_service_name:
-      ensure => running,
-      enable => true,
-      before => Openiosds::Service["${ns}-${type}-${num}"],
+    }
+    unless $no_exec {
+      service { $redis_service_name:
+        ensure => running,
+        enable => true,
+        before => Openiosds::Service["${ns}-${type}-${num}"],
+        after  => Package[$redis_package_name],
+      }
     }
   }
 
@@ -76,10 +85,15 @@ define openiosds::account (
     content => template("openiosds/${type}.conf.erb"),
     mode    => $openiosds::file_mode,
   } ->
+  file { "${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml":
+    ensure  => $openiosds::file_ensure,
+    content => template('openiosds/service-watch.yml.erb'),
+    mode    => $openiosds::file_mode,
+  } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-svc-monitor -s OIO,${ns},${type},${num} -p 1 -m ${openiosds::bindir}/oio-account-monitor.py -i '${ns}|${type}|${ipaddress}:${port}' -c '${openiosds::bindir}/oio-account-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf'",
+    command => "${openiosds::bindir}/oio-account-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

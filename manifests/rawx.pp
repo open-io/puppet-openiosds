@@ -12,6 +12,8 @@ define openiosds::rawx (
   $serverRoot             = undef,
   $grid_hash_width        = '3',
   $grid_hash_depth        = '1',
+  $checks                 = undef,
+  $stats                  = undef,
 
   $no_exec                = false,
 ) {
@@ -31,6 +33,10 @@ define openiosds::rawx (
   else { $_serverRoot = "${openiosds::sharedstatedir}/${ns}/coredump" }
   if type3x($grid_hash_width) != 'integer' { fail("${grid_hash_width} is not an integer.") }
   if type3x($grid_hash_depth) != 'integer' { fail("${grid_hash_depth} is not an integer.") }
+  if $checks { $_checks = $checks }
+  else { $_checks = ['{type: http, uri: /info}','{type: tcp}'] }
+  if $stats { $_stats = $stats }
+  else { $_stats = ["{type: volume, path: ${documentRoot}",'{type: rawx, path: /stat}','{type: system}'] }
 
   # Namespace
   if $action == 'create' {
@@ -40,7 +46,7 @@ define openiosds::rawx (
   }
 
   # Packages
-  if ! defined(Package["$openiosds::httpd_package_name"]) {
+  if ! defined(Package[$openiosds::httpd_package_name]) {
     package { $openiosds::httpd_package_name:
       ensure          => installed,
       allow_virtual   => false,
@@ -62,10 +68,15 @@ define openiosds::rawx (
     content => template("openiosds/${type}-httpd.conf.erb"),
     mode    => $openiosds::file_mode,
   } ->
+  file { "${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml":
+    ensure  => $openiosds::file_ensure,
+    content => template('openiosds/service-watch.yml.erb'),
+    mode    => $openiosds::file_mode,
+  } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-svc-monitor -s OIO,${ns},${type},${num} -p 1 -m ${openiosds::bindir}/oio-rawx-monitor.py -i '${ns}|${type}|${ipaddress}:${port}' -c '${openiosds::httpd_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf'",
+    command => "${openiosds::httpd_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,
@@ -75,8 +86,8 @@ define openiosds::rawx (
     openiosds::oioblobindexer { "oio-blob-indexer-${num}":
       num       => $num,
       ns        => $ns,
-#      require   => Gridinit::Program["${ns}-${type}-${num}"],
       no_exec   => $no_exec,
+#     require   => Gridinit::Program["${ns}-${type}-${num}"],
     }
   }
   if $documentRoot {

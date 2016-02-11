@@ -13,7 +13,7 @@ define openiosds::oioswift (
   $memcache_servers    = "${ipaddress}:11211",
   $auth_uri            = "http://${ipaddress}:5000/v2.0",
   $auth_protocol       = 'http',
-  $auth_host           = "${ipaddress}",
+  $auth_host           = $::ipaddress,
   $auth_port           = '35357',
   $identity_uri        = "http://${ipaddress}:35357",
   $admin_tenant_name   = 'services',

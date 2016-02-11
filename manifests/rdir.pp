@@ -9,6 +9,8 @@ define openiosds::rdir (
   $port           = '6010',
   $workers        = '1',
   $db_path        = undef,
+  $checks         = undef,
+  $stats          = undef,
 
   $no_exec        = false,
 ) {
@@ -24,6 +26,10 @@ define openiosds::rdir (
   if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
   if $db_path { $_db_path = $db_path }
   else { $_db_path = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
+  if $checks { $_checks = $checks }
+  else { $_checks = ['{type: tcp}'] }
+  if $stats { $_stats = $stats }
+  else { $_stats = ["{type: volume, path: ${db_path}}",'{type: http, path: /status, parser: json}','{type: system}'] }
 
   # Namespace
   if $action == 'create' {
@@ -46,10 +52,15 @@ define openiosds::rdir (
     content => template("openiosds/${type}.conf.erb"),
     mode    => $openiosds::file_mode,
   } ->
+  file { "${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml":
+    ensure  => $openiosds::file_ensure,
+    content => template('openiosds/service-watch.yml.erb'),
+    mode    => $openiosds::file_mode,
+  } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-svc-monitor -s OIO,${ns},${type},${num} -p 1 -m ${openiosds::bindir}/oio-rdir-monitor.py -i '${ns}|${type}|${ipaddress}:${port}' -c 'oio-rdir-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf'",
+    command => "oio-rdir-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

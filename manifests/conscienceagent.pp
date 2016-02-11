@@ -68,7 +68,7 @@ define openiosds::conscienceagent (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-event-agent ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
+    command => "${openiosds::bindir}/oio-event-agent ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.yml",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

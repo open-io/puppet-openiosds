@@ -64,10 +64,10 @@ define openiosds::account (
     }
     unless $no_exec {
       service { $redis_service_name:
-        ensure => running,
-        enable => true,
-        before => Openiosds::Service["${ns}-${type}-${num}"],
-        after  => Package[$redis_package_name],
+        ensure  => running,
+        enable  => true,
+        before  => Openiosds::Service["${ns}-${type}-${num}"],
+        require => Package[$redis_package_name],
       }
     }
   }

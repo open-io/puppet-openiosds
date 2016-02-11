@@ -17,6 +17,9 @@ define openiosds::zookeeper (
   $bootstrap                 = false,
   $myid                      = undef,
   $dataDir                   = undef,
+  $logdir                    = undef,
+  $logprop                   = 'INFO,ROLLINGFILE',
+  $logMaxFileSize            = '10MB',
 
   $no_exec                   = false,
 ) {
@@ -75,6 +78,10 @@ define openiosds::zookeeper (
     $_dataDir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/data"
     $rootDir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}"
   }
+  if $logdir { $_logdir = $logdir }
+  else { $_logdir = "${openiosds::logdir}/${ns}/${type}-${num}" }
+  validate_string($logprop)
+  validate_string($logMaxFileSize)
 
   # Namespace
   if $action == 'create' {
@@ -104,18 +111,35 @@ define openiosds::zookeeper (
     group   => $openiosds::group,
     mode    => $openiosds::directory_mode,
     require => Openiosds::Service["${ns}-${type}-${num}"]
-  } ->
+  }
   # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/zoo.cfg":
     ensure  => $openiosds::file_ensure,
     owner   => $openiosds::user,
     group   => $openiosds::group,
     content => template('openiosds/zoo.cfg.erb'),
-    require => Package[$packages],
-  } ~>
+    require => [Package[$packages],File[$_dataDir]],
+    notify  => Gridinit::Program["${ns}-${type}-${num}"],
+  }
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/java.env":
+    ensure  => $openiosds::file_ensure,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
+    content => template('openiosds/zookeeper_java.env.erb'),
+    require => [Package[$packages],File[$_dataDir]],
+    notify  => Gridinit::Program["${ns}-${type}-${num}"],
+  }
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/log4j.properties":
+    ensure  => $openiosds::file_ensure,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
+    content => template('openiosds/zookeeper_log4j.properties.erb'),
+    require => [Package[$packages],File[$_dataDir]],
+    notify  => Gridinit::Program["${ns}-${type}-${num}"],
+  }
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "java -Dzookeeper.log.dir=${openiosds::logdir}/${ns}/${type}-${num} -Dzookeeper.root.logger=INFO,ROLLINGFILE -cp ${openiosds::sysconfdir}/${ns}/${type}-${num}:${classpath} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${openiosds::sysconfdir}/${ns}/${type}-${num}/zoo.cfg",
+    command => "java -Dzookeeper.log.dir=${_logdir} -Dzookeeper.root.logger=${logprop} -cp ${openiosds::sysconfdir}/${ns}/${type}-${num}:${classpath} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${openiosds::sysconfdir}/${ns}/${type}-${num}/zoo.cfg",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

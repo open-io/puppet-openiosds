@@ -29,7 +29,7 @@ define openiosds::rdir (
   if $checks { $_checks = $checks }
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
-  else { $_stats = ["{type: volume, path: ${db_path}}",'{type: http, path: /status, parser: json}','{type: system}'] }
+  else { $_stats = ["{type: volume, path: ${_db_path}}",'{type: http, path: /status, parser: json}','{type: system}'] }
 
   # Namespace
   if $action == 'create' {

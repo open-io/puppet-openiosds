@@ -1,0 +1,23 @@
+# Namespace name
+namespace: <%= @ns %>
+# Run daemon as user
+user: <%= scope['openiosds::user'] %>
+#
+# Logging configuration
+log_level: <%= scope['openiosds::log_level'] %>
+log_facility: <%= @log_facility %>
+log_address: <%= @log_address %>
+syslog_prefix: <%= @syslog_prefix %>
+#
+# Include path for services conf
+# # example service is provided in service-watch.yml
+include_dir: <%= @_include_dir %>
+#
+# 
+# Global checks configuration
+# Check interval (in seconds)
+check_interval: <%= @check_interval %>
+# Rise (number of consecutive successful checks to switch service status to up)
+rise: <%= @rise %>
+# Fall (number of consecutive unsuccessful checks to switch service status to down)
+fall: <%= @fall %>

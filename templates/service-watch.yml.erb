@@ -1,0 +1,15 @@
+host: <%= @ipaddress %>
+port: <%= @port %>
+type: <%= @type %>
+<% if @_checks -%>
+checks:
+<% @_checks.each do |check| -%>
+  - <%= check %>
+<% end -%>
+<% end -%>
+<% if @_stats -%>
+stats:
+<% @_stats.each do |stat| -%>
+  - <%= stat %>
+<% end -%>
+<% end -%>

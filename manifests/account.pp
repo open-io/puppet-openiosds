@@ -44,30 +44,14 @@ define openiosds::account (
   }
 
   # Redis
-  case $::osfamily {
-    'Debian': {
-      $redis_package_name = 'redis-server'
-      $redis_service_name = 'redis-server'
-    }
-    'RedHat': {
-      $redis_package_name = 'redis'
-      $redis_service_name = 'redis'
-    }
-    default:  {
-      $redis_package_name = 'redis'
-      $redis_service_name = 'redis'
-    }
-  }
   if $redis_default_install {
-    package { $redis_package_name:
-      ensure => installed,
-    }
+    ensure_packages([$::openiosds::params::redis_package_name])
     unless $no_exec {
-      service { $redis_service_name:
+      service { $::openiosds::params::redis_service_name:
         ensure  => running,
         enable  => true,
         before  => Openiosds::Service["${ns}-${type}-${num}"],
-        require => Package[$redis_package_name],
+        require => Package[$::openiosds::params::redis_package_name],
       }
     }
   }

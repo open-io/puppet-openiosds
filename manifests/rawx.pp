@@ -46,14 +46,7 @@ define openiosds::rawx (
   }
 
   # Packages
-  if ! defined(Package[$openiosds::httpd_package_name]) {
-    package { $openiosds::httpd_package_name:
-      ensure          => installed,
-      allow_virtual   => false,
-      install_options => $openiosds::package_install_options,
-      before          => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
-    }
-  }
+  ensure_packages([$::openiosds::httpd_package_name])
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,
@@ -67,6 +60,7 @@ define openiosds::rawx (
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}-httpd.conf.erb"),
     mode    => $openiosds::file_mode,
+    require => Package[$::openiosds::httpd_package_name],
   } ->
   file { "${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml":
     ensure  => $openiosds::file_ensure,

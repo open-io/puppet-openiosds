@@ -36,7 +36,7 @@ define openiosds::rawx (
   if $checks { $_checks = $checks }
   else { $_checks = ['{type: http, uri: /info}','{type: tcp}'] }
   if $stats { $_stats = $stats }
-  else { $_stats = ["{type: volume, path: ${_documentRoot}",'{type: rawx, path: /stat}','{type: system}'] }
+  else { $_stats = ["{type: volume, path: ${_documentRoot}}",'{type: rawx, path: /stat}','{type: system}'] }
 
   # Namespace
   if $action == 'create' {

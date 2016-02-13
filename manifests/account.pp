@@ -12,6 +12,8 @@ define openiosds::account (
   $redis_port             = '6010',
   $checks                 = undef,
   $stats                  = undef,
+  $sentinel_hosts         = undef,
+  $sentinel_master_name   = undef,
 
   $no_exec                = false,
 ) {
@@ -35,6 +37,8 @@ define openiosds::account (
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ['{type: http, path: /status, parser: json}','{type: system}'] }
+  validate_string($sentinel_hosts)
+  validate_string($sentinel_master_name)
 
   # Namespace
   if $action == 'create' {

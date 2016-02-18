@@ -55,10 +55,10 @@ define openiosds::conscienceagent (
   } ->
   # Configuration
   file { $_include_dir:
-    ensure  => $openiosds::directory_ensure,
-    mode    => $openiosds::directory_mode,
-    owner   => $openiosds::user,
-    group   => $openiosds::group,
+    ensure => $openiosds::directory_ensure,
+    mode   => $openiosds::directory_mode,
+    owner  => $openiosds::user,
+    group  => $openiosds::group,
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.yml":
     ensure  => $openiosds::file_ensure,

@@ -15,6 +15,8 @@ class openiosds::params {
       $httpd_package_name      = ['openio-sds']
       $package_names           = ['openio-sds']
       $package_install_options = '--force-yes'
+      $redis_package_name      = 'redis-server'
+      $redis_service_name      = 'redis-server'
     }
     'RedHat': {
       case $::architecture {
@@ -26,6 +28,8 @@ class openiosds::params {
       $httpd_package_name      = ['openio-sds-mod-httpd']
       $package_names           = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
       $package_install_options = undef
+      $redis_package_name      = 'redis'
+      $redis_service_name      = 'redis'
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }
@@ -69,6 +73,8 @@ class openiosds::params {
   $oioeventagent_port       = '6008'
   $rainx_port               = '6009'
   $rdir_port                = '6010'
+  $redis_port               = '6011'
+  $redissentinel_port       = '6012'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

@@ -12,6 +12,8 @@ define openiosds::account (
   $redis_port             = '6010',
   $checks                 = undef,
   $stats                  = undef,
+  $sentinel_hosts         = undef,
+  $sentinel_master_name   = undef,
 
   $no_exec                = false,
 ) {
@@ -35,6 +37,8 @@ define openiosds::account (
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ['{type: http, path: /status, parser: json}','{type: system}'] }
+  validate_string($sentinel_hosts)
+  validate_string($sentinel_master_name)
 
   # Namespace
   if $action == 'create' {
@@ -44,30 +48,14 @@ define openiosds::account (
   }
 
   # Redis
-  case $::osfamily {
-    'Debian': {
-      $redis_package_name = 'redis-server'
-      $redis_service_name = 'redis-server'
-    }
-    'RedHat': {
-      $redis_package_name = 'redis'
-      $redis_service_name = 'redis'
-    }
-    default:  {
-      $redis_package_name = 'redis'
-      $redis_service_name = 'redis'
-    }
-  }
   if $redis_default_install {
-    package { $redis_package_name:
-      ensure => installed,
-    }
+    ensure_packages([$::openiosds::params::redis_package_name])
     unless $no_exec {
-      service { $redis_service_name:
+      service { $::openiosds::params::redis_service_name:
         ensure  => running,
         enable  => true,
         before  => Openiosds::Service["${ns}-${type}-${num}"],
-        require => Package[$redis_package_name],
+        require => Package[$::openiosds::params::redis_package_name],
       }
     }
   }

@@ -18,10 +18,10 @@ dbfilename dump.rdb
 dir <%= @_dir %>
 slave-serve-stale-data yes
 slave-read-only yes
+slave-priority 100
 repl-diskless-sync no
 repl-diskless-sync-delay 5
 repl-disable-tcp-nodelay no
-slave-priority 100
 appendonly no
 appendfilename "appendonly.aof"
 appendfsync everysec
@@ -48,3 +48,4 @@ client-output-buffer-limit slave 256mb 64mb 60
 client-output-buffer-limit pubsub 32mb 8mb 60
 hz 10
 aof-rewrite-incremental-fsync yes
+<% if @slaveof -%>slaveof <%= @slaveof %><% end -%>

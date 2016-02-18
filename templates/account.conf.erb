@@ -9,3 +9,7 @@ log_level = INFO
 log_facility = LOG_LOCAL0
 log_address = /dev/log
 syslog_prefix = OIO,<%= @ns %>,<%= @type %>,<%= @num %>
+
+# Let this option empty to connect directly to redis_host
+sentinel_hosts = <%= @sentinel_hosts %>
+sentinel_master_name = <%= @sentinel_master_name %>

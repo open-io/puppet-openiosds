@@ -51,7 +51,7 @@ define openiosds::redissentinel (
     ns     => $ns,
     volume => $_dir,
   } ->
- # Configuration files
+  # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/redis-sentinel.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
@@ -66,7 +66,7 @@ define openiosds::redissentinel (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf --daemonize ${daemonize}",
+    command => "${openiosds::bindir}/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/redis-sentinel.conf --daemonize ${daemonize}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

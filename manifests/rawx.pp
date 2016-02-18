@@ -78,19 +78,19 @@ define openiosds::rawx (
   }
   if $default_oioblobindexer {
     openiosds::oioblobindexer { "oio-blob-indexer-${num}":
-      num       => $num,
-      ns        => $ns,
-      no_exec   => $no_exec,
-#     require   => Gridinit::Program["${ns}-${type}-${num}"],
+      num     => $num,
+      ns      => $ns,
+      no_exec => $no_exec,
+#     require => Gridinit::Program["${ns}-${type}-${num}"],
     }
   }
   if $documentRoot {
     file { $documentRoot:
-      ensure  => $openiosds::directory_ensure,
-      owner   => $openiosds::user,
-      group   => $openiosds::group,
-      mode    => $openiosds::file_mode,
-      before  => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
+      ensure => $openiosds::directory_ensure,
+      owner  => $openiosds::user,
+      group  => $openiosds::group,
+      mode   => $openiosds::file_mode,
+      before => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
     }
   }
 

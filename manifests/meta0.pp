@@ -6,10 +6,12 @@ define openiosds::meta0 (
 
   $ns             = undef,
   $ipaddress      = $::ipaddress,
-  $port           = '6001',
+  $port           = $::openiosds::params::meta0_port,
   $debug          = false,
   $volume         = undef,
   $pidfile        = undef,
+  $checks         = undef,
+  $stats          = undef,
 
   $no_exec        = false,
 ) {
@@ -32,6 +34,10 @@ define openiosds::meta0 (
   else { $_volume = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   if $pidfile { $_pidfile = $pidfile }
   else { $_pidfile = "${openiosds::runstatedir}/${ns}-${type}-${num}.pid" }
+  if $checks { $_checks = $checks }
+  else { $_checks = ['{type: tcp}'] }
+  if $stats { $_stats = $stats }
+  else { $_stats = ["{type: volume, path: ${_volume}}","{type: meta}",'{type: system}'] }
 
 
   # Namespace
@@ -48,6 +54,11 @@ define openiosds::meta0 (
     num    => $num,
     ns     => $ns,
     volume => $_volume,
+  } ->
+  file { "${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml":
+    ensure  => $openiosds::file_ensure,
+    content => template('openiosds/service-watch.yml.erb'),
+    mode    => $openiosds::file_mode,
   } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":

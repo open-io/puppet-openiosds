@@ -6,10 +6,10 @@ define openiosds::account (
 
   $ns                     = undef,
   $ipaddress              = $::ipaddress,
-  $port                   = '6009',
+  $port                   = $::openiosds::params::account_port,
   $redis_default_install  = false,
   $redis_host             = $::ipaddress,
-  $redis_port             = '6010',
+  $redis_port             = $::openiosds::params::redis_port,
   $checks                 = undef,
   $stats                  = undef,
   $sentinel_hosts         = undef,

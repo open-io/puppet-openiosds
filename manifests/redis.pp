@@ -11,6 +11,7 @@ define openiosds::redis (
   $logfile        = undef,
   $pidfile        = undef,
   $slaveof        = undef,
+  $location       = undef,
 
   $no_exec        = false,
 ) {
@@ -30,6 +31,12 @@ define openiosds::redis (
   if $pidfile { $_pidfile = $pidfile }
   else { $_pidfile = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/${type}-${num}.pid" }
   if $slaveof { validate_string($slaveof) }
+  if $location { $_location = $location }
+  else {
+    $ipaddress_u = regsubst($ipaddress,'\.','_','G')
+    $_dir_u = regsubst($_dir,'\.','_','G')
+    $_location = "${ipaddress_u}.${_dir_u}"
+  }
 
   # Namespace
   if $action == 'create' {

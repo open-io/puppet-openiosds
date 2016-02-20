@@ -1,6 +1,9 @@
 host: <%= @ipaddress %>
 port: <%= @port %>
 type: <%= @type %>
+<% if @_location -%>
+location: <%= @_location %>
+<% end -%>
 <% if @_checks -%>
 checks:
 <% @_checks.each do |check| -%>

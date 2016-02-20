@@ -11,6 +11,7 @@ define openiosds::rdir (
   $db_path        = undef,
   $checks         = undef,
   $stats          = undef,
+  $location       = undef,
 
   $no_exec        = false,
 ) {
@@ -30,6 +31,12 @@ define openiosds::rdir (
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ["{type: volume, path: ${_db_path}}",'{type: http, path: /status, parser: json}','{type: system}'] }
+  if $location { $_location = $location }
+  else {
+    $ipaddress_u = regsubst($ipaddress,'\.','_','G')
+    $_db_path_u = regsubst($_db_path,'\.','_','G')
+    $_location = "${ipaddress_u}.${_db_path_u}"
+  }
 
   # Namespace
   if $action == 'create' {

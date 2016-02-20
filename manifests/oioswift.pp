@@ -6,9 +6,9 @@ define openiosds::oioswift (
 
   $ns                  = undef,
   $ipaddress           = $::ipaddress,
-  $port                = '6007',
+  $port                = $::openiosds::params::oioswift_port,
   $workers             = '2',
-  $sds_proxy_url       = "http://${ipaddress}:6006",
+  $sds_proxy_url       = "http://${::openiosds::params::oioproxy_url}",
   $object_post_as_copy = false,
   $memcache_servers    = "${ipaddress}:11211",
   $auth_uri            = "http://${ipaddress}:5000/v2.0",

@@ -6,7 +6,7 @@ define openiosds::oioproxy (
 
   $ns             = undef,
   $ipaddress      = $::ipaddress,
-  $port           = '6006',
+  $port           = $::openiosds::params::oioproxy_port,
   $debug          = false,
 
   $no_exec        = false,

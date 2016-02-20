@@ -6,7 +6,7 @@ define openiosds::conscience (
 
   $ns                    = undef,
   $ipaddress             = $::ipaddress,
-  $port                  = '6000',
+  $port                  = $::openiosds::params::conscience_port,
   $chunk_size            = '10485760',
   $ns_status             = 'STANDALONE',
   $worm                  = false,

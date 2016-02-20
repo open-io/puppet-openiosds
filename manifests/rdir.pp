@@ -6,7 +6,7 @@ define openiosds::rdir (
 
   $ns             = undef,
   $ipaddress      = $::ipaddress,
-  $port           = '6010',
+  $port           = $::openiosds::params::rdir_port,
   $workers        = '1',
   $db_path        = undef,
   $checks         = undef,

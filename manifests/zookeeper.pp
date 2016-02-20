@@ -6,7 +6,7 @@ define openiosds::zookeeper (
 
   $ns                        = undef,
   $ipaddress                 = $::ipaddress,
-  $port                      = '6005',
+  $port                      = $::openiosds::params::zookeeper_port,
   $tickTime                  = '2000',
   $initLimit                 = '10',
   $syncLimit                 = '5',

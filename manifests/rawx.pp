@@ -6,7 +6,7 @@ define openiosds::rawx (
 
   $ns                     = undef,
   $ipaddress              = $::ipaddress,
-  $port                   = '6004',
+  $port                   = $::openiosds::params::rawx_port,
   $default_oioblobindexer = false,
   $documentRoot           = undef,
   $serverRoot             = undef,

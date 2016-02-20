@@ -37,7 +37,7 @@ define openiosds::meta0 (
   if $checks { $_checks = $checks }
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
-  else { $_stats = ["{type: volume, path: ${_volume}}","{type: meta}",'{type: system}'] }
+  else { $_stats = ["{type: volume, path: ${_volume}}",'{type: meta}','{type: system}'] }
 
 
   # Namespace

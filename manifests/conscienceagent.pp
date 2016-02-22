@@ -9,7 +9,7 @@ define openiosds::conscienceagent (
   $log_level      = 'info',
   $log_address    = '/dev/log',
   $include_dir    = undef,
-  $check_interval = '1',
+  $check_interval = '5',
   $rise           = '1',
   $fall           = '1',
 

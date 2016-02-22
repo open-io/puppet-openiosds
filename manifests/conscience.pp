@@ -13,7 +13,7 @@ define openiosds::conscience (
   $auto_container        = false,
   $vns                   = undef,
   $storage_policy        = 'SINGLE',
-  $service_update_policy = 'meta2=NONE|1|1|tag.type=m2v2;meta1=REPLACE;sqlx=KEEP|1|1|;rdir=KEEP|1|1|user_is_a_service=1',
+  $service_update_policy = 'meta2=KEEP|1|1|tag.type=m2v2;sqlx=KEEP|1|1|;rdir=KEEP|1|1|user_is_a_service=1',
   $automatic_open        = true,
   $meta2_max_versions    = '1',
   $min_workers           = '2',

@@ -74,6 +74,7 @@ define openiosds::redis (
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,
+    limit   => { stack_size => '8192' },
     no_exec => $no_exec,
   }
 

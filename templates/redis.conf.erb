@@ -1,24 +1,24 @@
-daemonize no
+daemonize <%= @daemonize %>
 pidfile <%= @_pidfile %>
 port <%= @port %>
-tcp-backlog 511
+tcp-backlog <%= @tcp_backlog %>
 bind <%= @ipaddress %>
-timeout 0
-tcp-keepalive 0
-loglevel notice
+timeout <%= @timeout %>
+tcp-keepalive <%= @tcp_keepalive %>
+loglevel <%= @loglevel %>
 logfile <%= @_logfile %>
-databases 16
-save 900 1
-save 300 10
-save 60 10000
-stop-writes-on-bgsave-error yes
-rdbcompression yes
-rdbchecksum yes
-dbfilename dump.rdb
+databases <%= @databases %>
+<% @save.each do |v| -%>
+save <%= v %>
+<% end -%>
+stop-writes-on-bgsave-error <%= @stop_writes_on_bgsave_error %>
+rdbcompression <%= @rdbcompression %>
+rdbchecksum <%= @rdbchecksum %>
+dbfilename <%= @dbfilename %>
 dir <%= @_dir %>
-slave-serve-stale-data yes
-slave-read-only yes
-slave-priority 100
+slave-serve-stale-data <%= @slave_serve_stale_data %>
+slave-read-only <%= @slave_read_only %>
+slave-priority <%= @slave_priority %>
 repl-diskless-sync no
 repl-diskless-sync-delay 5
 repl-disable-tcp-nodelay no
@@ -32,7 +32,7 @@ aof-load-truncated yes
 lua-time-limit 5000
 slowlog-log-slower-than 10000
 slowlog-max-len 128
-latency-monitor-threshold 0
+latency-monitor-threshold <%= @latency_monitor_threshold %>
 notify-keyspace-events ""
 hash-max-ziplist-entries 512
 hash-max-ziplist-value 64
@@ -48,4 +48,6 @@ client-output-buffer-limit slave 256mb 64mb 60
 client-output-buffer-limit pubsub 32mb 8mb 60
 hz 10
 aof-rewrite-incremental-fsync yes
+maxclients <%= @maxclients %>
+maxmemory <%= @maxmemory %>
 <% if @slaveof -%>slaveof <%= @slaveof %><% end -%>

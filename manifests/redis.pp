@@ -1,18 +1,36 @@
 # Configure and install an OpenIO redis service
 define openiosds::redis (
-  $action         = 'create',
-  $type           = 'redis',
-  $num            = '0',
+  $action                      = 'create',
+  $type                        = 'redis',
+  $num                         = '0',
 
-  $ns             = undef,
-  $ipaddress      = $::ipaddress,
-  $port           = $::openiosds::params::redis_port,
-  $dir            = undef,
-  $logfile        = undef,
-  $pidfile        = undef,
-  $slaveof        = undef,
+  $ns                          = undef,
+  $ipaddress                   = $::ipaddress,
+  $port                        = $::openiosds::params::redis_port,
+  $dir                         = undef,
+  $logfile                     = undef,
+  $pidfile                     = undef,
+  $slaveof                     = undef,
+  $daemonize                   = 'no',
+  $tcp_backlog                 = '511',
+  $timeout                     = '0',
+  $tcp_keepalive               = '0',
+  $loglevel                    = 'notice',
+  $databases                   = '16',
+  $stop_writes_on_bgsave_error = 'yes',
+  $rdbcompression              = 'yes',
+  $rdbchecksum                 = 'yes',
+  $dbfilename                  = 'dump.rdb',
+  $slave_serve_stale_data      = 'yes',
+  $slave_read_only             = 'yes',
+  $slave_priority              = '100',
+  $latency_monitor_threshold   = '0',
+  $save                        = ['900 1','300 10','60 10000'],
+
+  $maxclients                  = '10000',
+  $maxmemory                   = '0',
+
   $location       = undef,
-
   $no_exec        = false,
 ) {
 
@@ -74,6 +92,9 @@ define openiosds::redis (
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,
+    limit   => {
+      stack_size => '8192'
+    },
     no_exec => $no_exec,
   }
 

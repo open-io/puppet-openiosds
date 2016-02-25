@@ -1,0 +1,75 @@
+LoadModule mpm_worker_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_mpm_worker.so
+LoadModule authz_core_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_authz_core.so
+LoadModule dav_module          <%= scope['openiosds::httpd_moduledir'] %>/mod_dav.so
+LoadModule mime_module         <%= scope['openiosds::httpd_moduledir'] %>/mod_mime.so
+LoadModule dav_<%= @type %>_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_dav_<%= @type %>.so
+LoadModule setenvif_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_setenvif.so
+<% if @osfamily == 'RedHat' -%>
+LoadModule unixd_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_unixd.so
+LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_log_config.so
+<% end -%>
+
+Listen          <%= @ipaddress %>:<%= @port %>
+PidFile         <%= scope['openiosds::runstatedir'] %>/<%= @ns %>-<%= @type %>-<%= @num %>-httpd.pid
+ServerRoot      <%= @_serverRoot %>
+ServerName      <%= @serverName %>
+ServerSignature <%= @serverSignature %>
+ServerTokens    <%= @serverTokens %>
+DocumentRoot    <%= @_documentRoot %>
+TypesConfig     <%= @typesConfig %>
+
+User  <%= scope['openiosds::user'] %>
+Group <%= scope['openiosds::group'] %>
+
+LogFormat "%h %l %t \"%r\" %>s %b %D" log/common
+ErrorLog  <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd-errors.log
+CustomLog <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd-access.log log/common env=!dontlog
+LogLevel  <%= scope['openiosds::log_level'] %>
+
+<IfModule setenvif_module>
+SetEnvIf Request_URI "^/(info|stat)$" dontlog
+</IfModule>
+
+<IfModule mod_env.c>
+SetEnv nokeepalive 1
+SetEnv downgrade-1.0 1
+SetEnv force-response-1.0 1
+</IfModule>
+
+<IfModule prefork.c>
+MaxClients      150
+StartServers      5
+MinSpareServers   5
+MaxSpareServers  10
+</IfModule>
+
+<IfModule worker.c>
+StartServers        5
+MaxClients        100
+MinSpareThreads     5
+MaxSpareThreads    25
+ThreadsPerChild    10
+MaxRequestsPerChild 0
+</IfModule>
+
+DavDepthInfinity Off
+
+<% if @type == 'rawx' -%>
+grid_hash_width <%= @grid_hash_width %>
+grid_hash_depth <%= @grid_hash_depth %>
+grid_docroot    <%= @_documentRoot %>
+<% end -%>
+grid_namespace  <%= @ns %>
+grid_dir_run    <%= scope['openiosds::runstatedir'] %>
+#grid_upload_blocksize 65536
+#grid_upload_fileflags DIRECT|SYNC|NOATIME
+
+<Directory />
+DAV <%= @type %>
+AllowOverride None
+Require all granted
+</Directory>
+
+<VirtualHost <%= @ipaddress %>:<%= @port %>>
+# DO NOT REMOVE (even if empty) !
+</VirtualHost>

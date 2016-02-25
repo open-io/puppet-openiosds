@@ -56,6 +56,8 @@ define openiosds::redissentinel (
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
     mode    => $openiosds::file_mode,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
     require => Package[$::openiosds::params::redis_package_name],
   } ->
   file { "${openiosds::logdir}/${ns}/${type}-${num}/${type}-${num}.log":
@@ -70,6 +72,9 @@ define openiosds::redissentinel (
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,
+    limit   => {
+      stack_size => '8192'
+    },
     no_exec => $no_exec,
   }
 

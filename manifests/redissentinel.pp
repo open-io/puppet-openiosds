@@ -66,7 +66,7 @@ define openiosds::redissentinel (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/redis-server --sentinel ${openiosds::sysconfdir}/${ns}/${type}-${num}/redis-sentinel.conf --daemonize ${daemonize}",
+    command => "${openiosds::bindir}/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/redis-sentinel.conf --sentinel --daemonize ${daemonize}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

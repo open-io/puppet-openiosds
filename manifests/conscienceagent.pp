@@ -12,6 +12,7 @@ define openiosds::conscienceagent (
   $check_interval = '5',
   $rise           = '1',
   $fall           = '1',
+  $syslog_prefix  = undef,
 
   $no_exec         = false,
 ) {
@@ -35,6 +36,8 @@ define openiosds::conscienceagent (
   if type3x($check_interval) != 'integer' { fail("${check_interval} is not an integer.") }
   if type3x($rise) != 'integer' { fail("${rise} is not an integer.") }
   if type3x($fall) != 'integer' { fail("${fall} is not an integer.") }
+  if $syslog_prefix { $_syslog_prefix = $syslog_prefix }
+  else { $_syslog_prefix = "OIO,${ns},${type},${num}" }
 
   validate_bool($no_exec)
 

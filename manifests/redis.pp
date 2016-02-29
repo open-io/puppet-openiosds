@@ -78,6 +78,8 @@ define openiosds::redis (
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
     mode    => $openiosds::file_mode,
+    owner   => $openiosds::user,
+    group   => $openiosds::group,
     require => Package[$::openiosds::params::redis_package_name],
   } ->
   file { "${openiosds::logdir}/${ns}/${type}-${num}/${type}-${num}.log":
@@ -88,7 +90,7 @@ define openiosds::redis (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/redis.conf --daemonize no",
+    command => "${openiosds::bindir}/redis-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/redis.conf --daemonize ${daemonize}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

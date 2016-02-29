@@ -15,6 +15,10 @@ define openiosds::rawx (
   $checks                 = undef,
   $stats                  = undef,
   $location               = undef,
+  $serverName             = 'localhost',
+  $serverSignature        = 'Off',
+  $serverTokens           = 'Prod',
+  $typesConfig            = '/etc/mime.types',
 
   $no_exec                = false,
 ) {
@@ -44,6 +48,10 @@ define openiosds::rawx (
     $_documentRoot_u = regsubst($_documentRoot,'\.','_','G')
     $_location = "${ipaddress_u}.${_documentRoot_u}"
   }
+  validate_string($serverName)
+  validate_string($serverSignature)
+  validate_string($serverTokens)
+  validate_string($typesConfig)
 
   # Namespace
   if $action == 'create' {
@@ -65,7 +73,7 @@ define openiosds::rawx (
   # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf":
     ensure  => $openiosds::file_ensure,
-    content => template("openiosds/${type}-httpd.conf.erb"),
+    content => template("openiosds/dav-httpd.conf.erb"),
     mode    => $openiosds::file_mode,
     require => Package[$::openiosds::httpd_package_name],
   } ->

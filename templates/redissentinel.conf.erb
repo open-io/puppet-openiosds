@@ -1,6 +1,6 @@
 port <%= @port %>
 dir <%= @_dir %>
-<% if @daemonize -%>daemonize yes<% else -%>daemonize no<% end %>
+daemonize <%= @daemonize %>
 pidfile <%= @_pidfile %>
 logfile <%= @_logfile %>
 

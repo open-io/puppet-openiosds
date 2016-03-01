@@ -1,24 +1,24 @@
 # Configure and install an OpenIO oioeventagent service
 define openiosds::oioeventagent (
-  $action         = 'create',
-  $type           = 'oio-event-agent',
-  $num            = '0',
+  $action             = 'create',
+  $type               = 'oio-event-agent',
+  $num                = '0',
 
-  $ns             = undef,
-  $ipaddress      = $::ipaddress,
-  $bind_addr      = undef,
-  $port           = $::openiosds::params::oioeventagent_port,
-  $workers        = '2',
-  $log_facility   = 'LOG_LOCAL0',
-  $log_level      = 'info',
-  $log_name       = undef,
-  $log_address    = '/dev/log',
-  $acct_update    = true,
-  $queue_location = undef,
-  $retry_interval = '30',
-  $rdir_update    = true,
+  $ns                 = undef,
+  $ipaddress          = $::ipaddress,
+  $bind_addr          = undef,
+  $port               = $::openiosds::params::oioeventagent_port,
+  $workers            = '2',
+  $log_facility       = 'LOG_LOCAL0',
+  $log_level          = 'info',
+  $log_name           = undef,
+  $log_address        = '/dev/log',
+  $acct_update        = true,
+  $queue_location     = undef,
+  $retries_per_second = '30'
+  $rdir_update        = true,
 
-  $no_exec         = false,
+  $no_exec            = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -46,7 +46,7 @@ define openiosds::oioeventagent (
   validate_bool($acct_update)
   if $queue_location { $_queue_location = $queue_location }
   else { $_queue_location = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/oio-event-queue.db" }
-  if type3x($retry_interval) != 'integer' { fail("${retry_interval} is not an integer.") }
+  if type3x($retries_per_second) != 'integer' { fail("${retries_per_second} is not an integer.") }
   validate_bool($rdir_update)
 
   validate_bool($no_exec)

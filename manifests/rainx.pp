@@ -39,7 +39,7 @@ define openiosds::rainx (
   if type3x($grid_hash_width) != 'integer' { fail("${grid_hash_width} is not an integer.") }
   if type3x($grid_hash_depth) != 'integer' { fail("${grid_hash_depth} is not an integer.") }
   if $checks { $_checks = $checks }
-  else { $_checks = ['{type: http, uri: /info}','{type: tcp}'] }
+  else { $_checks = ['{type: http, uri: /info}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ['{type: rawx, path: /stat}','{type: system}'] }
   if $location { $_location = $location }

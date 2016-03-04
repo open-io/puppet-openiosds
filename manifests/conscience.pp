@@ -21,7 +21,8 @@ define openiosds::conscience (
   $max_spare_workers     = '10',
   $max_workers           = '10',
   $score_timeout         = '86400',
-  $lb_rawx               = 'WRR?shorten_ratio=0.5',
+  $lb_rawx               = 'WRAND',
+  $lb_rdir               = 'WRAND?shorten_ratio=1.0&standard_deviation=no',
 
   $no_exec               = false,
 ) {

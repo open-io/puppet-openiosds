@@ -73,7 +73,7 @@ define openiosds::rainx (
   # Configuration files
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf":
     ensure  => $openiosds::file_ensure,
-    content => template("openiosds/dav-httpd.conf.erb"),
+    content => template('openiosds/dav-httpd.conf.erb'),
     mode    => $openiosds::file_mode,
     require => Package[$::openiosds::httpd_package_name],
   } ->

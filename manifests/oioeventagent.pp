@@ -15,7 +15,7 @@ define openiosds::oioeventagent (
   $log_address        = '/dev/log',
   $acct_update        = true,
   $queue_location     = undef,
-  $retries_per_second = '30'
+  $retries_per_second = '30',
   $rdir_update        = true,
 
   $no_exec            = false,

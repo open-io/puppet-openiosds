@@ -2,7 +2,9 @@
 namespace = <%= @ns %>
 user = <%= scope['openiosds::user'] %>
 bind_addr = <%= @_bind_addr %>
+<% if @workers -%>
 workers = <%= @workers %>
+<% end -%>
 queue_location = <%= @_queue_location %>
 retries_per_second = <%= @retries_per_second %>
 acct_update = <%= @acct_update %>

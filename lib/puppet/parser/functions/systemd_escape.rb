@@ -12,7 +12,7 @@ EOS
 
         path = args[0]
 
-        cmd = "systemd-escape --path --suffix=mount #{path}"
+        cmd = "systemd-escape --path #{path}"
         escaped = Puppet::Util::Execution.execute(cmd)
 
         return escaped.strip

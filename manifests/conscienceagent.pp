@@ -11,7 +11,7 @@ define openiosds::conscienceagent (
   $include_dir    = undef,
   $check_interval = '5',
   $rise           = '1',
-  $fall           = '1',
+  $fall           = '2',
   $syslog_prefix  = undef,
 
   $no_exec         = false,

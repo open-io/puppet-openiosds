@@ -16,6 +16,7 @@ define openiosds::oioeventagent (
   $acct_update        = true,
   $queue_location     = undef,
   $retries_per_second = '30',
+  $batch_size         = '500',
   $rdir_update        = true,
 
   $no_exec            = false,
@@ -49,6 +50,7 @@ define openiosds::oioeventagent (
   if $queue_location { $_queue_location = $queue_location }
   else { $_queue_location = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/oio-event-queue.db" }
   if type3x($retries_per_second) != 'integer' { fail("${retries_per_second} is not an integer.") }
+  if type3x($batch_size) != 'integer' { fail("${batch_size} is not an integer.") }
   validate_bool($rdir_update)
 
   validate_bool($no_exec)

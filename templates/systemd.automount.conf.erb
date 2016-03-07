@@ -1,0 +1,8 @@
+[Unit]
+Description = Automount <%= @device %> to <%= @mountpoint %>
+
+[Automount]
+Where=<%= @mountpoint %>
+
+[Install]
+WantedBy = multi-user.target

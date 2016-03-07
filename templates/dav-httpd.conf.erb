@@ -30,12 +30,6 @@ LogLevel  <%= scope['openiosds::log_level'] %>
 SetEnvIf Request_URI "^/(info|stat)$" dontlog
 </IfModule>
 
-<IfModule mod_env.c>
-SetEnv nokeepalive 1
-SetEnv downgrade-1.0 1
-SetEnv force-response-1.0 1
-</IfModule>
-
 <IfModule prefork.c>
 MaxClients      150
 StartServers      5

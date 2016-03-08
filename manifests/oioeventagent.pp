@@ -8,7 +8,7 @@ define openiosds::oioeventagent (
   $ipaddress          = $::ipaddress,
   $bind_addr          = undef,
   $port               = $::openiosds::params::oioeventagent_port,
-  $workers            = '2',
+  $workers            = undef,
   $log_facility       = 'LOG_LOCAL0',
   $log_level          = 'info',
   $log_name           = undef,
@@ -16,6 +16,7 @@ define openiosds::oioeventagent (
   $acct_update        = true,
   $queue_location     = undef,
   $retries_per_second = '30',
+  $batch_size         = '500',
   $rdir_update        = true,
 
   $no_exec            = false,
@@ -35,7 +36,9 @@ define openiosds::oioeventagent (
   if type3x($port) != 'integer' { fail("${port} is not an integer.") }
   if $bind_addr { $_bind_addr = $bind_addr }
   else { $_bind_addr = "tcp://${ipaddress}:${port}" }
-  if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
+  if $workers {
+    if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
+  }
   $valid_log_facilities = ['LOG_LOCAL0','LOG_LOCAL1','LOG_LOCAL2','LOG_LOCAL3','LOG_LOCAL4','LOG_LOCAL5','LOG_LOCAL6','LOG_LOCAL7']
   validate_re($log_facility,$valid_log_facilities,"${log_facility} is invalid.")
   $valid_log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
@@ -47,6 +50,7 @@ define openiosds::oioeventagent (
   if $queue_location { $_queue_location = $queue_location }
   else { $_queue_location = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/oio-event-queue.db" }
   if type3x($retries_per_second) != 'integer' { fail("${retries_per_second} is not an integer.") }
+  if type3x($batch_size) != 'integer' { fail("${batch_size} is not an integer.") }
   validate_bool($rdir_update)
 
   validate_bool($no_exec)

@@ -19,6 +19,8 @@ define openiosds::rawx (
   $serverSignature        = 'Off',
   $serverTokens           = 'Prod',
   $typesConfig            = '/etc/mime.types',
+  $grid_fsync             = 'enabled',
+  $grid_fsync_dir         = 'enabled',
 
   $no_exec                = false,
 ) {
@@ -52,6 +54,8 @@ define openiosds::rawx (
   validate_string($serverSignature)
   validate_string($serverTokens)
   validate_string($typesConfig)
+  validate_string($grid_fsync)
+  validate_string($grid_fsync_dir)
 
   # Namespace
   if $action == 'create' {

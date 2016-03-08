@@ -5,6 +5,7 @@ define openiosds::systemdmount (
   $fstype         = 'xfs',
   $fsoptions      = 'defaults,noatime,noexec',
   $after          = undef,
+  $automount      = true,
 ) {
 
   # Validation
@@ -13,6 +14,7 @@ define openiosds::systemdmount (
   validate_string($fstype)
   validate_string($fsoptions)
   if $after { validate_string($after) }
+  validate_bool($automount)
 
   $mountpoint_name = systemd_escape($mountpoint)
 
@@ -31,14 +33,27 @@ define openiosds::systemdmount (
     owner  => 'root',
     group  => 'root',
   } ->
-  file { "/etc/systemd/system/${mountpoint_name}":
+  file { "/etc/systemd/system/${mountpoint_name}.mount":
     ensure  => present,
     content => template('openiosds/systemd.mount.conf.erb'),
     mode    => '0644',
   }
-  service { $mountpoint_name:
+  service { "${mountpoint_name}.mount":
     ensure  => running,
-    require => File["/etc/systemd/system/${mountpoint_name}"],
+    require => File["/etc/systemd/system/${mountpoint_name}.mount"],
+  }
+
+  if $automount {
+    file { "/etc/systemd/system/${mountpoint_name}.automount":
+      ensure  => present,
+      content => template('openiosds/systemd.automount.conf.erb'),
+      mode    => '0644',
+      require => File["/etc/systemd/system/${mountpoint_name}.mount"],
+    }
+    service { "${mountpoint_name}.automount":
+      enable  => true,
+      require => [File["/etc/systemd/system/${mountpoint_name}.automount"],Service["${mountpoint_name}.mount"]],
+    }
   }
 
 }

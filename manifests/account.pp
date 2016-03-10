@@ -7,13 +7,14 @@ define openiosds::account (
   $ns                     = undef,
   $ipaddress              = $::ipaddress,
   $port                   = $::openiosds::params::account_port,
-  $redis_default_install  = false,
   $redis_host             = $::ipaddress,
   $redis_port             = $::openiosds::params::redis_port,
   $checks                 = undef,
   $stats                  = undef,
   $sentinel_hosts         = undef,
   $sentinel_master_name   = undef,
+  $workers                = undef,
+  $backlog                = '2048',
 
   $no_exec                = false,
 ) {
@@ -30,7 +31,6 @@ define openiosds::account (
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   if type3x($port) != 'integer' { fail("${port} is not an integer.") }
-  validate_bool($redis_default_install)
   validate_string($redis_host)
   if type3x($redis_port) != 'integer' { fail("${redis_port} is not an integer.") }
   if $checks { $_checks = $checks }
@@ -38,25 +38,18 @@ define openiosds::account (
   if $stats { $_stats = $stats }
   else { $_stats = ['{type: http, path: /status, parser: json}','{type: system}'] }
   validate_string($sentinel_hosts)
-  validate_string($sentinel_master_name)
+  if $sentinel_master_name {
+    validate_string($sentinel_master_name)
+    $_sentinel_master_name = $sentinel_master_name
+  }
+  else { $_sentinel_master_name = "${ns}-sentinel-master" }
+  if $workers { if type3x($workers) != 'integer' { fail("${workers} is not an integer.") } }
+  if type3x($backlog) != 'integer' { fail("${backlog} is not an integer.") }
 
   # Namespace
   if $action == 'create' {
     if ! defined(Openiosds::Namespace[$ns]) {
       fail('You must include the namespace class before using OpenIO defined types.')
-    }
-  }
-
-  # Redis
-  if $redis_default_install {
-    ensure_packages([$::openiosds::params::redis_package_name])
-    unless $no_exec {
-      service { $::openiosds::params::redis_service_name:
-        ensure  => running,
-        enable  => true,
-        before  => Openiosds::Service["${ns}-${type}-${num}"],
-        require => Package[$::openiosds::params::redis_package_name],
-      }
     }
   }
 

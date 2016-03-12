@@ -1,9 +1,9 @@
 [account-server]
 bind_addr = <%= @ipaddress %>
 bind_port = <%= @port %>
-backlog = <% @backlog %>
+backlog = <%= @backlog %>
 <% if @workers -%>
-workers = <% @workers %>
+workers = <%= @workers %>
 <% end -%>
 <% if @_sentinel_master_name -%>
 redis_host = <%= @redis_host %>

@@ -6,11 +6,11 @@ backlog = <%= @backlog %>
 workers = <%= @workers %>
 <% end -%>
 <% if @_sentinel_master_name -%>
-redis_host = <%= @redis_host %>
-redis_port = <%= @redis_port %>
-<% else -%>
 sentinel_hosts = <%= @sentinel_hosts %>
 sentinel_master_name = <%= @_sentinel_master_name %>
+<% else -%>
+redis_host = <%= @redis_host %>
+redis_port = <%= @redis_port %>
 <% end -%>
 log_level = INFO
 log_facility = LOG_LOCAL0

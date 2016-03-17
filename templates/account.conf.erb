@@ -1,15 +1,18 @@
 [account-server]
 bind_addr = <%= @ipaddress %>
 bind_port = <%= @port %>
-backlog = 2048
-workers = 2
+backlog = <% @backlog %>
+<% if @workers -%>
+workers = <% @workers %>
+<% end -%>
+<% if @_sentinel_master_name -%>
 redis_host = <%= @redis_host %>
 redis_port = <%= @redis_port %>
+<% else -%>
+sentinel_hosts = <%= @sentinel_hosts %>
+sentinel_master_name = <%= @_sentinel_master_name %>
+<% end -%>
 log_level = INFO
 log_facility = LOG_LOCAL0
 log_address = /dev/log
 syslog_prefix = OIO,<%= @ns %>,<%= @type %>,<%= @num %>
-
-# Let this option empty to connect directly to redis_host
-sentinel_hosts = <%= @sentinel_hosts %>
-sentinel_master_name = <%= @sentinel_master_name %>

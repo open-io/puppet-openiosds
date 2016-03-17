@@ -14,7 +14,7 @@ define openiosds::rawx (
   $grid_hash_depth        = '1',
   $checks                 = undef,
   $stats                  = undef,
-  $location               = undef,
+  $location               = $hostname,
   $serverName             = 'localhost',
   $serverSignature        = 'Off',
   $serverTokens           = 'Prod',
@@ -44,12 +44,7 @@ define openiosds::rawx (
   else { $_checks = ['{type: http, uri: /info}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ["{type: volume, path: ${_documentRoot}}",'{type: rawx, path: /stat}','{type: system}'] }
-  if $location { $_location = $location }
-  else {
-    $ipaddress_u = regsubst($ipaddress,'\.','_','G')
-    $_documentRoot_u = regsubst($_documentRoot,'\.','_','G')
-    $_location = "${ipaddress_u}.${_documentRoot_u}"
-  }
+  validate_string($location)
   validate_string($serverName)
   validate_string($serverSignature)
   validate_string($serverTokens)

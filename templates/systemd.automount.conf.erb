@@ -3,6 +3,8 @@ Description = Automount <%= @device %> to <%= @mountpoint %>
 
 [Automount]
 Where=<%= @mountpoint %>
+TimeoutIdleSec=<%= @automount_timeoutidlesec %>
+DirectoryMode=<%= @automount_directorymode %>
 
 [Install]
 WantedBy = multi-user.target

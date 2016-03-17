@@ -1,11 +1,13 @@
 # Configure mountpoints
 define openiosds::systemdmount (
-  $device         = undef,
-  $mountpoint     = undef,
-  $fstype         = 'xfs',
-  $fsoptions      = 'defaults,noatime,noexec',
-  $after          = undef,
-  $automount      = true,
+  $device                   = undef,
+  $mountpoint               = undef,
+  $fstype                   = 'xfs',
+  $fsoptions                = 'defaults,noatime,noexec',
+  $after                    = undef,
+  $automount                = true,
+  $automount_timeoutidlesec = '20',
+  $automount_directorymode  = '0755',
 ) {
 
   # Validation
@@ -15,6 +17,7 @@ define openiosds::systemdmount (
   validate_string($fsoptions)
   if $after { validate_string($after) }
   validate_bool($automount)
+  if type3x($automount_timeoutidlesec) != 'integer' { fail("${automount_timeoutidlesec} is not an integer.") }
 
   $mountpoint_name = systemd_escape($mountpoint)
 

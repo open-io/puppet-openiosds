@@ -7,7 +7,8 @@ define openiosds::oioblobindexer (
   $ns                = undef,
   $volume            = "${openiosds::sharedstatedir}/${ns}/rawx-${num}",
   $report_interval   = '5',
-  $chunks_per_second = '30',
+  $chunks_per_second = '2',
+  $interval          = '300',
 
   $no_exec           = false,
 ) {
@@ -26,6 +27,7 @@ define openiosds::oioblobindexer (
   else { $_volume = "${openiosds::sharedstatedir}/${ns}/rawx-${num}" }
   if type3x($report_interval) != 'integer' { fail("${report_interval} is not an integer.") }
   if type3x($chunks_per_second) != 'integer' { fail("${chunks_per_second} is not an integer.") }
+  if type3x($interval) != 'integer' { fail("${interval} is not an integer.") }
 
   # Namespace
   if $action == 'create' {

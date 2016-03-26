@@ -49,6 +49,11 @@ param_option.meta2_check.put.GAPS=false
 param_option.meta2_check.put.DISTANCE=false
 param_option.meta2_check.put.STGCLASS=false
 param_option.meta2_check.put.SRVINFO=false
+
+param_option.events-max-pending=<%= @param_option_events_max_pending %>
+param_option.meta2.events-max-pending=<%= @param_option_meta2_events_max_pending %>
+param_option.meta1.events-max-pending=<%= @param_option_meta1_events_max_pending %>
+
 <% if @vns -%>param_option.vns_list=<%= @vns %>
 <%end -%>
 

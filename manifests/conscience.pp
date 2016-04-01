@@ -1,28 +1,31 @@
 # Configure and install an OpenIO conscience service
 define openiosds::conscience (
-  $action                = 'create',
-  $type                  = 'conscience',
-  $num                   = '0',
+  $action                                = 'create',
+  $type                                  = 'conscience',
+  $num                                   = '0',
 
-  $ns                    = undef,
-  $ipaddress             = $::ipaddress,
-  $port                  = $::openiosds::params::conscience_port,
-  $chunk_size            = '10485760',
-  $ns_status             = 'STANDALONE',
-  $worm                  = false,
-  $auto_container        = false,
-  $vns                   = undef,
-  $storage_policy        = 'SINGLE',
-  $service_update_policy = 'meta2=KEEP|1|1|;sqlx=KEEP|1|1|;rdir=KEEP|1|1|user_is_a_service=1',
-  $automatic_open        = true,
-  $meta2_max_versions    = '1',
-  $min_workers           = '2',
-  $min_spare_workers     = '2',
-  $max_spare_workers     = '10',
-  $max_workers           = '10',
-  $score_timeout         = '86400',
-  $lb_rawx               = 'WRAND',
-  $lb_rdir               = 'WRAND?shorten_ratio=1.0&standard_deviation=no',
+  $ns                                    = undef,
+  $ipaddress                             = $::ipaddress,
+  $port                                  = $::openiosds::params::conscience_port,
+  $chunk_size                            = '10485760',
+  $ns_status                             = 'STANDALONE',
+  $worm                                  = false,
+  $auto_container                        = false,
+  $vns                                   = undef,
+  $storage_policy                        = 'SINGLE',
+  $service_update_policy                 = 'meta2=KEEP|1|1|;sqlx=KEEP|1|1|;rdir=KEEP|1|1|user_is_a_service=1',
+  $automatic_open                        = true,
+  $meta2_max_versions                    = '1',
+  $min_workers                           = '2',
+  $min_spare_workers                     = '2',
+  $max_spare_workers                     = '10',
+  $max_workers                           = '10',
+  $score_timeout                         = '86400',
+  $lb_rawx                               = 'WRAND',
+  $lb_rdir                               = 'WRAND?shorten_ratio=1.0&standard_deviation=no',
+  $param_option_events_max_pending       = '1000',
+  $param_option_meta2_events_max_pending = '1000',
+  $param_option_meta1_events_max_pending = '1000',
 
   $no_exec               = false,
 ) {
@@ -57,6 +60,9 @@ define openiosds::conscience (
   if type3x($max_spare_workers) != 'integer' { fail("${max_spare_workers} is not an integer.") }
   if type3x($max_workers) != 'integer' { fail("${max_workers} is not an integer.") }
   if type3x($score_timeout) != 'integer' { fail("${score_timeout} is not an integer.") }
+  if type3x($param_option_events_max_pending) != 'integer' { fail("${param_option_events_max_pending} is not an integer.") }
+  if type3x($param_option_meta2_events_max_pending) != 'integer' { fail("${param_option_meta2_events_max_pending} is not an integer.") }
+  if type3x($param_option_meta1_events_max_pending) != 'integer' { fail("${param_option_meta1_events_max_pending} is not an integer.") }
 
 
   # Namespace

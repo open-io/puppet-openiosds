@@ -57,8 +57,6 @@ grid_fsync_dir  <%= @grid_fsync_dir %>
 <% end -%>
 grid_namespace  <%= @ns %>
 grid_dir_run    <%= scope['openiosds::runstatedir'] %>
-#grid_upload_blocksize 65536
-#grid_upload_fileflags DIRECT|SYNC|NOATIME
 
 <Directory />
 DAV <%= @type %>

@@ -61,17 +61,21 @@ define openiosds::oioswift (
   }
 
   # Packages
-  package { 'rdo-release':
-    ensure        => present,
-    source        => 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm',
-    provider      => rpm,
-    allow_virtual => false,
-  } ->
-  package { ['openio-sds-swift','openstack-swift-proxy']:
-    ensure          => $openiosds::package_ensure,
-    allow_virtual   => false,
-    install_options => $openiosds::package_install_options,
-  } ->
+  if $::os['family'] == 'RedHat' {
+    if ! defined(Package[$::openiosds::params::package_rdo_release]) {
+      ensure_resource('package', $::openiosds::params::package_rdo_release, {
+        ensure  => present,
+        before  => Package[$::openiosds::params::package_swift_proxy],
+      })
+    }
+  }
+  if ! defined(Package[$::openiosds::params::package_swift_proxy]) {
+    ensure_resource('package', 'openstack-swift-proxy', {
+      ensure  => present,
+      before  => Package['openio-sds-swift'],
+    })
+  }
+  ensure_packages('openio-sds-swift')
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,

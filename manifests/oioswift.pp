@@ -70,7 +70,7 @@ define openiosds::oioswift (
     }
   }
   if ! defined(Package[$::openiosds::params::package_swift_proxy]) {
-    ensure_resource('package', 'openstack-swift-proxy', {
+    ensure_resource('package', $::openiosds::params::package_swift_proxy, {
       ensure  => present,
       before  => Package['openio-sds-swift'],
     })

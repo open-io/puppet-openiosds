@@ -5,7 +5,7 @@ define openiosds::oioblobindexer (
   $num               = '0',
 
   $ns                = undef,
-  $volume            = "${openiosds::sharedstatedir}/${ns}/rawx-${num}",
+  $volume            = undef,
   $report_interval   = '5',
   $chunks_per_second = '2',
   $interval          = '300',

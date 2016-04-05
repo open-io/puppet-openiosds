@@ -17,7 +17,7 @@ class openiosds::params {
       $package_install_options = '--force-yes'
       $redis_package_name      = 'redis-server'
       $redis_service_name      = 'redis-server'
-      $package_swift_proxy     = 'swift-proxy'
+      $package_swift_proxy     = ['swift-proxy','python-keystonemiddleware','swift-plugin-s3']
     }
     'RedHat': {
       case $::architecture {

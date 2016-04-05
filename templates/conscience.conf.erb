@@ -34,7 +34,6 @@ path=<%= scope['openiosds::libdir'] %>/grid/msg_fallback.so
 path=<%= scope['openiosds::libdir'] %>/grid/msg_conscience.so
 param_namespace=<%= @ns %>
 param_chunk_size=<%= @chunk_size %>
-param_score_timeout=86400
 
 param_option.ns_status=<%= @ns_status %>
 param_option.WORM=<%= @worm %>
@@ -43,7 +42,7 @@ param_option.automatic_open=<%= @automatic_open %>
 param_option.meta2_max_versions=<%= @meta2_max_versions %>
 param_option.storage_policy=<%= @storage_policy %>
 param_option.lb.rawx=<%= @lb_rawx %>
-param_option.lb.rdir=WRAND?shorten_ratio=1.0&standard_deviation=no
+param_option.lb.rdir=<%= @lb_rdir %>
 
 param_option.meta2_check.put.GAPS=false
 param_option.meta2_check.put.DISTANCE=false

@@ -1,19 +1,20 @@
 # Configure and install an OpenIO meta1 service
 define openiosds::meta1 (
-  $action         = 'create',
-  $type           = 'meta1',
-  $num            = '0',
+  $action          = 'create',
+  $type            = 'meta1',
+  $num             = '0',
 
-  $ns             = undef,
-  $ipaddress      = $::ipaddress,
-  $port           = $::openiosds::params::meta1_port,
-  $debug          = false,
-  $volume         = undef,
-  $pidfile        = undef,
-  $checks         = undef,
-  $stats          = undef,
+  $ns              = undef,
+  $ipaddress       = $::ipaddress,
+  $port            = $::openiosds::params::meta1_port,
+  $debug           = false,
+  $volume          = undef,
+  $pidfile         = undef,
+  $checks          = undef,
+  $stats           = undef,
+  $cmdline_options = '',
 
-  $no_exec        = false,
+  $no_exec         = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -38,6 +39,7 @@ define openiosds::meta1 (
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ["{type: volume, path: ${_volume}}",'{type: meta}','{type: system}'] }
+  validate_string($cmdline_options)
 
 
   # Namespace

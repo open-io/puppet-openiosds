@@ -1,19 +1,20 @@
 # Configure and install an OpenIO meta2 service
 define openiosds::meta2 (
-  $action         = 'create',
-  $type           = 'meta2',
-  $num            = '0',
+  $action          = 'create',
+  $type            = 'meta2',
+  $num             = '0',
 
-  $ns             = undef,
-  $ipaddress      = $::ipaddress,
-  $port           = $::openiosds::params::meta2_port,
-  $debug          = false,
-  $volume         = undef,
-  $pidfile        = undef,
-  $checks         = undef,
-  $stats          = undef,
+  $ns              = undef,
+  $ipaddress       = $::ipaddress,
+  $port            = $::openiosds::params::meta2_port,
+  $debug           = false,
+  $volume          = undef,
+  $pidfile         = undef,
+  $checks          = undef,
+  $stats           = undef,
+  $cmdline_options = '',
 
-  $no_exec        = false,
+  $no_exec         = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -38,6 +39,7 @@ define openiosds::meta2 (
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ["{type: volume, path: ${_volume}}",'{type: meta}','{type: system}'] }
+  validate_string($cmdline_options)
 
 
   # Namespace
@@ -63,7 +65,7 @@ define openiosds::meta2 (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-meta2-server ${verbose} -p ${_pidfile} -s OIO,${ns},${type},${num} -O Endpoint=${ipaddress}:${port} ${ns} ${_volume}",
+    command => "${openiosds::bindir}/oio-meta2-server ${verbose} ${cmdline_options} -p ${_pidfile} -s OIO,${ns},${type},${num} -O Endpoint=${ipaddress}:${port} ${ns} ${_volume}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

@@ -37,12 +37,11 @@ define openiosds::account (
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ['{type: http, path: /status, parser: json}','{type: system}'] }
-  validate_string($sentinel_hosts)
   if $sentinel_master_name {
     validate_string($sentinel_master_name)
+    validate_string($sentinel_hosts)
     $_sentinel_master_name = $sentinel_master_name
   }
-  else { $_sentinel_master_name = "${ns}-sentinel-master" }
   if $workers { if type3x($workers) != 'integer' { fail("${workers} is not an integer.") } }
   if type3x($backlog) != 'integer' { fail("${backlog} is not an integer.") }
 

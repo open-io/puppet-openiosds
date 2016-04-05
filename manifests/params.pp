@@ -17,7 +17,8 @@ class openiosds::params {
       $package_install_options = '--force-yes'
       $redis_package_name      = 'redis-server'
       $redis_service_name      = 'redis-server'
-      $package_swift_proxy     = ['swift-proxy','python-keystonemiddleware','swift-plugin-s3']
+      $package_swift_proxy     = 'swift-proxy'
+      $package_swift_dep       = ['python-keystonemiddleware','swift-plugin-s3']
     }
     'RedHat': {
       case $::architecture {
@@ -33,6 +34,7 @@ class openiosds::params {
       $redis_service_name      = 'redis'
       $package_rdo_release     = 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm'
       $package_swift_proxy     = 'openstack-swift-proxy'
+      $package_swift_dep       = undef
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }
@@ -79,6 +81,7 @@ class openiosds::params {
   $redis_port               = '6011'
   $redissentinel_port       = '6012'
   $rainx_port               = '6013'
+  $beanstalkd_port          = '6014'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

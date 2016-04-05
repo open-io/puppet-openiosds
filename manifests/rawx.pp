@@ -7,7 +7,6 @@ define openiosds::rawx (
   $ns                     = undef,
   $ipaddress              = $::ipaddress,
   $port                   = $::openiosds::params::rawx_port,
-  $default_oioblobindexer = false,
   $documentRoot           = undef,
   $serverRoot             = undef,
   $grid_hash_width        = '3',
@@ -33,7 +32,6 @@ define openiosds::rawx (
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   if type3x($port) != 'integer' { fail("${port} is not an integer.") }
-  validate_bool($default_oioblobindexer)
   if $documentRoot { $_documentRoot = $documentRoot }
   else { $_documentRoot = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   if $serverRoot { $_serverRoot = $serverRoot }
@@ -89,23 +87,6 @@ define openiosds::rawx (
     uid     => $openiosds::user,
     gid     => $openiosds::group,
     no_exec => $no_exec,
-  }
-  if $default_oioblobindexer {
-    openiosds::oioblobindexer { "oio-blob-indexer-${num}":
-      num     => $num,
-      ns      => $ns,
-      no_exec => $no_exec,
-#     require => Gridinit::Program["${ns}-${type}-${num}"],
-    }
-  }
-  if $documentRoot {
-    file { $documentRoot:
-      ensure => $openiosds::directory_ensure,
-      owner  => $openiosds::user,
-      group  => $openiosds::group,
-      mode   => $openiosds::file_mode,
-      before => File["${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf"],
-    }
   }
 
 }

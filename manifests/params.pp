@@ -20,6 +20,7 @@ class openiosds::params {
       $package_swift_proxy     = 'swift-proxy'
       $package_swift_dep       = ['python-keystonemiddleware','swift-plugin-s3']
       $package_swift_dep_opt   = {}
+      $beanstalkd_package_name = 'beanstalkd'
     }
     'RedHat': {
       case $::architecture {
@@ -37,6 +38,7 @@ class openiosds::params {
       $package_swift_proxy     = 'openstack-swift-proxy'
       $package_swift_dep       = undef
       $package_swift_dep_opt   = {}
+      $beanstalkd_package_name = 'beanstalkd'
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }

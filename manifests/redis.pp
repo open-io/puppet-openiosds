@@ -58,7 +58,7 @@ define openiosds::redis (
   }
 
   # Package
-  ensure_packages([$::openiosds::params::redis_package_name])
+  ensure_packages([$::openiosds::params::redis_package_name],$::openiosds::params::package_install_options)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,

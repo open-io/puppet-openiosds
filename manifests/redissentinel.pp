@@ -42,7 +42,7 @@ define openiosds::redissentinel (
   else { $_pidfile = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/${type}-${num}.pid" }
 
   # Packages
-  ensure_packages([$::openiosds::params::redis_package_name])
+  ensure_packages([$::openiosds::params::redis_package_name],$package_install_options)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,

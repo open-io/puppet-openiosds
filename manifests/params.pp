@@ -19,6 +19,7 @@ class openiosds::params {
       $redis_service_name      = 'redis-server'
       $package_swift_proxy     = 'swift-proxy'
       $package_swift_dep       = ['python-keystonemiddleware','swift-plugin-s3']
+      $package_swift_dep_opt   = {}
     }
     'RedHat': {
       case $::architecture {
@@ -35,6 +36,7 @@ class openiosds::params {
       $package_rdo_release     = 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm'
       $package_swift_proxy     = 'openstack-swift-proxy'
       $package_swift_dep       = undef
+      $package_swift_dep_opt   = {}
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }

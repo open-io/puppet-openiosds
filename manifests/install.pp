@@ -13,7 +13,7 @@ class openiosds::install inherits openiosds {
   }
 
   # Packages
-  ensure_packages([$::openiosds::package_names],$package_install_options)
+  ensure_packages([$::openiosds::package_names],$::openiosds::params::package_install_options)
 
   # Path
   file { $openiosds::globaldirs:

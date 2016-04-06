@@ -76,7 +76,7 @@ define openiosds::rainx (
   }
 
   # Packages
-  ensure_packages([$::openiosds::httpd_package_name],$package_install_options)
+  ensure_packages([$::openiosds::httpd_package_name],$::openiosds::params::package_install_options)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,

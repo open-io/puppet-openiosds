@@ -1,25 +1,35 @@
 # Configure and install an OpenIO rawx service
 define openiosds::rawx (
-  $action                 = 'create',
-  $type                   = 'rawx',
-  $num                    = '0',
+  $action                     = 'create',
+  $type                       = 'rawx',
+  $num                        = '0',
 
-  $ns                     = undef,
-  $ipaddress              = $::ipaddress,
-  $port                   = $::openiosds::params::rawx_port,
-  $documentRoot           = undef,
-  $serverRoot             = undef,
-  $grid_hash_width        = '3',
-  $grid_hash_depth        = '1',
-  $checks                 = undef,
-  $stats                  = undef,
-  $location               = $hostname,
-  $serverName             = 'localhost',
-  $serverSignature        = 'Off',
-  $serverTokens           = 'Prod',
-  $typesConfig            = '/etc/mime.types',
-  $grid_fsync             = 'enabled',
-  $grid_fsync_dir         = 'enabled',
+  $ns                         = undef,
+  $ipaddress                  = $::ipaddress,
+  $port                       = $::openiosds::params::rawx_port,
+  $documentRoot               = undef,
+  $serverRoot                 = undef,
+  $grid_hash_width            = '3',
+  $grid_hash_depth            = '1',
+  $checks                     = undef,
+  $stats                      = undef,
+  $location                   = $hostname,
+  $serverName                 = 'localhost',
+  $serverSignature            = 'Off',
+  $serverTokens               = 'Prod',
+  $typesConfig                = '/etc/mime.types',
+  $grid_fsync                 = 'enabled',
+  $grid_fsync_dir             = 'enabled',
+  $prefork_MaxClients         = '150',
+  $prefork_StartServers       = '5',
+  $prefork_MinSpareServers    = '5',
+  $prefork_MaxSpareServers    = '10',
+  $worker_StartServers        = '5',
+  $worker_MaxClients          = '100',
+  $worker_MinSpareThreads     = '5',
+  $worker_MaxSpareThreads     = '25',
+  $worker_ThreadsPerChild     = '10',
+  $worker_MaxRequestsPerChild = '0',
 
   $no_exec                = false,
 ) {
@@ -49,6 +59,17 @@ define openiosds::rawx (
   validate_string($typesConfig)
   validate_string($grid_fsync)
   validate_string($grid_fsync_dir)
+  if type3x($grid_hash_width) != 'integer' { fail("${grid_hash_width} is not an integer.") }
+  validate_integer($prefork_MaxClients)
+  validate_integer($prefork_StartServers)
+  validate_integer($prefork_MinSpareServers)
+  validate_integer($prefork_MaxSpareServers)
+  validate_integer($worker_StartServers)
+  validate_integer($worker_MaxClients)
+  validate_integer($worker_MinSpareThreads)
+  validate_integer($worker_MaxSpareThreads)
+  validate_integer($worker_ThreadsPerChild)
+  validate_integer($worker_MaxRequestsPerChild)
 
   # Namespace
   if $action == 'create' {
@@ -58,7 +79,7 @@ define openiosds::rawx (
   }
 
   # Packages
-  ensure_packages([$::openiosds::httpd_package_name])
+  ensure_packages([$::openiosds::httpd_package_name],$::openiosds::params::package_install_options)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,

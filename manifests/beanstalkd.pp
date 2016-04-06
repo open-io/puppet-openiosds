@@ -33,7 +33,7 @@ define openiosds::beanstalkd (
   }
 
   # Package
-  ensure_packages([$::openiosds::params::beanstalkd_package_name])
+  ensure_packages([$::openiosds::params::beanstalkd_package_name],$package_install_options)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,

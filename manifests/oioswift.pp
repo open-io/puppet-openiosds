@@ -70,13 +70,13 @@ define openiosds::oioswift (
     }
   }
   if ! defined(Package[$::openiosds::params::package_swift_proxy]) {
-    if $::openiosds::params::package_swift_dep { ensure_packages($::openiosds::params::package_swift_dep) }
+    if $::openiosds::params::package_swift_dep { ensure_packages($::openiosds::params::package_swift_dep,$::openiosds::params::package_install_options) }
     ensure_resource('package', $::openiosds::params::package_swift_proxy, {
       ensure  => present,
       before  => Package['openio-sds-swift'],
     })
   }
-  ensure_packages('openio-sds-swift')
+  ensure_packages('openio-sds-swift',$::openiosds::params::package_install_options)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,

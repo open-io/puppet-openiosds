@@ -14,7 +14,7 @@ class openiosds::params {
       $httpd_moduledir         = "${libdir}/apache2/modules"
       $httpd_package_name      = ['openio-sds']
       $package_names           = ['openio-sds']
-      $package_install_options = '--force-yes'
+      $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
       $redis_package_name      = 'redis-server'
       $redis_service_name      = 'redis-server'
       $package_swift_proxy     = 'swift-proxy'
@@ -29,7 +29,7 @@ class openiosds::params {
       $httpd_moduledir         = "${libdir}/httpd/modules"
       $httpd_package_name      = ['openio-sds-mod-httpd']
       $package_names           = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
-      $package_install_options = undef
+      $package_install_options = {}
       $redis_package_name      = 'redis'
       $redis_service_name      = 'redis'
       $package_rdo_release     = 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm'

@@ -9,12 +9,19 @@ class openiosds::params {
   $prefixdir                = '/usr'
   case $::os['family'] {
     'Debian': {
+      case $::os['name'] {
+        'Ubuntu': {
+          $package_install_options = {}
+        }
+        'Debian': {
+          $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
+        }
+      }
       $libdir                  = "${prefixdir}/lib"
       $httpd_daemon            = '/usr/sbin/apache2'
       $httpd_moduledir         = "${libdir}/apache2/modules"
       $httpd_package_name      = ['openio-sds']
       $package_names           = ['openio-sds']
-      $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
       $redis_package_name      = 'redis-server'
       $redis_service_name      = 'redis-server'
       $package_swift_proxy     = 'swift-proxy'

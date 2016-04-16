@@ -67,7 +67,7 @@ define openiosds::meta0 (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-meta0-server ${verbose} ${cmdline_options} -p ${_pidfile} -s OIO,${ns},${type},${num} -O Endpoint=${ipaddress}:${port} -O OpenTimeout=${openTimeout} ${ns} ${_volume}",
+    command => "${openiosds::bindir}/oio-meta0-server ${verbose} ${cmdline_options} -p ${_pidfile} -s OIO,${ns},${type},${num} -O Endpoint=${ipaddress}:${port} ${ns} ${_volume}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

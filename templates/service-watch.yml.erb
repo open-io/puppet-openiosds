@@ -1,8 +1,8 @@
 host: <%= @ipaddress %>
 port: <%= @port %>
 type: <%= @type %>
-<% if @_location -%>
-location: <%= @_location %>
+<% if @location -%>
+location: <%= @location %>
 <% else -%>
 location: <%= @hostname %>
 <% end -%>

@@ -16,6 +16,7 @@ define openiosds::account (
   $workers                = undef,
   $backlog                = '2048',
 
+  $location               = $hostname,
   $no_exec                = false,
 ) {
 
@@ -44,6 +45,7 @@ define openiosds::account (
   }
   if $workers { if type3x($workers) != 'integer' { fail("${workers} is not an integer.") } }
   if type3x($backlog) != 'integer' { fail("${backlog} is not an integer.") }
+    validate_string($location)
 
   # Namespace
   if $action == 'create' {

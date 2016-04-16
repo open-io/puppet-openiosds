@@ -13,7 +13,6 @@ define openiosds::rawx (
   $grid_hash_depth            = '1',
   $checks                     = undef,
   $stats                      = undef,
-  $location                   = $hostname,
   $serverName                 = 'localhost',
   $serverSignature            = 'Off',
   $serverTokens               = 'Prod',
@@ -31,7 +30,8 @@ define openiosds::rawx (
   $worker_ThreadsPerChild     = '10',
   $worker_MaxRequestsPerChild = '0',
 
-  $no_exec                = false,
+  $location                   = $hostname,
+  $no_exec                    = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -52,7 +52,6 @@ define openiosds::rawx (
   else { $_checks = ['{type: http, uri: /info}'] }
   if $stats { $_stats = $stats }
   else { $_stats = ["{type: volume, path: ${_documentRoot}}",'{type: rawx, path: /stat}','{type: system}'] }
-  validate_string($location)
   validate_string($serverName)
   validate_string($serverSignature)
   validate_string($serverTokens)
@@ -70,6 +69,7 @@ define openiosds::rawx (
   validate_integer($worker_MaxSpareThreads)
   validate_integer($worker_ThreadsPerChild)
   validate_integer($worker_MaxRequestsPerChild)
+  validate_string($location)
 
   # Namespace
   if $action == 'create' {

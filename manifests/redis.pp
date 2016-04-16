@@ -28,8 +28,8 @@ define openiosds::redis (
   $save                        = ['900 1','300 10','60 10000'],
   $maxclients                  = '10000',
   $maxmemory                   = '0',
-  $location                    = undef,
 
+  $location                    = $hostname,
   $no_exec                     = false,
 ) {
 

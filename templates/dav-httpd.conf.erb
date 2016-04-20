@@ -4,10 +4,13 @@ LoadModule dav_module          <%= scope['openiosds::httpd_moduledir'] %>/mod_da
 LoadModule mime_module         <%= scope['openiosds::httpd_moduledir'] %>/mod_mime.so
 LoadModule dav_<%= @type %>_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_dav_<%= @type %>.so
 LoadModule setenvif_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_setenvif.so
+LoadModule alias_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_alias.so
 <% if @osfamily == 'RedHat' -%>
 LoadModule unixd_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_unixd.so
 LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_log_config.so
 <% end -%>
+
+Alias / /x/
 
 Listen          <%= @ipaddress %>:<%= @port %>
 PidFile         <%= scope['openiosds::runstatedir'] %>/<%= @ns %>-<%= @type %>-<%= @num %>-httpd.pid

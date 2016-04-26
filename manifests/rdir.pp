@@ -11,8 +11,8 @@ define openiosds::rdir (
   $db_path        = undef,
   $checks         = undef,
   $stats          = undef,
-  $location       = $hostname,
 
+  $location       = $hostname,
   $no_exec        = false,
 ) {
 

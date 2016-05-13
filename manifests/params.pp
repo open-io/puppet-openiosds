@@ -41,7 +41,7 @@ class openiosds::params {
       $package_install_options = {}
       $redis_package_name      = 'redis'
       $redis_service_name      = 'redis'
-      $package_rdo_release     = 'https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm'
+      $package_rdo_release     = 'https://repos.fedorapeople.org/repos/openstack/openstack-mitaka/rdo-release-mitaka-3.noarch.rpm'
       $package_swift_proxy     = 'openstack-swift-proxy'
       $package_swift_dep       = undef
       $package_swift_dep_opt   = {}

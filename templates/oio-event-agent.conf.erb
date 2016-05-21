@@ -5,7 +5,12 @@ bind_addr = <%= @_bind_addr %>
 <% if @workers -%>
 workers = <%= @workers %>
 <% end -%>
+<% if @concurrency -%>
+concurrency = <%= @concurrency %>
+<% end -%>
 queue_url = <%= @_queue_url %>
+handlers_conf = <%= @score['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/oio-event-handlers.conf
+tube = <%= @_tube %>
 retries_per_second = <%= @retries_per_second %>
 batch_size = <%= @batch_size %>
 acct_update = <%= @acct_update %>

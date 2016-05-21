@@ -50,7 +50,7 @@ define openiosds::conscience (
   validate_bool($worm)
   validate_bool($auto_container)
   if $vns { validate_string($vns) }
-  $valid_storage_policy = ['SINGLE','TWOCOPIES','THREECOPIES','FIVECOPIES','RAIN']
+  $valid_storage_policy = ['SINGLE','TWOCOPIES','THREECOPIES','FIVECOPIES','RAIN','ERASURECODE']
   validate_re($storage_policy,$valid_storage_policy,"${storage_policy} is invalid.")
   validate_string($service_update_policy)
   validate_bool($automatic_open)

@@ -25,7 +25,7 @@ define openiosds::conscienceagent (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
+  validate_integer($num)
   validate_string($ns)
   $valid_log_facilities = ['LOG_LOCAL0','LOG_LOCAL1','LOG_LOCAL2','LOG_LOCAL3','LOG_LOCAL4','LOG_LOCAL5','LOG_LOCAL6','LOG_LOCAL7']
   validate_re($log_facility,$valid_log_facilities,"${log_facility} is invalid.")
@@ -33,9 +33,9 @@ define openiosds::conscienceagent (
   validate_re($log_level, $valid_log_levels, "${log_level} is invalid.")
   if $include_dir { $_include_dir = $include_dir }
   else { $_include_dir = "${openiosds::sysconfdir}/${ns}/watch" }
-  if type3x($check_interval) != 'integer' { fail("${check_interval} is not an integer.") }
-  if type3x($rise) != 'integer' { fail("${rise} is not an integer.") }
-  if type3x($fall) != 'integer' { fail("${fall} is not an integer.") }
+  validate_integer($check_interval)
+  validate_integer($rise)
+  validate_integer($fall)
   if $syslog_prefix { $_syslog_prefix = $syslog_prefix }
   else { $_syslog_prefix = "OIO,${ns},${type},${num}" }
 

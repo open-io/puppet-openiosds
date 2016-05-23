@@ -33,18 +33,18 @@ define openiosds::oioswift (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
+  validate_integer($num)
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
-  if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
+  validate_integer($port)
+  validate_integer($workers)
   validate_string($sds_proxy_url)
   validate_bool($object_post_as_copy)
   validate_string($memcache_servers)
   validate_string($auth_uri)
   validate_string($auth_protocol)
   validate_string($auth_host)
-  if type3x($auth_port) != 'integer' { fail("${auth_port} is not an integer.") }
+  validate_integer($auth_port)
   validate_string($identity_uri)
   validate_string($admin_tenant_name)
   validate_string($admin_user)
@@ -62,8 +62,8 @@ define openiosds::oioswift (
 
   # Packages
   if $::os['family'] == 'RedHat' {
-    if ! defined(Package['rdo_release']) {
-      ensure_resource('package', 'rdo_release', {
+    if ! defined(Package['rdo-release']) {
+      ensure_resource('package', 'rdo-release', {
         source   => $::openiosds::params::package_rdo_release,
         provider => 'rpm',
         ensure   => present,

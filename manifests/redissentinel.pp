@@ -30,10 +30,10 @@ define openiosds::redissentinel (
   # Validation
   validate_string($ns)
   if $auth_pass { validate_string($auth_pass) }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
-  if type3x($redis_port) != 'integer' { fail("${port} is not an integer.") }
-  if type3x($quorum) != 'integer' { fail("${quorum} is not an integer.") }
-  if type3x($parallel_sync) != 'integer' { fail("${parallel_sync} is not an integer.") }
+  validate_integer($port)
+  validate_integer($redis_port)
+  validate_integer($quorum)
+  validate_integer($parallel_sync)
   if $dir { $_dir = $dir }
   else { $_dir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   if $logfile { $_logfile = $logfile }

@@ -90,11 +90,11 @@ class openiosds(
   validate_string($user)
   $valid_user_ensure = ['present','absent','role']
   validate_re($user_ensure,$valid_user_ensure,"${user_ensure} is invalid.")
-  if type3x($uid) != 'integer' { fail("${uid} is not an integer.") }
+  validate_integer($uid)
   validate_string($group)
   $valid_group_ensure = ['present','absent']
   validate_re($group_ensure,$valid_group_ensure,"${group_ensure} is invalid.")
-  if type3x($gid) != 'integer' { fail("${gid} is not an integer.") }
+  validate_integer($gid)
   $valid_package_ensure = ['present','installed','absent','purged','held','latest']
   validate_re($package_ensure,$valid_package_ensure,"${package_ensure} is invalid.")
   validate_array($package_names)

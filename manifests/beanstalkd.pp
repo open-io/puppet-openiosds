@@ -22,7 +22,7 @@ define openiosds::beanstalkd (
   # Validation
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  validate_integer($port)
   if $binlogdir { $_binlogdir = $binlogdir }
   else { $_binlogdir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   validate_string($location)

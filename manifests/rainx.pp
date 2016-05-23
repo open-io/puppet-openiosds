@@ -40,14 +40,14 @@ define openiosds::rainx (
   # Validation
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  validate_integer($port)
   validate_bool($default_oioblobindexer)
   if $documentRoot { $_documentRoot = $documentRoot }
   else { $_documentRoot = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   if $serverRoot { $_serverRoot = $serverRoot }
   else { $_serverRoot = "${openiosds::sharedstatedir}/${ns}/coredump" }
-  if type3x($grid_hash_width) != 'integer' { fail("${grid_hash_width} is not an integer.") }
-  if type3x($grid_hash_depth) != 'integer' { fail("${grid_hash_depth} is not an integer.") }
+  validate_integer($grid_hash_width)
+  validate_integer($grid_hash_depth)
   if $checks { $_checks = $checks }
   else { $_checks = ['{type: http, uri: /info}'] }
   if $stats { $_stats = $stats }

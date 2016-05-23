@@ -23,8 +23,8 @@ define openiosds::rdir (
   # Validation
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
-  if type3x($workers) != 'integer' { fail("${workers} is not an integer.") }
+  validate_integer($port)
+  validate_integer($workers)
   if $db_path { $_db_path = $db_path }
   else { $_db_path = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   if $checks { $_checks = $checks }

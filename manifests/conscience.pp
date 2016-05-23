@@ -39,12 +39,12 @@ define openiosds::conscience (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
+  validate_integer($num)
 
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
-  if type3x($chunk_size) != 'integer' { fail("${chunk_size} is not an integer.") }
+  validate_integer($port)
+  validate_integer($chunk_size)
   $valid_ns_status = ['STANDALONE','MASTER','SLAVE']
   validate_re($ns_status,$valid_ns_status,"${ns_status} is invalid.")
   validate_bool($worm)
@@ -54,15 +54,15 @@ define openiosds::conscience (
   validate_re($storage_policy,$valid_storage_policy,"${storage_policy} is invalid.")
   validate_string($service_update_policy)
   validate_bool($automatic_open)
-  if type3x($meta2_max_versions) != 'integer' { fail("${meta2_max_versions} is not an integer.") }
-  if type3x($min_workers) != 'integer' { fail("${min_workers} is not an integer.") }
-  if type3x($min_spare_workers) != 'integer' { fail("${min_spare_workers} is not an integer.") }
-  if type3x($max_spare_workers) != 'integer' { fail("${max_spare_workers} is not an integer.") }
-  if type3x($max_workers) != 'integer' { fail("${max_workers} is not an integer.") }
-  if type3x($score_timeout) != 'integer' { fail("${score_timeout} is not an integer.") }
-  if type3x($param_option_events_max_pending) != 'integer' { fail("${param_option_events_max_pending} is not an integer.") }
-  if type3x($param_option_meta2_events_max_pending) != 'integer' { fail("${param_option_meta2_events_max_pending} is not an integer.") }
-  if type3x($param_option_meta1_events_max_pending) != 'integer' { fail("${param_option_meta1_events_max_pending} is not an integer.") }
+  validate_integer($meta2_max_versions)
+  validate_integer($min_workers)
+  validate_integer($min_spare_workers)
+  validate_integer($max_spare_workers)
+  validate_integer($max_workers)
+  validate_integer($score_timeout)
+  validate_integer($param_option_events_max_pending)
+  validate_integer($param_option_meta2_events_max_pending)
+  validate_integer($param_option_meta1_events_max_pending)
 
 
   # Namespace

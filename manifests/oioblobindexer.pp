@@ -21,13 +21,13 @@ define openiosds::oioblobindexer (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
+  validate_integer($num)
   validate_string($ns)
   if $volume { $_volume = $volume }
   else { $_volume = "${openiosds::sharedstatedir}/${ns}/rawx-${num}" }
-  if type3x($report_interval) != 'integer' { fail("${report_interval} is not an integer.") }
-  if type3x($chunks_per_second) != 'integer' { fail("${chunks_per_second} is not an integer.") }
-  if type3x($interval) != 'integer' { fail("${interval} is not an integer.") }
+  validate_integer($report_interval)
+  validate_integer($chunks_per_second)
+  validate_integer($interval)
 
   # Namespace
   if $action == 'create' {

@@ -40,7 +40,7 @@ define openiosds::redis (
   # Validation
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  validate_integer($port)
   if $dir { $_dir = $dir }
   else { $_dir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   if $logfile { $_logfile = $logfile }

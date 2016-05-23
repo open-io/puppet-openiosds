@@ -17,7 +17,7 @@ define openiosds::systemdmount (
   validate_string($fsoptions)
   if $after { validate_string($after) }
   validate_bool($automount)
-  if type3x($automount_timeoutidlesec) != 'integer' { fail("${automount_timeoutidlesec} is not an integer.") }
+  validate_integer($automount_timeoutidlesec)
 
   $mountpoint_name = systemd_escape($mountpoint)
 

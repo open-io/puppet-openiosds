@@ -28,12 +28,12 @@ define openiosds::account (
   $actions = ['create','remove']
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
-  if type3x($num) != 'integer' { fail("${num} is not an integer.") }
+  validate_integer($num)
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
-  if type3x($port) != 'integer' { fail("${port} is not an integer.") }
+  validate_integer($port)
   validate_string($redis_host)
-  if type3x($redis_port) != 'integer' { fail("${redis_port} is not an integer.") }
+  validate_integer($redis_port)
   if $checks { $_checks = $checks }
   else { $_checks = ['{type: tcp}'] }
   if $stats { $_stats = $stats }
@@ -43,9 +43,9 @@ define openiosds::account (
     validate_string($sentinel_hosts)
     $_sentinel_master_name = $sentinel_master_name
   }
-  if $workers { if type3x($workers) != 'integer' { fail("${workers} is not an integer.") } }
-  if type3x($backlog) != 'integer' { fail("${backlog} is not an integer.") }
-    validate_string($location)
+  if $workers { validate_integer($workers) }
+  validate_integer($backlog)
+  validate_string($location)
 
   # Namespace
   if $action == 'create' {

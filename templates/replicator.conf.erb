@@ -1,0 +1,30 @@
+{
+    "logs" = {
+        "access" = "<%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>.access",
+        "errors" = "<%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>.log",
+        "level" = "INFO"
+    },
+
+    "source" = {
+        "oio" = {
+            "proxy" = {
+                "url" = "<%= @source_oioproxy_url %>",
+                "ns" = "<%= @source_ns %>"
+            }    
+        }
+    },
+    
+    "destination" = {
+        "oio" = {
+            "proxy" = {
+                "url" = "<%= @destination_oioproxy_url %>",
+                "ns" = "<%= @destination_ns %>"
+            }
+        }
+    },
+
+    "consumer" = {
+        "target" = "<%= @consumer_target %>",
+        "queue" = "<%= @consumer_queue %>"
+    }    
+}

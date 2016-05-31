@@ -1,7 +1,6 @@
 [event-agent]
 namespace = <%= @ns %>
 user = <%= scope['openiosds::user'] %>
-bind_addr = <%= @_bind_addr %>
 <% if @workers -%>
 workers = <%= @workers %>
 <% end -%>

@@ -1,7 +1,10 @@
 [handler:storage.content.new]
+<% if @quarantine or @replication -%>
+pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+<% end -%>
 
 [handler:storage.content.deleted]
-pipeline = content_cleaner
+pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
 
 [handler:storage.container.new]
 pipeline = account_update
@@ -26,3 +29,17 @@ use = egg:oio#account_update
 
 [filter:volume_index]
 use = egg:oio#volume_index
+
+<% if @quarantine -%>
+[filter:quarantine]
+use = egg:oio#notify
+tube = vrc-quarantine
+queue_url = <%= @quarantine_queue_url %>
+<% end -%>
+
+<% if @replication -%>
+[filter:replication]
+use = egg:oio#notify
+tube = oio-repli
+queue_url = <%= @replication_queue_url %>
+<% end -%>

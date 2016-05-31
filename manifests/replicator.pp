@@ -57,11 +57,6 @@ define openiosds::replicator (
     mode    => $openiosds::file_mode,
     require => Package[$::openiosds::replicator_package_name],
   } ->
-  file { "${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml":
-    ensure  => $openiosds::file_ensure,
-    content => template('openiosds/service-watch.yml.erb'),
-    mode    => $openiosds::file_mode,
-  } ->
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,

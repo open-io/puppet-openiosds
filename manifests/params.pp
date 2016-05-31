@@ -16,6 +16,7 @@ class openiosds::params {
         'Debian': {
           $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
         }
+        default: { $package_install_options = {} }
       }
       $libdir                  = "${prefixdir}/lib"
       $httpd_daemon            = '/usr/sbin/apache2'

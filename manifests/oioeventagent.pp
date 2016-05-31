@@ -39,8 +39,6 @@ define openiosds::oioeventagent (
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   validate_integer($port)
-  if $bind_addr { $_bind_addr = $bind_addr }
-  else { $_bind_addr = "tcp://${ipaddress}:${port}" }
   if $workers { validate_integer($workers) }
   if $concurrency { validate_integer($concurrency) }
   $valid_log_facilities = ['LOG_LOCAL0','LOG_LOCAL1','LOG_LOCAL2','LOG_LOCAL3','LOG_LOCAL4','LOG_LOCAL5','LOG_LOCAL6','LOG_LOCAL7']
@@ -85,7 +83,7 @@ define openiosds::oioeventagent (
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/oio-event-handlers.conf":
     ensure  => $openiosds::file_ensure,
-    content => template("openiosds/oio-event-handlers.conf.erb"),
+    content => template('openiosds/oio-event-handlers.conf.erb'),
     mode    => $openiosds::file_mode,
   } ->
   # Init

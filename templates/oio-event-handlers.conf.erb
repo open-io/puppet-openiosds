@@ -4,7 +4,7 @@ pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replicat
 <% end -%>
 
 [handler:storage.content.deleted]
-pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+pipeline = content_cleaner<% if @replication %> replication<% end %>
 
 [handler:storage.container.new]
 pipeline = account_update

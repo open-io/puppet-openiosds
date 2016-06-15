@@ -13,6 +13,8 @@ define openiosds::conscience (
   $auto_container                        = false,
   $vns                                   = undef,
   $storage_policy                        = 'SINGLE',
+  $extra_storage_policies                = [],
+  $extra_data_security                   = [],
   $service_update_policy                 = 'meta2=KEEP|1|1|;sqlx=KEEP|1|1|;rdir=KEEP|1|1|user_is_a_service=1',
   $automatic_open                        = true,
   $meta2_max_versions                    = '1',
@@ -40,7 +42,6 @@ define openiosds::conscience (
   validate_re($action,$actions,"${action} is invalid.")
   validate_string($type)
   validate_integer($num)
-
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   validate_integer($port)
@@ -50,8 +51,10 @@ define openiosds::conscience (
   validate_bool($worm)
   validate_bool($auto_container)
   if $vns { validate_string($vns) }
-  $valid_storage_policy = ['SINGLE','TWOCOPIES','THREECOPIES','FIVECOPIES','RAIN','ERASURECODE']
-  validate_re($storage_policy,$valid_storage_policy,"${storage_policy} is invalid.")
+  $valid_storage_policy = ['SINGLE','TWOCOPIES','THREECOPIES','FIVECOPIES','ERASURECODE']
+  validate_array($extra_storage_policies)
+  validate_array($extra_data_security)
+  validate_re($storage_policy,$valid_storage_policy+$extra_storage_policies.keys,"${storage_policy} is invalid.")
   validate_string($service_update_policy)
   validate_bool($automatic_open)
   validate_integer($meta2_max_versions)

@@ -3,6 +3,9 @@ SINGLE=NONE:NONE
 TWOCOPIES=NONE:DUPONETWO
 THREECOPIES=NONE:DUPONETHREE
 ERASURECODE=NONE:ERASURECODE
+<% @extra_storage_policies.each_pair do |name, params| -%>
+<%= name %>=<%= params %>
+<% end -%>
 
 [STORAGE_CLASS]
 # <CLASS> = FALLBACK[,FALLBACK]...
@@ -14,4 +17,6 @@ REASONABLYSLOW=NONE
 DUPONETWO=plain/distance=1,nb_copy=2
 DUPONETHREE=plain/distance=1,nb_copy=3
 ERASURECODE=ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1,weak=1
-
+<% @extra_data_security.each_pair do |name, config| -%>
+<%= name %>=<%= config %>
+<% end -%>

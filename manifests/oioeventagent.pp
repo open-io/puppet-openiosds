@@ -1,25 +1,30 @@
 # Configure and install an OpenIO oioeventagent service
 define openiosds::oioeventagent (
-  $action             = 'create',
-  $type               = 'oio-event-agent',
-  $num                = '0',
+  $action                = 'create',
+  $type                  = 'oio-event-agent',
+  $num                   = '0',
 
-  $ns                 = undef,
-  $ipaddress          = $::ipaddress,
-  $bind_addr          = undef,
-  $port               = $::openiosds::params::oioeventagent_port,
-  $workers            = undef,
-  $log_facility       = 'LOG_LOCAL0',
-  $log_level          = 'info',
-  $log_name           = undef,
-  $log_address        = '/dev/log',
-  $acct_update        = true,
-  $queue_url          = undef,
-  $retries_per_second = '30',
-  $batch_size         = '500',
-  $rdir_update        = true,
+  $ns                    = undef,
+  $ipaddress             = $::ipaddress,
+  $port                  = $::openiosds::params::oioeventagent_port,
+  $workers               = undef,
+  $concurrency           = undef,
+  $log_facility          = 'LOG_LOCAL0',
+  $log_level             = 'info',
+  $log_name              = undef,
+  $log_address           = '/dev/log',
+  $acct_update           = true,
+  $queue_url             = undef,
+  $retries_per_second    = '30',
+  $batch_size            = '500',
+  $rdir_update           = true,
+  $tube                  = 'oio',
+  $quarantine            = false,
+  $quarantine_queue_url  = undef,
+  $replication           = false,
+  $replication_queue_url = undef,
 
-  $no_exec            = false,
+  $no_exec               = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -34,9 +39,8 @@ define openiosds::oioeventagent (
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
   validate_integer($port)
-  if $bind_addr { $_bind_addr = $bind_addr }
-  else { $_bind_addr = "tcp://${ipaddress}:${port}" }
   if $workers { validate_integer($workers) }
+  if $concurrency { validate_integer($concurrency) }
   $valid_log_facilities = ['LOG_LOCAL0','LOG_LOCAL1','LOG_LOCAL2','LOG_LOCAL3','LOG_LOCAL4','LOG_LOCAL5','LOG_LOCAL6','LOG_LOCAL7']
   validate_re($log_facility,$valid_log_facilities,"${log_facility} is invalid.")
   $valid_log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
@@ -50,6 +54,9 @@ define openiosds::oioeventagent (
   validate_integer($retries_per_second)
   validate_integer($batch_size)
   validate_bool($rdir_update)
+  validate_string($tube)
+  if $quarantine { validate_string($quarantine_queue_url) }
+  if $replication { validate_string($replication_queue_url) }
 
   validate_bool($no_exec)
 
@@ -72,6 +79,11 @@ define openiosds::oioeventagent (
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
+    mode    => $openiosds::file_mode,
+  } ->
+  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/oio-event-handlers.conf":
+    ensure  => $openiosds::file_ensure,
+    content => template('openiosds/oio-event-handlers.conf.erb'),
     mode    => $openiosds::file_mode,
   } ->
   # Init

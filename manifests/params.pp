@@ -16,6 +16,7 @@ class openiosds::params {
         'Debian': {
           $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
         }
+        default: { $package_install_options = {} }
       }
       $libdir                  = "${prefixdir}/lib"
       $httpd_daemon            = '/usr/sbin/apache2'
@@ -27,7 +28,6 @@ class openiosds::params {
       $package_swift_proxy     = 'swift-proxy'
       $package_swift_dep       = ['python-keystonemiddleware','swift-plugin-s3']
       $package_swift_dep_opt   = {}
-      $beanstalkd_package_name = 'beanstalkd'
     }
     'RedHat': {
       case $::architecture {
@@ -45,10 +45,11 @@ class openiosds::params {
       $package_swift_proxy     = 'openstack-swift-proxy'
       $package_swift_dep       = undef
       $package_swift_dep_opt   = {}
-      $beanstalkd_package_name = 'beanstalkd'
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }
+  $beanstalkd_package_name  = 'beanstalkd'
+  $replicator_package_name  = 'openio-sds-replicator'
   $bindir                   = "${prefixdir}/bin"
   $sysconfdir_global        = "/etc/${project_name}"
   $sysconfdir_globald       = "/etc/${project_name}/${product_name}.conf.d"
@@ -93,6 +94,7 @@ class openiosds::params {
   $redissentinel_port       = '6012'
   $rainx_port               = '6013'
   $beanstalkd_port          = '6014'
+  $replicator_port          = '6015'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

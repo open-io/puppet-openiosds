@@ -61,7 +61,7 @@ define openiosds::sqlx (
   } ->
   file { "${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml":
     ensure  => $openiosds::file_ensure,
-    content => template('openiosds/sqlx.yml.erb'),
+    content => template('openiosds/service-watch.yml.erb'),
     mode    => $openiosds::file_mode,
   } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/sqlx.mail":

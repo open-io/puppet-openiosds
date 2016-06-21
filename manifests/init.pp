@@ -45,6 +45,7 @@ class openiosds(
   $meta2_port               = $openiosds::params::meta2_port,
   $rawx_port                = $openiosds::params::rawx_port,
   $rdir_port                = $openiosds::params::rdir_port,
+  $sqlx_port                = $openiosds::params::sqlx_port,
   $zookeeper_port           = $openiosds::params::zookeeper_port,
   $account_port             = $openiosds::params::account_port,
   $redis_port               = $openiosds::params::redis_port,

@@ -1,0 +1,10 @@
+host: <%= @ipaddress %>
+port: <%= @port %>
+type: sqlx
+location: <%= @servername %>
+checks:
+  - {type: tcp}
+stats:
+  - {type: volume, path: <%= @volume %> }
+  - {type: meta}
+  - {type: system}

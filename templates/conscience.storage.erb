@@ -1,22 +1,14 @@
 [STORAGE_POLICY]
-SINGLE=NONE:NONE
-TWOCOPIES=NONE:DUPONETWO
-THREECOPIES=NONE:DUPONETHREE
-ERASURECODE=NONE:ERASURECODE
-<% @extra_storage_policies.each_pair do |name, params| -%>
-<%= name %>=<%= params %>
+<% @storage_policies.keys.sort.each do |key| -%>
+<%= key %>=<%= @storage_policies[key] %>
 <% end -%>
 
 [STORAGE_CLASS]
-# <CLASS> = FALLBACK[,FALLBACK]...
-SUPERFAST=PRETTYGOOD,REASONABLYSLOW,NONE
-PRETTYGOOD=REASONABLYSLOW,NONE
-REASONABLYSLOW=NONE
+<% @storage_classes.keys.sort.each do |key| -%>
+<%= key %>=<%= @storage_classes[key] %>
+<% end -%>
 
 [DATA_SECURITY]
-DUPONETWO=plain/distance=1,nb_copy=2
-DUPONETHREE=plain/distance=1,nb_copy=3
-ERASURECODE=ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1,weak=1
-<% @extra_data_security.each_pair do |name, config| -%>
-<%= name %>=<%= config %>
+<% @data_security.keys.sort.each do |key| -%>
+<%= key %>=<%= @data_security[key] %>
 <% end -%>

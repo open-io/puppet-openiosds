@@ -13,8 +13,9 @@ define openiosds::conscience (
   $auto_container                        = false,
   $vns                                   = undef,
   $storage_policy                        = 'SINGLE',
-  $extra_storage_policies                = [],
-  $extra_data_security                   = [],
+  $storage_policies                      = {'SINGLE'=>'NONE:NONE','TWOCOPIES'=>'NONE:DUPONETWO','THREECOPIES'=>'NONE:DUPONETHREE','ERASURECODE'=>'NONE:ERASURECODE'},
+  $storage_classes                       = {'SUPERFAST'=>'PRETTYGOOD,REASONABLYSLOW,NONE','PRETTYGOOD'=>'REASONABLYSLOW,NONE','REASONABLYSLOW'=>'NONE'},
+  $data_security                         = {'DUPONETWO'=>'plain/distance=1,nb_copy=2','DUPONETHREE'=>'plain/distance=1,nb_copy=3','ERASURECODE'=>'ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1,weak=1'},
   $service_update_policy                 = 'meta2=KEEP|1|1|;sqlx=KEEP|1|1|;rdir=KEEP|1|1|user_is_a_service=1',
   $automatic_open                        = true,
   $meta2_max_versions                    = '1',
@@ -51,10 +52,10 @@ define openiosds::conscience (
   validate_bool($worm)
   validate_bool($auto_container)
   if $vns { validate_string($vns) }
-  $valid_storage_policy = ['SINGLE','TWOCOPIES','THREECOPIES','FIVECOPIES','ERASURECODE']
-  validate_array($extra_storage_policies)
-  validate_array($extra_data_security)
-  validate_re($storage_policy,$valid_storage_policy+$extra_storage_policies.keys,"${storage_policy} is invalid.")
+  validate_hash($storage_policies)
+  validate_hash($storage_classes)
+  validate_hash($data_security)
+  validate_re($storage_policy,$storage_policies.keys,"${storage_policy} is invalid.")
   validate_string($service_update_policy)
   validate_bool($automatic_open)
   validate_integer($meta2_max_versions)

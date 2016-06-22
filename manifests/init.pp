@@ -51,6 +51,7 @@ class openiosds(
   $redissentinel_port       = $openiosds::params::redissentinel_port,
   $oioswift_port            = $openiosds::params::oioswift_port,
   $oioproxy_port            = $openiosds::params::oioproxy_port,
+  $sqlx_port                = $openiosds::params::sqlx_port,
   $conscience_url           = $openiosds::params::conscience_url,
   $zookeeper_url            = $openiosds::params::zookeeper_url,
   $oioproxy_url             = $openiosds::params::oioproxy_url,

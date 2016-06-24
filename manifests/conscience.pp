@@ -55,7 +55,7 @@ define openiosds::conscience (
   validate_hash($storage_policies)
   validate_hash($storage_classes)
   validate_hash($data_security)
-  validate_re($storage_policy,$storage_policies.keys,"${storage_policy} is invalid.")
+  if !has_key($storage_policies, $storage_policy) { fail("${storage_policy} is invalid.") }
   validate_string($service_update_policy)
   validate_bool($automatic_open)
   validate_integer($meta2_max_versions)

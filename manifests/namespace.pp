@@ -6,6 +6,7 @@ define openiosds::namespace (
   $zookeeper_url  = undef,
   $oioproxy_url   = undef,
   $eventagent_url = undef,
+  $ecd_url        = undef,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -21,6 +22,7 @@ define openiosds::namespace (
   if $zookeeper_url { validate_string($zookeeper_url) }
   if $oioproxy_url { validate_string($oioproxy_url) }
   if $eventagent_url { validate_string($eventagent_url) }
+  if $ecd_url { validate_string($ecd_url) }
 
   if $openiosds::action == 'create' {
     # Path
@@ -32,10 +34,7 @@ define openiosds::namespace (
       mode   => $openiosds::directory_mode,
     }
 
-    if $conscience_url or $zookeeper_url or $oioproxy_url or $eventagent_url {
-      if defined(Openiosds::Sdsagent['sds-agent-0']) {
-        $notify = Openiosds::Sdsagent['sds-agent-0']
-      }
+    if $conscience_url or $zookeeper_url or $oioproxy_url or $eventagent_url or $ecd_url {
       file { "${openiosds::sysconfdir_globald}/${ns}":
         ensure  => $openiosds::file_ensure,
         content => template('openiosds/sds-ns.conf.erb'),

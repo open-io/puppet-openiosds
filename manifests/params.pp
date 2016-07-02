@@ -45,6 +45,7 @@ class openiosds::params {
       $package_swift_proxy     = 'openstack-swift-proxy'
       $package_swift_dep       = undef
       $package_swift_dep_opt   = {}
+      $httpd_wsgi_package_name = 'mod_wsgi'
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }
@@ -95,6 +96,7 @@ class openiosds::params {
   $rainx_port               = '6013'
   $beanstalkd_port          = '6014'
   $replicator_port          = '6015'
+  $ecd_port                 = '6016'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

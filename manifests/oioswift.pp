@@ -65,7 +65,6 @@ define openiosds::oioswift (
     if ! defined(Package['rdo-release']) {
       ensure_resource('package', 'rdo-release', {
         source   => $::openiosds::params::package_rdo_release,
-        provider => 'rpm',
         ensure   => present,
         before   => Package[$::openiosds::params::package_swift_proxy],
       })

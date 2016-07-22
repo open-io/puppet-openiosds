@@ -15,7 +15,7 @@ define openiosds::redis (
   $tcp_backlog                 = '511',
   $timeout                     = '0',
   $tcp_keepalive               = '0',
-  $loglevel                    = 'notice',
+  $rloglevel                   = 'notice',
   $databases                   = '16',
   $stop_writes_on_bgsave_error = 'yes',
   $rdbcompression              = 'yes',

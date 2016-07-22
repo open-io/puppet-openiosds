@@ -1,14 +1,26 @@
 [STORAGE_POLICY]
+# Storage policy definitions
+# ---------------------------
+#
+# The first word is the service pool to use,
+# the second word is the data security to use.
 <% @storage_policies.keys.sort.each do |key| -%>
 <%= key %>=<%= @storage_policies[key] %>
 <% end -%>
 
-[STORAGE_CLASS]
-<% @storage_classes.keys.sort.each do |key| -%>
-<%= key %>=<%= @storage_classes[key] %>
-<% end -%>
-
 [DATA_SECURITY]
+# Data security definitions
+# --------------------------
+#
+# The first word is the kind of data security ("plain", "ec" or "backblaze"),
+# after the '/' are the parameters of the data security.
+# List of possible values for the "algo" parameter of "ec" data security:
+# "jerasure_rs_vand"       EC_BACKEND_JERASURE_RS_VAND
+# "jerasure_rs_cauchy"     EC_BACKEND_JERASURE_RS_CAUCHY
+# "flat_xor_hd"            EC_BACKEND_FLAT_XOR_HD
+# "isa_l_rs_vand"          EC_BACKEND_ISA_L_RS_VAND
+# "shss"                   EC_BACKEND_SHSS
+# "liberasurecode_rs_vand" EC_BACKEND_LIBERASURECODE_RS_VAND
 <% @data_security.keys.sort.each do |key| -%>
 <%= key %>=<%= @data_security[key] %>
 <% end -%>

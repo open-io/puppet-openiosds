@@ -1,16 +1,10 @@
 LoadModule mpm_worker_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_mpm_worker.so
 LoadModule authz_core_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_authz_core.so
-LoadModule dav_module          <%= scope['openiosds::httpd_moduledir'] %>/mod_dav.so
-LoadModule mime_module         <%= scope['openiosds::httpd_moduledir'] %>/mod_mime.so
-LoadModule dav_<%= @type %>_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_dav_<%= @type %>.so
-LoadModule setenvif_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_setenvif.so
-LoadModule alias_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_alias.so
+LoadModule wsgi_module         <%= scope['openiosds::httpd_moduledir'] %>/mod_wsgi.so
 <% if @osfamily == 'RedHat' -%>
 LoadModule unixd_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_unixd.so
 LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_log_config.so
 <% end -%>
-
-Alias / /x/
 
 Listen          <%= @ipaddress %>:<%= @port %>
 PidFile         <%= scope['openiosds::runstatedir'] %>/<%= @ns %>-<%= @type %>-<%= @num %>-httpd.pid
@@ -19,7 +13,6 @@ ServerName      <%= @serverName %>
 ServerSignature <%= @serverSignature %>
 ServerTokens    <%= @serverTokens %>
 DocumentRoot    <%= @_documentRoot %>
-TypesConfig     <%= @typesConfig %>
 
 User  <%= scope['openiosds::user'] %>
 Group <%= scope['openiosds::group'] %>
@@ -31,6 +24,15 @@ LogLevel  <%= scope['openiosds::log_level'] %>
 
 <IfModule setenvif_module>
 SetEnvIf Request_URI "^/(info|stat)$" dontlog
+</IfModule>
+
+<IfModule wsgi_module>
+WSGIDaemonProcess <%= @type %>-<%= @num %> processes=<%= @wSGIDaemonProcess_processes %> threads=<%= @wSGIDaemonProcess_threads %> user=<%= scope['openiosds::user'] %> group=<%= scope['openiosds::group'] %>
+#WSGIProcessGroup <%= @type %>-<%= @num %>
+WSGIApplicationGroup <%= @type %>-<%= @num %>
+WSGIScriptAlias / <%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>.wsgi
+WSGISocketPrefix <%= scope['openiosds::runstatedir'] %>/
+WSGIChunkedRequest On
 </IfModule>
 
 <IfModule prefork.c>
@@ -49,32 +51,7 @@ ThreadsPerChild     <%= @worker_ThreadsPerChild %>
 MaxRequestsPerChild <%= @worker_MaxRequestsPerChild %>
 </IfModule>
 
-DavDepthInfinity Off
-
-<% if @type == 'rawx' -%>
-grid_docroot    <%= @_documentRoot %>
-# How many hexdigits must be used to name the indirection directories
-grid_hash_width <%= @grid_hash_width %>
-# How many levels of directories are used to store chunks
-grid_hash_depth <%= @grid_hash_depth %>
-# At the end of an upload, perform a fsync() on the chunk file itself
-grid_fsync      <%= @grid_fsync %>
-# At the end of an upload, perform a fsync() on the directory holding the chunk
-grid_fsync_dir  <%= @grid_fsync_dir %>
-# Preallocate space for the chunk file (enabled by default)
-#grid_fallocate enabled
-# Enable compression ('zlib' or 'lzo' or 'off')
-grid_compression off
-<% end -%>
-grid_namespace  <%= @ns %>
-grid_dir_run    <%= scope['openiosds::runstatedir'] %>
-
-<Directory />
-DAV <%= @type %>
-AllowOverride None
-Require all granted
-Options -SymLinksIfOwnerMatch -FollowSymLinks -Includes -Indexes
-</Directory>
+LimitRequestFields 200
 
 <VirtualHost <%= @ipaddress %>:<%= @port %>>
 # DO NOT REMOVE (even if empty) !

@@ -96,7 +96,8 @@ class openiosds::params {
   $rainx_port               = '6013'
   $beanstalkd_port          = '6014'
   $replicator_port          = '6015'
-  $ecd_port                 = '6016'
+  $sqlx_port                = '6016'
+  $ecd_port                 = '6017'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

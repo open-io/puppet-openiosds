@@ -62,7 +62,7 @@ param_storage_conf=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>
 param_events=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-events.conf
 
 # Service scoring and pools definitions
-param_service_conf=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-services.conf
+param_service_conf=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-service*.conf
 
 # For an easy transition, it is still possible to define
 # service score expression, variation, timeout and lock here.

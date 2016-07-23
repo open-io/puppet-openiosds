@@ -18,7 +18,17 @@ define openiosds::conscience (
   $service_update_policy                 = {'meta2'=>'KEEP|1|1|','sqlx'=>'KEEP|1|1|','rdir'=>'KEEP|1|1|user_is_a_service=1'},
   $pools                                 = {},
   $score_lock_at_first_register          = {},
-  $services_score_timeout                = {'meta0'=>'3600','meta1'=>'120','meta2'=>'120','rawx'=>'120','sqlx'=>'120','rdir'=>'120','redis'=>'120','oiofs'=>'120','account'=>'120','echo'=>'120'},
+  $services_score_timeout                = {'meta0'=>'3600','meta1'=>'120','meta2'=>'120','rawx'=>'120','sqlx'=>'120','rdir'=>'120','redis'=>'120','oiofs'=>'120','account'=>'120'},
+  $services_score_expr                   = {
+    'meta0'=>'root(2,((num stat.cpu)*(num stat.io)))',
+    'meta1'=>'((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))',
+    'meta2'=>'((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))',
+    'rawx'=>'(num tag.up) * ((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))',
+    'sqlx'=>'((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))',
+    'rdir'=>'(num tag.up) * (num stat.cpu) * ((num stat.space)>=2)',
+    'redis'=>'(num tag.up) * (num stat.cpu)',
+    'oiofs'=>'(num stat.cpu)',
+    'account'=>'(num tag.up) * (num stat.cpu)'},
   $automatic_open                        = true,
   $meta2_max_versions                    = '1',
   $min_workers                           = '2',
@@ -66,6 +76,7 @@ define openiosds::conscience (
   validate_integer($max_workers)
   validate_integer($score_timeout)
   validate_hash($services_score_timeout)
+  validate_hash($services_score_expr)
   validate_integer($param_option_events_max_pending)
   validate_integer($param_option_meta2_events_max_pending)
   validate_integer($param_option_meta1_events_max_pending)

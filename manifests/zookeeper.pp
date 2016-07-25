@@ -155,7 +155,7 @@ define openiosds::zookeeper (
     }
   }
   if $myid {
-    file {"${openiosds::sharedstatedir}/${ns}/${type}-${num}/data/myid":
+    file {"${dataDir}/myid":
       ensure  => $openiosds::file_ensure,
       owner   => $openiosds::user,
       group   => $openiosds::group,

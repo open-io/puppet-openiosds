@@ -1,8 +1,10 @@
-[pools]
-# Pools for each service type
+# Service pools declarations
 # ----------------------------
 #
-# The value is a ';'-separated of targets.
+# Pools are automatically created if not defined in configuration,
+# according to storage policy or service update policy rules.
+#
+# "targets" is a ';'-separated list.
 # Each target is a ','-separated list of:
 # - the number of services to pick,
 # - the name of a slot where to pick the services,
@@ -10,34 +12,37 @@
 #   not enough in the previous slot
 # - and so on...
 #
-# Pool are automatically created if not defined in configuration.
+# "nearby_mode" is a boolean telling to find services close to each other
+# instead of far from each other.
+#
+#### power user options, don't set them unless you know what you are doing!
+# "mask" is a 64 bits hexadecimal mask used to check service distance.
+# It defaults to FFFFFFFFFFFF0000. It can also be specified as "/48".
+#
+# "mask_max_shift" is the maximum number of bits to shift the mask
+# to degrade it when distance requirement are not satisfiable.
+# It defaults to 16.
+#
+
 <% @pools.keys.sort.each do |key| -%>
-<%= key %>=<%= @pools[key] %>
+[pool:<%= key %>]
+targets=<%= @pools[key] %>
 <% end -%>
 
-[score_expr]
-meta0=root(2,((num stat.cpu)*(num stat.io)))
-meta1=((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))
-meta2=((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))
-rawx=(num tag.up) * ((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))
-sqlx=((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))
-account=(num tag.up) * (num stat.cpu)
-rdir=(num tag.up) * (num stat.cpu) * ((num stat.space)>=2)
-oiofs=(num stat.cpu)
-redis=(num tag.up) * (num stat.cpu)
-echo=(num stat.cpu)
-oiofs=(num stat.cpu)
 
-[score_timeout]
-# Defaults to 300s
-<% @services_score_timeout.keys.sort.each do |key| -%>
-<%= key %>=<%= @services_score_timeout[key] %>
+# Service types declarations
+# ---------------------------
+
+<% @services_score_expr.keys.sort.each do |key| -%>
+[type:<%= key -%>]
+score_expr=<%= @services_score_expr[key] %>
+<% if @services_score_timeout.has_key?(key) -%>
+score_timeout=<%= @services_score_timeout[key] %>
+<% end -%>
+<% if @score_lock_at_first_register.has_key?(key) -%>
+lock_at_first_register=<%= @score_lock_at_first_register[key] %>
 <% end -%>
 
-[score_variation_bound]
-# Defaults to 5s
-
-[score_lock_at_first_register]
-<% @score_lock_at_first_register.keys.sort.each do |key| -%>
-<%= key %>=<%= @score_lock_at_first_register[key] %>
 <% end -%>
+
+

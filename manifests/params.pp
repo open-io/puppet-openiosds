@@ -36,6 +36,14 @@ class openiosds::params {
         'x86_64': { $libdir = "${prefixdir}/lib64" }
         default:  { $libdir = "${prefixdir}/lib" }
       }
+      case $::os['name'] {
+        'RedHat': {
+          $package_openstack_release = 'https://rdoproject.org/repos/rdo-release.rpm'
+        }
+        default: {
+          $package_openstack_release = 'centos-release-openstack-mitaka'
+        }
+      }
       $httpd_daemon              = '/usr/sbin/httpd'
       $httpd_moduledir           = "${libdir}/httpd/modules"
       $httpd_package_name        = ['openio-sds-mod-httpd']

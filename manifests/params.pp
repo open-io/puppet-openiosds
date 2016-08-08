@@ -108,6 +108,7 @@ class openiosds::params {
   $replicator_port          = '6015'
   $sqlx_port                = '6016'
   $ecd_port                 = '6017'
+  $replicator_admin_port    = '6018'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

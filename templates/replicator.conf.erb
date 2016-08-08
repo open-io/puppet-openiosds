@@ -27,4 +27,8 @@
         "target" = "<%= @consumer_target %>",
         "queue" = "<%= @consumer_queue %>"
     }    
+    "admin": {
+        "bind": "127.0.0.1",
+        "port": <%= scope['openiosds::replicator_admin_port'] %>
+    }
 }

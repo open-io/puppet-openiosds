@@ -10,6 +10,10 @@ define openiosds::systemdmount (
   $automount_directorymode  = '0755',
 ) {
 
+  if ! defined(Class['openiosds']) {
+    include openiosds
+  }
+
   # Validation
   validate_string($device)
   validate_string($mountpoint)
@@ -23,11 +27,11 @@ define openiosds::systemdmount (
 
   # Configuration file
   exec { "mkdir_p_${device}":
-    command => "/usr/bin/mkdir -p \'${device}\'",
+    command => "${cmd_mkdir} -p \'${device}\'",
     unless  => "/usr/bin/test -e \'${device}\'",
   } ->
   exec { "mkdir_p_${mountpoint}":
-    command => "/usr/bin/mkdir -p \'${mountpoint}\'",
+    command => "${cmd_mkdir} -p \'${mountpoint}\'",
     unless  => "/usr/bin/test -d \'${mountpoint}\'",
   } ->
   file { $mountpoint:

@@ -28,6 +28,8 @@ class openiosds::params {
       $package_swift_proxy     = 'swift-proxy'
       $package_swift_dep       = ['python-keystonemiddleware','swift-plugin-s3']
       $package_swift_dep_opt   = {}
+      $httpd_wsgi_package_name = 'libapache2-mod-wsgi'
+      $cmd_mkdir               = '/bin/mkdir'
     }
     'RedHat': {
       case $::architecture {
@@ -46,6 +48,7 @@ class openiosds::params {
       $package_swift_dep       = undef
       $package_swift_dep_opt   = {}
       $httpd_wsgi_package_name = 'mod_wsgi'
+      $cmd_mkdir               = '/usr/bin/mkdir'
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }

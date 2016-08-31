@@ -36,19 +36,19 @@ class openiosds::params {
         'x86_64': { $libdir = "${prefixdir}/lib64" }
         default:  { $libdir = "${prefixdir}/lib" }
       }
-      $httpd_daemon            = '/usr/sbin/httpd'
-      $httpd_moduledir         = "${libdir}/httpd/modules"
-      $httpd_package_name      = ['openio-sds-mod-httpd']
-      $package_names           = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
-      $package_install_options = {}
-      $redis_package_name      = 'redis'
-      $redis_service_name      = 'redis'
-      $package_rdo_release     = 'https://repos.fedorapeople.org/repos/openstack/openstack-mitaka/rdo-release-mitaka-5.noarch.rpm'
-      $package_swift_proxy     = 'openstack-swift-proxy'
-      $package_swift_dep       = undef
-      $package_swift_dep_opt   = {}
-      $httpd_wsgi_package_name = 'mod_wsgi'
-      $cmd_mkdir               = '/usr/bin/mkdir'
+      $httpd_daemon              = '/usr/sbin/httpd'
+      $httpd_moduledir           = "${libdir}/httpd/modules"
+      $httpd_package_name        = ['openio-sds-mod-httpd']
+      $package_names             = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
+      $package_install_options   = {}
+      $redis_package_name        = 'redis'
+      $redis_service_name        = 'redis'
+      $package_openstack_release = 'centos-release-openstack-mitaka'
+      $package_swift_proxy       = 'openstack-swift-proxy'
+      $package_swift_dep         = undef
+      $package_swift_dep_opt     = {}
+      $httpd_wsgi_package_name   = 'mod_wsgi'
+      $cmd_mkdir                 = '/usr/bin/mkdir'
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }

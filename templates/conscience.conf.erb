@@ -17,7 +17,7 @@ min_spare_workers=<%= @min_spare_workers %>
 max_spare_workers=<%= @max_spare_workers %>
 max_workers=<%= @max_workers %>
 listen=<%= @ipaddress %>:<%= @port %>
-plugins=conscience,stats,fallback
+plugins=conscience,stats,ping,fallback
 
 [Service]
 namespace=<%= @ns %>
@@ -27,6 +27,9 @@ load_ns_info=false
 
 [Plugin.stats]
 path=<%= scope['openiosds::libdir'] %>/grid/msg_stats.so
+
+[Plugin.ping]
+path=<%= scope['openiosds::libdir'] %>/grid/msg_ping.so
 
 [Plugin.fallback]
 path=<%= scope['openiosds::libdir'] %>/grid/msg_fallback.so

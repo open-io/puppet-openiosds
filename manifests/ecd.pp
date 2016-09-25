@@ -28,6 +28,7 @@ define openiosds::ecd (
   $wSGIDaemonProcess_threads   = '1',
 
   $location                   = $hostname,
+  $slots                      = undef,
   $no_exec                    = false,
 ) {
 
@@ -61,6 +62,7 @@ define openiosds::ecd (
   validate_integer($worker_ThreadsPerChild)
   validate_integer($worker_MaxRequestsPerChild)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

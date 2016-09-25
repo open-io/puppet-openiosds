@@ -17,6 +17,7 @@ define openiosds::account (
   $backlog                = '2048',
 
   $location               = $hostname,
+  $slots                  = undef,
   $no_exec                = false,
 ) {
 
@@ -46,6 +47,7 @@ define openiosds::account (
   if $workers { validate_integer($workers) }
   validate_integer($backlog)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

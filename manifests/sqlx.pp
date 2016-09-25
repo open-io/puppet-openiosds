@@ -16,6 +16,7 @@ define openiosds::sqlx (
   $schema          = undef,
 
   $location        = $hostname,
+  $slots           = undef,
   $no_exec         = false,
 ) {
 
@@ -43,6 +44,7 @@ define openiosds::sqlx (
   else { $_stats = ["{type: volume, path: ${_volume}}",'{type: meta}','{type: system}'] }
   validate_string($cmdline_options)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
 
   # Namespace

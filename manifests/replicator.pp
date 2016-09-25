@@ -17,6 +17,7 @@ define openiosds::replicator (
   $consumer_queue             = 'oio-repli',
 
   $location                   = $hostname,
+  $slots                      = undef,
   $no_exec                    = false,
 ) {
 
@@ -37,6 +38,7 @@ define openiosds::replicator (
   validate_string($consumer_target)
   validate_string($consumer_queue)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

@@ -15,6 +15,7 @@ define openiosds::meta2 (
   $cmdline_options = '',
 
   $location        = $hostname,
+  $slots           = undef,
   $no_exec         = false,
 ) {
 
@@ -42,6 +43,7 @@ define openiosds::meta2 (
   else { $_stats = ["{type: volume, path: ${_volume}}",'{type: meta}','{type: system}'] }
   validate_string($cmdline_options)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
 
   # Namespace

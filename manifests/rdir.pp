@@ -13,6 +13,7 @@ define openiosds::rdir (
   $stats          = undef,
 
   $location       = $hostname,
+  $slots          = undef,
   $no_exec        = false,
 ) {
 
@@ -32,6 +33,7 @@ define openiosds::rdir (
   if $stats { $_stats = $stats }
   else { $_stats = ["{type: volume, path: ${_db_path}}",'{type: http, path: /status, parser: json}','{type: system}'] }
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

@@ -31,6 +31,7 @@ define openiosds::rawx (
   $worker_MaxRequestsPerChild = '0',
 
   $location                   = $hostname,
+  $slots                      = undef,
   $no_exec                    = false,
 ) {
 
@@ -70,6 +71,7 @@ define openiosds::rawx (
   validate_integer($worker_ThreadsPerChild)
   validate_integer($worker_MaxRequestsPerChild)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

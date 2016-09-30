@@ -38,6 +38,9 @@ queue_url = <%= @quarantine_queue_url %>
 <% end -%>
 
 <% if @replication -%>
+[handler:storage.content.append]
+pipeline = replication
+
 [filter:replication]
 use = egg:oio#notify
 tube = oio-repli

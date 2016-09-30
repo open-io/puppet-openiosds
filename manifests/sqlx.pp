@@ -13,8 +13,10 @@ define openiosds::sqlx (
   $checks          = undef,
   $stats           = undef,
   $cmdline_options = '',
+  $schema          = undef,
 
   $location        = $hostname,
+  $slots           = undef,
   $no_exec         = false,
 ) {
 
@@ -42,6 +44,7 @@ define openiosds::sqlx (
   else { $_stats = ["{type: volume, path: ${_volume}}",'{type: meta}','{type: system}'] }
   validate_string($cmdline_options)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
 
   # Namespace
@@ -63,12 +66,15 @@ define openiosds::sqlx (
     ensure  => $openiosds::file_ensure,
     content => template('openiosds/service-watch.yml.erb'),
     mode    => $openiosds::file_mode,
-  } ->
-  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/sqlx.mail":
-    ensure  => $openiosds::file_ensure,
-    content => template('openiosds/sqlx.mail.erb'),
-    mode    => $openiosds::file_mode,
-  } ->
+  }
+  if $schema == 'oiobox' {
+    file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/sqlx":
+      ensure  => $openiosds::file_ensure,
+      content => template('openiosds/sqlx.mail.erb'),
+      mode    => $openiosds::file_mode,
+      before  => File["${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml"],
+    }
+  }
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
@@ -77,6 +83,7 @@ define openiosds::sqlx (
     uid     => $openiosds::user,
     gid     => $openiosds::group,
     no_exec => $no_exec,
+    require => File["${openiosds::sysconfdir}/${ns}/watch/${type}-${num}.yml"],
   }
 
 }

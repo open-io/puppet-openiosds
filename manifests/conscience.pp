@@ -15,7 +15,7 @@ define openiosds::conscience (
   $storage_policy                        = 'SINGLE',
   $storage_policies                      = {'SINGLE'=>'NONE:NONE','TWOCOPIES'=>'NONE:DUPONETWO','THREECOPIES'=>'NONE:DUPONETHREE','ERASURECODE'=>'NONE:ERASURECODE'},
   $data_security                         = {'DUPONETWO'=>'plain/distance=1,nb_copy=2','DUPONETHREE'=>'plain/distance=1,nb_copy=3','ERASURECODE'=>'ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1'},
-  $service_update_policy                 = {'meta2'=>'KEEP|1|1|','sqlx'=>'KEEP|1|1|','rdir'=>'KEEP|1|1|user_is_a_service=1'},
+  $service_update_policy                 = {'meta2'=>'KEEP|1|1|','sqlx'=>'KEEP|1|1|','rdir'=>'KEEP|1|1|user_is_a_service=rawx'},
   $pools                                 = {},
   $score_lock_at_first_register          = {},
   $services_score_timeout                = {'meta0'=>'3600','meta1'=>'120','meta2'=>'120','rawx'=>'120','sqlx'=>'120','rdir'=>'120','redis'=>'120','oiofs'=>'120','account'=>'120'},

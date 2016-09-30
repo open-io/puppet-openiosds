@@ -6,6 +6,12 @@ location: <%= @location %>
 <% else -%>
 location: <%= @hostname %>
 <% end -%>
+<% if @slots -%>
+slots:
+<% @slots.each do |slot| -%>
+    - <%= slot %>
+<% end -%>
+<% end -%>
 <% if @_checks -%>
 checks:
 <% @_checks.each do |check| -%>

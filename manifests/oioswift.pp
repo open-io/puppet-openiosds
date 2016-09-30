@@ -62,13 +62,23 @@ define openiosds::oioswift (
 
   # Packages
   if $::os['family'] == 'RedHat' {
-    if ! defined(Package['rdo-release']) {
-      ensure_resource('package', 'rdo-release', {
-        source   => $::openiosds::params::package_rdo_release,
-        provider => 'rpm',
-        ensure   => present,
-        before   => Package[$::openiosds::params::package_swift_proxy],
-      })
+    if $::os['name'] == 'RedHat' {
+      if ! defined(Package[basename($::openiosds::params::package_openstack_release,'.rpm')]) {
+        ensure_resource('package', basename($::openiosds::params::package_openstack_release,'.rpm'), {
+          source   => $::openiosds::params::package_rdo_release,
+          provider => 'rpm',
+          ensure   => present,
+          before   => Package[$::openiosds::params::package_swift_proxy],
+        })
+      }
+    }
+    else {
+      if ! defined(Package[$::openiosds::params::package_openstack_release]) {
+        ensure_resource('package', $::openiosds::params::package_openstack_release, {
+          ensure   => present,
+          before   => Package[$::openiosds::params::package_swift_proxy],
+        })
+      }
     }
   }
   if ! defined(Package[$::openiosds::params::package_swift_proxy]) {

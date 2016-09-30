@@ -9,12 +9,15 @@ define openiosds::replicator (
   $port                       = $::openiosds::params::replicator_port,
   $source_oioproxy_url        = undef,
   $source_ns                  = undef,
+  $source_ecd_url             = undef,
   $destination_oioproxy_url   = undef,
   $destination_ns             = undef,
+  $destination_ecd_url        = undef,
   $consumer_target            = undef,
   $consumer_queue             = 'oio-repli',
 
   $location                   = $hostname,
+  $slots                      = undef,
   $no_exec                    = false,
 ) {
 
@@ -28,11 +31,14 @@ define openiosds::replicator (
   validate_integer($port)
   validate_string($source_oioproxy_url)
   validate_string($source_ns)
+  validate_string($source_ecd_url)
   validate_string($destination_oioproxy_url)
   validate_string($destination_ns)
+  validate_string($destination_ecd_url)
   validate_string($consumer_target)
   validate_string($consumer_queue)
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

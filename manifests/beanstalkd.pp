@@ -12,6 +12,7 @@ define openiosds::beanstalkd (
   $binlogsize       = '10240000',
 
   $location         = $hostname,
+  $slots            = undef,
   $no_exec          = false,
 ) {
 
@@ -26,6 +27,7 @@ define openiosds::beanstalkd (
   if $binlogdir { $_binlogdir = $binlogdir }
   else { $_binlogdir = "${openiosds::sharedstatedir}/${ns}/${type}-${num}" }
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

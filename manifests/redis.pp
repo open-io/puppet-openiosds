@@ -30,6 +30,7 @@ define openiosds::redis (
   $maxmemory                   = '0',
 
   $location                    = $hostname,
+  $slots                       = undef,
   $no_exec                     = false,
 ) {
 
@@ -49,6 +50,7 @@ define openiosds::redis (
   else { $_pidfile = "${openiosds::sharedstatedir}/${ns}/${type}-${num}/${type}-${num}.pid" }
   if $slaveof { validate_string($slaveof) }
   validate_string($location)
+  if $slots { validate_array($slots) }
 
   # Namespace
   if $action == 'create' {

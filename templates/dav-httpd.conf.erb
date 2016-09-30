@@ -5,13 +5,12 @@ LoadModule mime_module         <%= scope['openiosds::httpd_moduledir'] %>/mod_mi
 LoadModule dav_<%= @type %>_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_dav_<%= @type %>.so
 LoadModule setenvif_module     <%= scope['openiosds::httpd_moduledir'] %>/mod_setenvif.so
 LoadModule alias_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_alias.so
+LoadModule env_module          <%= scope['openiosds::httpd_moduledir'] %>/mod_env.so
 <% if @osfamily == 'RedHat' -%>
 LoadModule unixd_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_unixd.so
 LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_log_config.so
+LoadModule logio_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_logio.so
 <% end -%>
-<IfModule !mod_logio.c>
-  LoadModule logio_module modules/mod_logio.so
-</IfModule>
 
 Alias / /x/
 

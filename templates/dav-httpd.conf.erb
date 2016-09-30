@@ -9,6 +9,9 @@ LoadModule alias_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_al
 LoadModule unixd_module        <%= scope['openiosds::httpd_moduledir'] %>/mod_unixd.so
 LoadModule log_config_module   <%= scope['openiosds::httpd_moduledir'] %>/mod_log_config.so
 <% end -%>
+<IfModule !mod_logio.c>
+  LoadModule logio_module modules/mod_logio.so
+</IfModule>
 
 Alias / /x/
 

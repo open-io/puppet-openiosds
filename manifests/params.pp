@@ -12,9 +12,17 @@ class openiosds::params {
       case $::os['name'] {
         'Ubuntu': {
           $package_install_options = {}
+          case $::os['release']['major'] {
+            '17.04': { $redis32 = true }
+            default: { $redis32 = false }
+          }
         }
         'Debian': {
           $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
+          case $::os['release']['major'] {
+            '8': { $redis32 = true }
+            default: { $redis32 = false }
+          }
         }
         default: { $package_install_options = {} }
       }
@@ -56,6 +64,10 @@ class openiosds::params {
       $package_swift_dep_opt     = {}
       $httpd_wsgi_package_name   = 'mod_wsgi'
       $cmd_mkdir                 = '/usr/bin/mkdir'
+      case $::os['release']['major'] {
+        '8': { $redis32 = true }
+        default: { $redis32 = false }
+      }
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }

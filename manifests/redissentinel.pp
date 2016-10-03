@@ -19,6 +19,8 @@ define openiosds::redissentinel (
   $redis_port       = $::openiosds::params::redis_port,
   $parallel_sync    = '1',
   $quorum           = '2',
+  $protected_mode   = 'no',
+  $redis32          = $::openiosds::params::redis32,
 
   $no_exec          = false,
 ) {

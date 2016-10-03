@@ -26,7 +26,12 @@
 
 <% @pools.keys.sort.each do |key| -%>
 [pool:<%= key %>]
-targets=<%= @pools[key] %>
+<% if @pools[key].has_key?('targets') -%>
+targets=<%= @pools[key]['targets'] %>
+<% end -%>
+<% if @pools[key].has_key?('mask') -%>
+mask=<%= @pools[key]['mask'] %>
+<% end -%>
 <% end -%>
 
 

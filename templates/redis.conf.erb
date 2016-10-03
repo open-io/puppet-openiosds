@@ -50,4 +50,5 @@ hz 10
 aof-rewrite-incremental-fsync yes
 maxclients <%= @maxclients %>
 maxmemory <%= @maxmemory %>
+<% if @redis32 -%>protected-mode <%= @protected_mode %><% end -%>
 <% if @slaveof -%>slaveof <%= @slaveof %><% end -%>

@@ -30,7 +30,7 @@ class openiosds::params {
       $httpd_daemon            = '/usr/sbin/apache2'
       $httpd_moduledir         = "${libdir}/apache2/modules"
       $httpd_package_name      = ['openio-sds']
-      $package_names           = ['openio-sds']
+      $package_names           = ['openio-sds','openio-sds-rsyslog','openio-sds-logrotate']
       $redis_package_name      = 'redis-server'
       $redis_service_name      = 'redis-server'
       $package_swift_proxy     = 'swift-proxy'

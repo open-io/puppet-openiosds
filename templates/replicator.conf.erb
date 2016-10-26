@@ -9,10 +9,10 @@
         "oio" = {
             "proxy" = {
                 "url" = "<%= @source_oioproxy_url %>",
-                "ns" = "<%= @source_ns %>",
 <% if @source_ecd_url -%>
-                "ecd" = "<%= @source_ecd_url %>"
+                "ecd" = "<%= @source_ecd_url %>",
 <% end -%>
+                "ns" = "<%= @source_ns %>"
             }    
         }
     },
@@ -21,10 +21,10 @@
         "oio" = {
             "proxy" = {
                 "url" = "<%= @destination_oioproxy_url %>",
-                "ns" = "<%= @destination_ns %>",
 <% if @destination_ecd_url -%>
-                "ecd" = "<%= @destination_ecd_url %>"
+                "ecd" = "<%= @destination_ecd_url %>",
 <% end -%>
+                "ns" = "<%= @destination_ns %>"
             }
         }
     },

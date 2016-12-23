@@ -66,7 +66,7 @@ define openiosds::replicator (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "java -jar /usr/share/java/openio-sds-replicator/openio-sds-replicator-0.1-SNAPSHOT-all.jar ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}.conf",
+    command => "java -jar /usr/share/java/openio-sds-replicator/openio-sds-replicator-all.jar ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}.conf",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

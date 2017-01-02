@@ -1,4 +1,4 @@
-# Configure user, group, global directories and install packages
+# Configure user, group, global directories and install base packages
 class openiosds::install inherits openiosds {
   # User
   user { $openiosds::user:
@@ -13,7 +13,7 @@ class openiosds::install inherits openiosds {
   }
 
   # Packages
-  ensure_packages([$::openiosds::package_names],$::openiosds::params::package_install_options)
+  ensure_packages([$::openiosds::package_names],merge($::openiosds::params::package_install_options,{before => [File[$openiosds::globaldirs],File[$openiosds::sharedstatedir_global]]}))
 
   # Path
   file { $openiosds::globaldirs:

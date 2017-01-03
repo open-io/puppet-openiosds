@@ -41,6 +41,8 @@ define openiosds::conscience (
   $param_option_events_max_pending       = '1000',
   $param_option_meta2_events_max_pending = '1000',
   $param_option_meta1_events_max_pending = '1000',
+  $flatns                                = false,
+  $flatns_options                        = {'flat_hash_offset'=>0,'flat_hash_size'=>0,'flat_bitlength'=>'17'},
 
   $no_exec               = false,
 ) {
@@ -80,6 +82,11 @@ define openiosds::conscience (
   validate_integer($param_option_events_max_pending)
   validate_integer($param_option_meta2_events_max_pending)
   validate_integer($param_option_meta1_events_max_pending)
+  if $flatns {
+    validate_integer($flatns_options['flat_hash_offset'],0,0)
+    validate_integer($flatns_options['flat_hash_size'],0,0)
+    validate_integer($flatns_options['flat_bitlength'],256,1)
+  }
 
 
   # Namespace

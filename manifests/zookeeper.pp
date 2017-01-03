@@ -20,6 +20,7 @@ define openiosds::zookeeper (
   $logdir                    = undef,
   $logprop                   = 'INFO,ROLLINGFILE',
   $logMaxFileSize            = '10MB',
+  $java_args                 = undef,
 
   $no_exec                   = false,
 ) {
@@ -85,6 +86,24 @@ define openiosds::zookeeper (
   else { $_logdir = "${openiosds::logdir}/${ns}/${type}-${num}" }
   validate_string($logprop)
   validate_string($logMaxFileSize)
+  if $java_args {
+    $_java_args = $java_args
+  } else {
+    # Default Java args
+    if to_i($::memorysize_mb) > 4000 {
+      if ($::memorysize_mb / 2) > 8192 {
+        $_memorysize_mb = 8192
+      }
+      else {
+        $_memorysize_mb = to_i($::memorysize_mb / 2)
+      }
+      $_java_mem = "-Xms${_memorysize_mb}M -Xmx${_memorysize_mb}"
+    }
+    if to_i($::processorcount) > 20 {
+      $_java_pgcthreads = '-XX:ParallelGCThreads=8'
+    }
+    $_java_args = "${_memorysize_mb} -XX:+UseParallelGC ${_java_pgcthreads} -Djute.maxbuffer=8388608"
+  }
 
   # Namespace
   if $action == 'create' {
@@ -140,7 +159,7 @@ define openiosds::zookeeper (
   }
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "java -Dzookeeper.log.dir=${_logdir} -Dzookeeper.root.logger=${logprop} -cp ${openiosds::sysconfdir}/${ns}/${type}-${num}:${classpath} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${openiosds::sysconfdir}/${ns}/${type}-${num}/zoo.cfg",
+    command => "java ${_java_args} -Dzookeeper.log.dir=${_logdir} -Dzookeeper.root.logger=${logprop} -cp ${openiosds::sysconfdir}/${ns}/${type}-${num}:${classpath} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${openiosds::sysconfdir}/${ns}/${type}-${num}/zoo.cfg",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

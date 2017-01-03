@@ -67,10 +67,19 @@ define openiosds::zookeeper (
     if is_string($servers) { $servers_array = split($servers,'[;,]') }
     elsif is_array($servers) { $servers_array = $servers }
     else { fail("${servers} is not an array.") }
+    $sindex = array_index($servers_array,$ipaddress)
   }
   validate_integer($autopurge_snapretaincount)
   validate_integer($autopurge_purgeinterval)
-  if $myid { validate_integer($myid) }
+  if $myid {
+    $_myid = $myid
+  }
+  elsif $sindex {
+    $_myid = $sindex
+  }
+  if $_myid {
+    validate_integer($_myid,255,1)
+  }
   if $dataDir {
     $_dataDir = $dataDir
     $rootDir = dirname($_dataDir)
@@ -92,10 +101,8 @@ define openiosds::zookeeper (
 
   # Packages
   # openjdk mandatory for zookeeper. gcj is bullhsit
-  package { $packages:
-    ensure        => $openiosds::package_ensure,
-    allow_virtual => false,
-  } ->
+  #ensure_packages($packages,merge($::openiosds::params::package_install_options,{before=>Openiosds::Service["${ns}-${type}-${num}"]}))
+  ensure_packages($packages)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,
@@ -154,12 +161,12 @@ define openiosds::zookeeper (
       require => [Gridinit::Program["${ns}-${type}-${num}"],Openiosds::Namespace[$ns]],
     }
   }
-  if $myid {
+  if $_myid {
     file {"${_dataDir}/myid":
       ensure  => $openiosds::file_ensure,
       owner   => $openiosds::user,
       group   => $openiosds::group,
-      content => $myid,
+      content => "$_myid",
     }
   }
 

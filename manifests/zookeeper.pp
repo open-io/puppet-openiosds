@@ -62,7 +62,7 @@ define openiosds::zookeeper (
     if is_string($servers) { $servers_array = split($servers,'[;,]') }
     elsif is_array($servers) { $servers_array = $servers }
     else { fail("${servers} is not an array.") }
-    $sindex = array_index($servers_array,$ipaddress)
+    $sindex = zookeeper_index($servers_array,$ipaddress)
   }
   validate_integer($autopurge_snapretaincount)
   validate_integer($autopurge_purgeinterval)

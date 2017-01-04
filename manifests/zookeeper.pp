@@ -102,7 +102,7 @@ define openiosds::zookeeper (
     if to_i($::processorcount) > 20 {
       $_java_pgcthreads = '-XX:ParallelGCThreads=8'
     }
-    $_java_args = "${_memorysize_mb} -XX:+UseParallelGC ${_java_pgcthreads} -Djute.maxbuffer=8388608"
+    $_java_args = "${_java_mem} -XX:+UseParallelGC ${_java_pgcthreads} -Djute.maxbuffer=8388608"
   }
 
   # Namespace

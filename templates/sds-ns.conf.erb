@@ -10,5 +10,5 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if @meta1_digits %>meta1_digits=<%= @meta1_digits %>
 <%end -%>
-<% if scope.lookupvar('udp_allowed') != :undefined %>udp_allowed=<%= @udp_allowed %>
+<% if scope.lookupvar('udp_allowed') != :undefined and not @udp_allowed.nil? %>udp_allowed=<%= @udp_allowed %>
 <%end -%>

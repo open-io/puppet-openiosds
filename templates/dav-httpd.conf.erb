@@ -49,21 +49,14 @@ SetEnvIf nolog 1 !log-cid-in
 CustomLog <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd-access.log log/cid-out env=log-cid-out
 CustomLog <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd-access.log log/cid-in  env=log-cid-in
 
-<IfModule prefork.c>
-MaxClients       <%= @prefork_MaxClients %>
-StartServers     <%= @prefork_StartServers %>
-MinSpareServers  <%= @prefork_MinSpareServers %>
-MaxSpareServers  <%= @prefork_MaxSpareServers %>
+<% @httpd_mpm.keys.sort.each do |key| -%>
+<IfModule <%= key %>.c>
+<% @httpd_mpm[key].keys.sort.each do |mpmkey| -%>
+<%= mpmkey %> <%= @httpd_mpm[key][mpmkey] %>
+<% end -%>
 </IfModule>
 
-<IfModule worker.c>
-StartServers        <%= @worker_StartServers %>
-MaxClients          <%= @worker_MaxClients %>
-MinSpareThreads     <%= @worker_MinSpareThreads %>
-MaxSpareThreads     <%= @worker_MaxSpareThreads %>
-ThreadsPerChild     <%= @worker_ThreadsPerChild %>
-MaxRequestsPerChild <%= @worker_MaxRequestsPerChild %>
-</IfModule>
+<% end -%>
 
 DavDepthInfinity Off
 

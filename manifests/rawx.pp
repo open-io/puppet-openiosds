@@ -19,16 +19,7 @@ define openiosds::rawx (
   $typesConfig                = '/etc/mime.types',
   $grid_fsync                 = 'enabled',
   $grid_fsync_dir             = 'enabled',
-  $prefork_MaxClients         = '150',
-  $prefork_StartServers       = '5',
-  $prefork_MinSpareServers    = '5',
-  $prefork_MaxSpareServers    = '10',
-  $worker_StartServers        = '5',
-  $worker_MaxClients          = '100',
-  $worker_MinSpareThreads     = '5',
-  $worker_MaxSpareThreads     = '25',
-  $worker_ThreadsPerChild     = '10',
-  $worker_MaxRequestsPerChild = '0',
+  $httpd_mpm                  = {'worker'=>{'StartServers'=>3,'MinSpareThreads'=>75,'MaxSpareThreads'=>250,'ThreadsPerChild'=>25,'MaxRequestsPerChild'=>0,'ServerLimit'=>16}},
 
   $location                   = $hostname,
   $slots                      = undef,
@@ -60,16 +51,6 @@ define openiosds::rawx (
   validate_string($grid_fsync)
   validate_string($grid_fsync_dir)
   validate_integer($grid_hash_width)
-  validate_integer($prefork_MaxClients)
-  validate_integer($prefork_StartServers)
-  validate_integer($prefork_MinSpareServers)
-  validate_integer($prefork_MaxSpareServers)
-  validate_integer($worker_StartServers)
-  validate_integer($worker_MaxClients)
-  validate_integer($worker_MinSpareThreads)
-  validate_integer($worker_MaxSpareThreads)
-  validate_integer($worker_ThreadsPerChild)
-  validate_integer($worker_MaxRequestsPerChild)
   validate_string($location)
   if $slots { validate_array($slots) }
 

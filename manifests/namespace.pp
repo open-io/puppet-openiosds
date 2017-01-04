@@ -7,6 +7,7 @@ define openiosds::namespace (
   $oioproxy_url   = undef,
   $eventagent_url = undef,
   $ecd_url        = undef,
+  $meta1_digits   = undef,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -23,6 +24,7 @@ define openiosds::namespace (
   if $oioproxy_url { validate_string($oioproxy_url) }
   if $eventagent_url { validate_string($eventagent_url) }
   if $ecd_url { validate_string($ecd_url) }
+  if $meta1_digits { validate_integer($meta1_digits,4,2) }
 
   if $openiosds::action == 'create' {
     # Path

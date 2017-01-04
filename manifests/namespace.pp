@@ -26,7 +26,7 @@ define openiosds::namespace (
   if $eventagent_url { validate_string($eventagent_url) }
   if $ecd_url { validate_string($ecd_url) }
   if $meta1_digits { validate_integer($meta1_digits,4,2) }
-  if $udp_allowed { validate_bool($udp_allowed) }
+  if $udp_allowed { validate_string($udp_allowed) }
 
   if $openiosds::action == 'create' {
     # Path

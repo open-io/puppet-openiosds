@@ -8,6 +8,7 @@ define openiosds::namespace (
   $eventagent_url = undef,
   $ecd_url        = undef,
   $meta1_digits   = undef,
+  $udp_allowed    = undef,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -25,6 +26,7 @@ define openiosds::namespace (
   if $eventagent_url { validate_string($eventagent_url) }
   if $ecd_url { validate_string($ecd_url) }
   if $meta1_digits { validate_integer($meta1_digits,4,2) }
+  if $udp_allowed { validate_bool($udp_allowed) }
 
   if $openiosds::action == 'create' {
     # Path

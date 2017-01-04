@@ -1,11 +1,11 @@
 #
 # Inputs:
-#   1st argument: Array in which we search for the element
-#   2nd argument: element to be seearched for in the Array
+#   1st argument: Array of servers each in the form 'ip:port:port'
+#   2nd argument: IP to search in
 #
 # Returned values:
 #   -1: element not found
-#   otherwise: position of the element in the array (starting at index 0)
+#   otherwise: position of the element in the array (starting at index 1)
 #
 # Raised errors:
 #   Puppet::ParseError: if 1st element is not an Array

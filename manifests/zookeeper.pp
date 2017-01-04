@@ -97,7 +97,7 @@ define openiosds::zookeeper (
       else {
         $_memorysize_mb = to_i($::memorysize_mb / 2)
       }
-      $_java_mem = "-Xms${_memorysize_mb}M -Xmx${_memorysize_mb}"
+      $_java_mem = "-Xms${_memorysize_mb}M -Xmx${_memorysize_mb}M"
     }
     if to_i($::processorcount) > 20 {
       $_java_pgcthreads = '-XX:ParallelGCThreads=8'

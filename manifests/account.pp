@@ -15,6 +15,7 @@ define openiosds::account (
   $sentinel_master_name   = undef,
   $workers                = undef,
   $backlog                = '2048',
+  $autocreate             = false,
 
   $location               = $hostname,
   $slots                  = undef,
@@ -48,6 +49,7 @@ define openiosds::account (
   validate_integer($backlog)
   validate_string($location)
   if $slots { validate_array($slots) }
+  validate_bool($autocreate)
 
   # Namespace
   if $action == 'create' {

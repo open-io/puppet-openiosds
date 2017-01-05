@@ -1,28 +1,30 @@
 # Configure and install an OpenIO oioswift service
 define openiosds::oioswift (
-  $action              = 'create',
-  $type                = 'oioswift',
-  $num                 = '0',
+  $action                  = 'create',
+  $type                    = 'oioswift',
+  $num                     = '0',
 
-  $ns                  = undef,
-  $ipaddress           = $::ipaddress,
-  $port                = $::openiosds::params::oioswift_port,
-  $workers             = '2',
-  $sds_proxy_url       = "http://${::openiosds::params::oioproxy_url}",
-  $object_post_as_copy = false,
-  $memcache_servers    = "${ipaddress}:11211",
-  $auth_uri            = "http://${ipaddress}:5000/v2.0",
-  $auth_protocol       = 'http',
-  $auth_host           = $::ipaddress,
-  $auth_port           = '35357',
-  $identity_uri        = "http://${ipaddress}:35357",
-  $admin_tenant_name   = 'services',
-  $admin_user          = 'swift',
-  $admin_password      = 'SWIFT_PASS',
-  $delay_auth_decision = true,
-  $operator_roles      = 'admin,_member_',
+  $ns                      = undef,
+  $ipaddress               = $::ipaddress,
+  $port                    = $::openiosds::params::oioswift_port,
+  $workers                 = '2',
+  $sds_proxy_url           = "http://${::openiosds::params::oioproxy_url}",
+  $object_post_as_copy     = false,
+  $memcache_servers        = "${ipaddress}:11211",
+  $auth_uri                = "http://${ipaddress}:5000/v2.0",
+  $auth_protocol           = 'http',
+  $auth_host               = $::ipaddress,
+  $auth_port               = '35357',
+  $identity_uri            = "http://${ipaddress}:35357",
+  $admin_tenant_name       = 'services',
+  $admin_user              = 'swift',
+  $admin_password          = 'SWIFT_PASS',
+  $delay_auth_decision     = true,
+  $operator_roles          = 'admin,_member_',
+  $access_log_headers      = false,
+  $access_log_headers_only = undef,
 
-  $no_exec             = false,
+  $no_exec                 = false,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -51,6 +53,8 @@ define openiosds::oioswift (
   validate_string($admin_password)
   validate_bool($delay_auth_decision)
   validate_string($operator_roles)
+  validate_bool($access_log_headers)
+  if $access_log_headers_only { validate_string($access_log_headers_only) }
 
 
   # Namespace

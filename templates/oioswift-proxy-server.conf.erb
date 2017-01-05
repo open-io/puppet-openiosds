@@ -11,12 +11,15 @@ user = <%= scope['openiosds::user'] %>
 object_post_as_copy = <%= @object_post_as_copy %>
 allow_account_management = true
 account_autocreate = true
+log_name = OIO,<%= @ns %>,<%= @type %>,<%= @num %>
 
 [filter:gatekeeper]
 use = egg:swift#gatekeeper
 
 [filter:proxy-logging]
 use = egg:swift#proxy_logging
+access_log_headers = <%= @access_log_headers %>
+access_log_headers_only = <%= @access_log_headers_only %>
 
 #[filter:tempauth]
 #use = egg:swift#tempauth

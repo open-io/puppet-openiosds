@@ -25,6 +25,18 @@ define openiosds::replicator (
     include openiosds
   }
 
+  # OS dependent parameters
+  case $::osfamily {
+    'Debian': {
+      $jarpath = '/usr/share/openio-sds-replicator/*'
+      $packages = ['openjdk-8-jre-headless']
+    }
+    'RedHat': {
+      $classpath = '/usr/share/java/openio-sds-replicator/*'
+      $packages = ['java-1.8.0-openjdk-headless']
+    }
+  }
+
   # Validation
   validate_string($ns)
   if ! has_interface_with('ipaddress',$ipaddress) { fail("${ipaddress} is invalid.") }
@@ -48,7 +60,7 @@ define openiosds::replicator (
   }
 
   # Packages
-  ensure_packages([$::openiosds::replicator_package_name],$::openiosds::params::package_install_options)
+  ensure_packages([$::openiosds::replicator_package_name,$packages],$::openiosds::params::package_install_options)
   # Service
   openiosds::service {"${ns}-${type}-${num}":
     action => $action,
@@ -66,7 +78,7 @@ define openiosds::replicator (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "java -jar /usr/share/java/openio-sds-replicator/openio-sds-replicator-all.jar ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}.conf",
+    command => "java -jar ${jarpath} ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}.conf",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

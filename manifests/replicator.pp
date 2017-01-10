@@ -28,11 +28,11 @@ define openiosds::replicator (
   # OS dependent parameters
   case $::osfamily {
     'Debian': {
-      $jarpath = '/usr/share/openio-sds-replicator/*'
+      $jarpath = '/usr/share/openio-sds-replicator/openio-sds-replicator-all.jar'
       $packages = ['openjdk-8-jre-headless']
     }
     'RedHat': {
-      $classpath = '/usr/share/java/openio-sds-replicator/*'
+      $classpath = '/usr/share/openio-sds-replicator/openio-sds-replicator-all.jar'
       $packages = ['java-1.8.0-openjdk-headless']
     }
   }

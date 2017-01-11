@@ -15,7 +15,7 @@ define openiosds::account (
   $sentinel_master_name   = undef,
   $workers                = undef,
   $backlog                = '2048',
-  $autocreate             = false,
+  $autocreate             = true,
 
   $location               = $hostname,
   $slots                  = undef,

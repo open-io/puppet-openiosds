@@ -38,7 +38,7 @@ define openiosds::namespace (
       mode   => $openiosds::directory_mode,
     }
     # Log path
-    file { $openiosds::logdir,"${openiosds::logdir}/${ns}":
+    file { [$openiosds::logdir,"${openiosds::logdir}/${ns}"]:
       ensure => $openiosds::directory_ensure,
       owner  => $openiosds::user_log,
       group  => $openiosds::group_log,

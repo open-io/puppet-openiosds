@@ -22,14 +22,21 @@ define openiosds::service (
   # Path
   if $ns { $service_path = "${ns}/${type}-${num}" }
   else   { $service_path = "${type}-${num}" }
-  if $volume { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}",$volume,"${openiosds::logdir}/${service_path}"] }
-  else { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}","${openiosds::logdir}/${service_path}"] }
+  if $volume { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}",$volume] }
+  else { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}"] }
 
   file { $required_path:
     ensure => $openiosds::directory_ensure,
     owner  => $openiosds::user,
     group  => $openiosds::group,
     mode   => $openiosds::directory_mode,
+  }
+  # Logs
+  file { "${openiosds::logdir}/${service_path}":
+    ensure => $openiosds::directory_ensure,
+    owner  => $openiosds::user_log,
+    group  => $openiosds::group_log,
+    mode   => $openiosds::directory_mode_log,
   }
 
 }

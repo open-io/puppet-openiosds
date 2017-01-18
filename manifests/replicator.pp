@@ -32,7 +32,7 @@ define openiosds::replicator (
       $packages = ['openjdk-8-jre-headless']
     }
     'RedHat': {
-      $jarpath = '/usr/share/openio-sds-replicator/openio-sds-replicator-all.jar'
+      $jarpath = '/usr/share/java/openio-sds-replicator/openio-sds-replicator-all.jar'
       $packages = ['java-1.8.0-openjdk-headless']
     }
   }

@@ -62,6 +62,9 @@ class openiosds(
   $data_directory_mode      = $openiosds::params::data_directory_mode,
   $directory_mode           = $openiosds::params::directory_mode,
   $directory_ensure         = $openiosds::params::directory_ensure,
+  $user_log                 = $openiosds::params::user_log,
+  $group_log                = $openiosds::params::group_log,
+  $directory_mode_log       = $openiosds::params::directory_mode_log,
   $no_exec                  = $openiosds::params::no_exec,
 
   $consciences              = {},

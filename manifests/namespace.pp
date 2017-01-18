@@ -30,12 +30,19 @@ define openiosds::namespace (
 
   if $openiosds::action == 'create' {
     # Path
-    $required_path = [$openiosds::sysconfdir,"${openiosds::sysconfdir}/${ns}",$openiosds::logdir,"${openiosds::logdir}/${ns}",$openiosds::sharedstatedir,"${openiosds::sharedstatedir}/${ns}","${openiosds::sharedstatedir}/${ns}/coredump",$openiosds::runstatedir,$openiosds::spoolstatedir,"${openiosds::spoolstatedir}/${ns}"]
+    $required_path = [$openiosds::sysconfdir,"${openiosds::sysconfdir}/${ns}",$openiosds::sharedstatedir,"${openiosds::sharedstatedir}/${ns}","${openiosds::sharedstatedir}/${ns}/coredump",$openiosds::runstatedir,$openiosds::spoolstatedir,"${openiosds::spoolstatedir}/${ns}"]
     file { $required_path:
       ensure => $openiosds::directory_ensure,
       owner  => $openiosds::user,
       group  => $openiosds::group,
       mode   => $openiosds::directory_mode,
+    }
+    # Log path
+    file { $openiosds::logdir,"${openiosds::logdir}/${ns}":
+      ensure => $openiosds::directory_ensure,
+      owner  => $openiosds::user_log,
+      group  => $openiosds::group_log,
+      mode   => $openiosds::directory_mode_log,
     }
 
     if $conscience_url or $zookeeper_url or $oioproxy_url or $eventagent_url or $ecd_url {

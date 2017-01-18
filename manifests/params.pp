@@ -38,6 +38,10 @@ class openiosds::params {
       $package_swift_dep_opt   = {}
       $httpd_wsgi_package_name = 'libapache2-mod-wsgi'
       $cmd_mkdir               = '/bin/mkdir'
+      # Logs
+      $user_log                 = 'syslog'
+      $group_log                = 'openio'
+      $directory_mode_log       = '770'
     }
     'RedHat': {
       case $::architecture {
@@ -64,6 +68,10 @@ class openiosds::params {
       $package_swift_dep_opt     = {}
       $httpd_wsgi_package_name   = 'mod_wsgi'
       $cmd_mkdir                 = '/usr/bin/mkdir'
+      # Logs
+      $user_log                 = 'openio'
+      $group_log                = 'openio'
+      $directory_mode_log       = '750'
       case $::os['release']['major'] {
         '8': { $redis32 = true }
         default: { $redis32 = false }
@@ -134,4 +142,5 @@ class openiosds::params {
   $directory_mode           = '0755'
   $directory_ensure         = 'directory'
   $no_exec                  = false
+
 }

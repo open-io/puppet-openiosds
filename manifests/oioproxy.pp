@@ -8,6 +8,7 @@ define openiosds::oioproxy (
   $ipaddress      = $::ipaddress,
   $port           = $::openiosds::params::oioproxy_port,
   $debug          = false,
+  $prefermaster   = undef,
 
   $no_exec        = false,
 ) {
@@ -26,6 +27,10 @@ define openiosds::oioproxy (
   validate_integer($port)
   validate_bool($debug)
   if $debug { $verbose = '-v ' }
+  if $prefermaster {
+    validate_string($prefermaster)
+    $_prefermaster = "-O PreferMaster=${prefermaster}"
+  }
 
 
   # Namespace
@@ -45,7 +50,7 @@ define openiosds::oioproxy (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/oio-proxy ${verbose} -p ${openiosds::runstatedir}/${ns}-${type}-${num}.pid -s OIO,${ns},${type},${num} ${ipaddress}:${port} ${ns}",
+    command => "${openiosds::bindir}/oio-proxy ${verbose} ${_prefermaster} -p ${openiosds::runstatedir}/${ns}-${type}-${num}.pid -s OIO,${ns},${type},${num} ${ipaddress}:${port} ${ns}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

@@ -1,6 +1,6 @@
 {
   "name": "openio-openiosds",
-  "version": "1.1.61",
+  "version": "1.1.62",
   "author": "Romain Acciari",
   "summary": "Puppet module for OpenIO SDS solution",
   "license": "Apache-2.0",

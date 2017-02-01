@@ -7,10 +7,12 @@ define openiosds::rdir (
   $ns             = undef,
   $ipaddress      = $::ipaddress,
   $port           = $::openiosds::params::rdir_port,
-  $workers        = '1',
+  $workers        = 1,
   $db_path        = undef,
   $checks         = undef,
   $stats          = undef,
+  $worker_class   = 'sync',
+  $threads        = 4,
 
   $location       = $hostname,
   $slots          = undef,
@@ -34,6 +36,8 @@ define openiosds::rdir (
   else { $_stats = ["{type: volume, path: ${_db_path}}",'{type: http, path: /status, parser: json}','{type: system}'] }
   validate_string($location)
   if $slots { validate_array($slots) }
+  validate_string($worker_class)
+  validate_integer($threads)
 
   # Namespace
   if $action == 'create' {

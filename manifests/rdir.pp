@@ -12,7 +12,7 @@ define openiosds::rdir (
   $checks         = undef,
   $stats          = undef,
   $worker_class   = 'sync',
-  $threads        = 4,
+  $threads        = 1,
 
   $location       = $hostname,
   $slots          = undef,

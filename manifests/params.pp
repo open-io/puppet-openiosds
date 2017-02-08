@@ -18,7 +18,12 @@ class openiosds::params {
           }
         }
         'Debian': {
-          $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
+          case $::os['lsb']['distid'] {
+            'Debian': {
+              $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
+            }
+            default: { $package_install_options = {} }
+          }
           case $::os['release']['major'] {
             '8': { $redis32 = true }
             default: { $redis32 = false }

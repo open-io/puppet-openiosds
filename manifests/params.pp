@@ -12,12 +12,16 @@ class openiosds::params {
       case $::os['name'] {
         'Ubuntu': {
           $package_install_options = {}
+          $user_log                = 'syslog'
+          $group_log               = 'openio'
           case $::os['release']['major'] {
             '17.04': { $redis32 = true }
             default: { $redis32 = false }
           }
         }
         'Debian': {
+          $user_log                = 'openio'
+          $group_log               = 'openio'
           case $::os['lsb']['distid'] {
             'Debian': {
               $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
@@ -29,7 +33,11 @@ class openiosds::params {
             default: { $redis32 = false }
           }
         }
-        default: { $package_install_options = {} }
+        default: {
+          $package_install_options = {}
+          $user_log                = 'openio'
+          $group_log               = 'openio'
+        }
       }
       $libdir                  = "${prefixdir}/lib"
       $httpd_daemon            = '/usr/sbin/apache2'
@@ -44,8 +52,6 @@ class openiosds::params {
       $httpd_wsgi_package_name = 'libapache2-mod-wsgi'
       $cmd_mkdir               = '/bin/mkdir'
       # Logs
-      $user_log                 = 'syslog'
-      $group_log                = 'openio'
       $directory_mode_log       = '770'
     }
     'RedHat': {

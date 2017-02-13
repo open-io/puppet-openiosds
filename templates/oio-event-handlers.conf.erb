@@ -3,6 +3,11 @@
 pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
 <% end -%>
 
+[handler:storage.content.append]
+<% if @quarantine or @replication -%>
+pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+<% end -%>
+
 [handler:storage.content.deleted]
 pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
 
@@ -21,6 +26,9 @@ pipeline = volume_index
 [handler:storage.chunk.deleted]
 pipeline = volume_index
 
+[handler:account.services]
+pipeline = noop
+
 [filter:content_cleaner]
 use = egg:oio#content_cleaner
 
@@ -29,6 +37,9 @@ use = egg:oio#account_update
 
 [filter:volume_index]
 use = egg:oio#volume_index
+
+[filter:noop]
+use = egg:oio#noop
 
 <% if @quarantine -%>
 [filter:quarantine]

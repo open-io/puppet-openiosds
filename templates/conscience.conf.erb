@@ -41,7 +41,6 @@ param_chunk_size=<%= @chunk_size %>
 param_option.ns_status=<%= @ns_status %>
 param_option.WORM=<%= @worm %>
 param_option.service_update_policy=<% @service_update_policy.keys.sort.each do |key| -%><%= key %>=<%= @service_update_policy[key] %>;<% end %>
-param_option.automatic_open=<%= @automatic_open %>
 param_option.meta2_max_versions=<%= @meta2_max_versions %>
 <% if @flatns -%>
 <% @flatns_options.keys.sort.each do |key| -%>param_option.<%= key %>=<%= @flatns_options[key] %>

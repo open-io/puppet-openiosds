@@ -63,6 +63,9 @@ class openiosds::params {
         'RedHat': {
           $package_openstack_release = 'https://rdoproject.org/repos/rdo-release.rpm'
         }
+        'Fedora': {
+          $package_openstack_release = undef
+        }
         default: {
           $package_openstack_release = 'centos-release-openstack-mitaka'
         }

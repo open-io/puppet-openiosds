@@ -23,6 +23,17 @@ define openiosds::oioswift (
   $operator_roles          = 'admin,_member_',
   $access_log_headers      = false,
   $access_log_headers_only = undef,
+  $auth_system             = 'keystone',
+  $log_facility            = '/dev/log',
+  $eventlet_debug          = false,
+  $sds_default_account     = 'default',
+  $sds_connection_timeout  = 2,
+  $sds_read_timeout        = 5,
+  $sds_write_timeout       = 5,
+  $sds_pool_connections    = 10,
+  $sds_pool_maxsize        = 10,
+  $sds_max_retries         = 0,
+  $tempauth_users          = [],
 
   $no_exec                 = false,
 ) {
@@ -55,7 +66,25 @@ define openiosds::oioswift (
   validate_string($operator_roles)
   validate_bool($access_log_headers)
   if $access_log_headers_only { validate_string($access_log_headers_only) }
+  validate_string($auth_system)
+  validate_string($log_facility)
+  validate_bool($eventlet_debug)
+  validate_string($sds_default_account)
+  validate_integer($sds_connection_timeout)
+  validate_integer($sds_read_timeout)
+  validate_integer($sds_write_timeout)
+  validate_integer($sds_pool_connections)
+  validate_integer($sds_pool_maxsize)
+  validate_integer($sds_pool_maxsize)
+  validate_array($tempauth_users)
 
+  # Auth system
+  case $auth_system {
+    'keystone': { $auth_filter = 'authtoken keystoneauth' }
+    'tempauth': { $auth_filter = 'tempauth' }
+    'noauth': { $auth_filter = '' }
+    default: { fail("Authentication system ${auth_filter} not supported.") }
+  }
 
   # Namespace
   if $action == 'create' {
@@ -77,7 +106,7 @@ define openiosds::oioswift (
       }
     }
     else {
-      if ! defined(Package[$::openiosds::params::package_openstack_release]) {
+      if ($::openiosds::params::package_openstack_release) and (! defined(Package[$::openiosds::params::package_openstack_release])) {
         ensure_resource('package', $::openiosds::params::package_openstack_release, {
           ensure   => present,
           before   => Package[$::openiosds::params::package_swift_proxy],

@@ -93,6 +93,7 @@ class openiosds::params {
     }
     default: { fail("osfamily ${::osfamily} not supported.") }
   }
+  $memcached_package_name   = 'memcached'
   $beanstalkd_package_name  = 'beanstalkd'
   $replicator_package_name  = 'openio-sds-replicator'
   $bindir                   = "${prefixdir}/bin"
@@ -143,6 +144,7 @@ class openiosds::params {
   $sqlx_port                = '6016'
   $ecd_port                 = '6017'
   $replicator_admin_port    = '6018'
+  $memcached_port           = '6019'
   $conscience_url           = "${server_ipaddress}:${conscience_port}"
   $zookeeper_url            = "${server_ipaddress}:${zookeeper_port}"
   $oioproxy_url             = "${server_ipaddress}:${oioproxy_port}"

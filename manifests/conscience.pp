@@ -113,14 +113,6 @@ define openiosds::conscience (
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
     require => Class['openiosds'],
   } ->
-  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-events.conf":
-    ensure  => $openiosds::file_ensure,
-    content => template("openiosds/${type}.events.erb"),
-    owner   => $openiosds::user,
-    group   => $openiosds::group,
-    mode    => '0644',
-    notify  => Gridinit::Program["${ns}-${type}-${num}"],
-  } ->
   file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-policies.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.storage.erb"),

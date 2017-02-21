@@ -65,8 +65,6 @@ param_option.meta1.events-max-pending=<%= @param_option_meta1_events_max_pending
 # Storage policies definitions
 param_storage_conf=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-policies.conf
 
-param_events=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-events.conf
-
 # Service scoring and pools definitions
 param_service_conf=<%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/conscience-<%= @num %>-service*.conf
 

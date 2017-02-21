@@ -52,9 +52,7 @@ define openiosds::oioproxy (
       validate_string($forceMaster)
       $_forceMaster = "-O ForceMaster=${forceMaster}"
     }
-    $_cmdoptions = join(([$verbose, $_preferMaster, $_preferSlave,
-      $_preferMasterForWrites, $_forceMaster].reduce([]) |$memo, $x|
-      { if $x == undef { $memo } else {$memo << $x} }),' ')
+    $_cmdoptions = "$verbose $_preferMaster $_preferSlave $_preferMasterForWrites $_forceMaster"
   }
 
 

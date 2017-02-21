@@ -1,12 +1,12 @@
 daemonize <%= @daemonize %>
-pidfile <%= @_pidfile %>
+pidfile "<%= @_pidfile %>"
 port <%= @port %>
 tcp-backlog <%= @tcp_backlog %>
 bind <%= @ipaddress %>
 timeout <%= @timeout %>
 tcp-keepalive <%= @tcp_keepalive %>
 loglevel <%= @rloglevel %>
-logfile <%= @_logfile %>
+logfile "<%= @_logfile %>"
 databases <%= @databases %>
 <% @save.each do |v| -%>
 save <%= v %>

@@ -25,7 +25,7 @@ define openiosds::namespace (
   if $oioproxy_url { validate_string($oioproxy_url) }
   if $eventagent_url { validate_string($eventagent_url) }
   if $ecd_url { validate_string($ecd_url) }
-  if $meta1_digits { validate_integer($meta1_digits,4,2) }
+  if $meta1_digits { validate_integer($meta1_digits,4,0) }
   if $udp_allowed { validate_string($udp_allowed) }
 
   if $openiosds::action == 'create' {

@@ -14,6 +14,7 @@ class openiosds::params {
           $package_install_options = {}
           $user_log                = 'syslog'
           $group_log               = 'openio'
+          $directory_mode_log       = '770'
           case $::os['release']['major'] {
             '17.04': { $redis32 = true }
             default: { $redis32 = false }
@@ -22,6 +23,7 @@ class openiosds::params {
         'Debian': {
           $user_log                = 'openio'
           $group_log               = 'openio'
+          $directory_mode_log       = '750'
           case $::os['lsb']['distid'] {
             'Debian': {
               $package_install_options = {install_options => ['-t',"${::os['lsb']['distcodename']}-backports",'-y']}
@@ -37,6 +39,7 @@ class openiosds::params {
           $package_install_options = {}
           $user_log                = 'openio'
           $group_log               = 'openio'
+          $directory_mode_log       = '750'
         }
       }
       $libdir                  = "${prefixdir}/lib"
@@ -51,8 +54,6 @@ class openiosds::params {
       $package_swift_dep_opt   = {}
       $httpd_wsgi_package_name = 'libapache2-mod-wsgi'
       $cmd_mkdir               = '/bin/mkdir'
-      # Logs
-      $directory_mode_log       = '770'
     }
     'RedHat': {
       case $::architecture {

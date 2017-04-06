@@ -34,6 +34,7 @@ define openiosds::oioswift (
   $sds_pool_maxsize        = 10,
   $sds_max_retries         = 0,
   $tempauth_users          = [],
+  $swift3                  = {},
 
   $no_exec                 = false,
 ) {
@@ -115,7 +116,8 @@ define openiosds::oioswift (
     }
   }
   if ! defined(Package[$::openiosds::params::package_swift_proxy]) {
-    if $::openiosds::params::package_swift_dep { ensure_packages($::openiosds::params::package_swift_dep,$::openiosds::params::package_swift_dep_opt) }
+    if $::openiosds::params::package_swift_dep { ensure_packages($::openiosds::params::package_swift_dep,
+      $::openiosds::params::package_swift_dep_opt) }
     ensure_resource('package', $::openiosds::params::package_swift_proxy, {
       ensure  => present,
       before  => Package['openio-sds-swift'],
@@ -128,18 +130,18 @@ define openiosds::oioswift (
     type   => $type,
     num    => $num,
     ns     => $ns,
-  } ->
+  }
   # Configuration files
-  file { '/etc/swift/swift.conf':
+  -> file { '/etc/swift/swift.conf':
     mode => '0644',
-  } ->
-  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/proxy-server.conf":
+  }
+  -> file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/proxy-server.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}-proxy-server.conf.erb"),
     mode    => $openiosds::file_mode,
-  } ->
+  }
   # Init
-  gridinit::program { "${ns}-${type}-${num}":
+  -> gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
     command => "${openiosds::bindir}/swift-proxy-server  ${openiosds::sysconfdir}/${ns}/${type}-${num}/proxy-server.conf",
     group   => "${ns},${type},${type}-${num}",

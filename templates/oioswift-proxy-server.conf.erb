@@ -18,7 +18,7 @@ sds_pool_maxsize = <%= @sds_pool_maxsize %>
 sds_max_retries = <%= @sds_max_retries %>
 
 [pipeline:main]
-pipeline = catch_errors gatekeeper healthcheck proxy-logging cache swift3 <% if @auth_system == 'keystone' -%>s3token<% end -%> bulk tempurl ratelimit <%= @auth_filter %> container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache <% if @swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%>bulk tempurl ratelimit <%= @auth_filter %> container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:oioswift#main
@@ -101,16 +101,21 @@ use = egg:swift#healthcheck
 use = egg:swift#memcache
 memcache_servers = <%= @memcache_servers %>
 
+<% if @swift3 -%>
 [filter:swift3]
 use = egg:swift3#swift3
+<% @swift3.each do |k,v| -%>
+<% @k %> = <% @v %>
+<% end -%>
+<% end -%>
 
 [filter:copy]
 use = egg:swift#copy
 object_post_as_copy = false
 
+<% if @auth_system == 'keystone' -%>
 [filter:s3token]
 paste.filter_factory = keystonemiddleware.s3_token:filter_factory
-<% if @auth_system == 'keystone' -%>
 auth_protocol = <%= @auth_protocol %>
 auth_host = <%= @auth_host %>
 auth_port = <%= @auth_port %>

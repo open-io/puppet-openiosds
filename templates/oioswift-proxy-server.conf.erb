@@ -105,7 +105,7 @@ memcache_servers = <%= @memcache_servers %>
 [filter:swift3]
 use = egg:swift3#swift3
 <% @swift3.each do |k,v| -%>
-<% @k %> = <% @v %>
+<%= k %> = <%= v %>
 <% end -%>
 <% end -%>
 

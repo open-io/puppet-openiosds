@@ -13,12 +13,15 @@ define openiosds::conscience (
   $auto_container                        = false,
   $vns                                   = undef,
   $storage_policy                        = 'SINGLE',
-  $storage_policies                      = {'SINGLE'=>'NONE:NONE','TWOCOPIES'=>'NONE:DUPONETWO','THREECOPIES'=>'NONE:DUPONETHREE','ERASURECODE'=>'NONE:ERASURECODE'},
-  $data_security                         = {'DUPONETWO'=>'plain/distance=1,nb_copy=2','DUPONETHREE'=>'plain/distance=1,nb_copy=3','ERASURECODE'=>'ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1'},
+  $storage_policies                      = {'SINGLE'=>'NONE:NONE','TWOCOPIES'=>'NONE:DUPONETWO','THREECOPIES'=>'NONE:DUPONETHREE',
+                                            'ERASURECODE'=>'NONE:ERASURECODE'},
+  $data_security                         = {'DUPONETWO'=>'plain/distance=1,nb_copy=2','DUPONETHREE'=>'plain/distance=1,nb_copy=3',
+                                            'ERASURECODE'=>'ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1'},
   $service_update_policy                 = {'meta2'=>'KEEP|1|1|','sqlx'=>'KEEP|1|1|','rdir'=>'KEEP|1|1|user_is_a_service=rawx'},
   $pools                                 = {},
   $score_lock_at_first_register          = {},
-  $services_score_timeout                = {'meta0'=>'3600','meta1'=>'120','meta2'=>'120','rawx'=>'120','sqlx'=>'120','rdir'=>'120','redis'=>'120','oiofs'=>'120','account'=>'120'},
+  $services_score_timeout                = {'meta0'=>'3600','meta1'=>'120','meta2'=>'120','rawx'=>'120','sqlx'=>'120','rdir'=>'120',
+                                            'redis'=>'120','oiofs'=>'120','account'=>'120'},
   $services_score_expr                   = {
     'meta0'=>'root(2,((num stat.cpu)*(num stat.io)))',
     'meta1'=>'((num stat.space)>=5) * root(3,((num stat.cpu)*(num stat.space)*(num stat.io)))',
@@ -102,9 +105,9 @@ define openiosds::conscience (
     type   => $type,
     num    => $num,
     ns     => $ns,
-  } ->
+  }
   # Configuration files
-  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":
+  -> file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.conf.erb"),
     owner   => $openiosds::user,
@@ -112,25 +115,25 @@ define openiosds::conscience (
     mode    => '0644',
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
     require => Class['openiosds'],
-  } ->
-  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-policies.conf":
+  }
+  -> file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-policies.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.storage.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
     mode    => '0644',
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
-  } ->
-  file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-services.conf":
+  }
+  -> file { "${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-services.conf":
     ensure  => $openiosds::file_ensure,
     content => template("openiosds/${type}.services.erb"),
     owner   => $openiosds::user,
     group   => $openiosds::group,
     mode    => '0644',
     notify  => Gridinit::Program["${ns}-${type}-${num}"],
-  } ->
+  }
   # Init
-  gridinit::program { "${ns}-${type}-${num}":
+  -> gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
     command => "${openiosds::bindir}/oio-daemon -s OIO,${ns},${type},${num} ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
     group   => "${ns},${type},${type}-${num}",

@@ -85,7 +85,7 @@ class openiosds::params {
       # Logs
       $user_log                 = 'openio'
       $group_log                = 'openio'
-      $directory_mode_log       = '750'
+      $directory_mode_log       = '751'
       case $::os['release']['major'] {
         '8': { $redis32 = true }
         default: { $redis32 = false }

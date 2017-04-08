@@ -100,6 +100,7 @@ use = egg:swift#healthcheck
 [filter:cache]
 use = egg:swift#memcache
 memcache_servers = <%= @memcache_servers %>
+memcache_max_connections = <%= memcache_max_connections %>
 
 <% if @swift3 -%>
 [filter:swift3]

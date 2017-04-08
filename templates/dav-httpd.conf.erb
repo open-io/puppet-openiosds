@@ -37,7 +37,7 @@ SetEnvIf Request_Method "PUT" log-cid-in=1
 SetEnvIf Request_Method "PUT" !log-cid-out
 SetEnvIf log-cid-in 0 !log-cid-in
 
-LogFormat "%{%b %d %T}t %{HOSTNAME}e %{INFO_SERVICES}e %{pid}P %{tid}P %{LOG_TYPE}e %{LEVEL}e %{Host}i %a:%{remote}p %m %>s %D %O %{x-oio-chunk-meta-container-id}i %{x-oio-req-id}i %U" log/cid-in
+LogFormat "%{%b %d %T}t %{HOSTNAME}e %{INFO_SERVICES}e %{pid}P %{tid}P %{LOG_TYPE}e %{LEVEL}e %{Host}i %a:%{remote}p %m %>s %D %I %{x-oio-chunk-meta-container-id}i %{x-oio-req-id}i %U" log/cid-in
 LogFormat "%{%b %d %T}t %{HOSTNAME}e %{INFO_SERVICES}e %{pid}P %{tid}P %{LOG_TYPE}e %{LEVEL}e %{Host}i %a:%{remote}p %m %>s %D %O %{x-oio-chunk-meta-container-id}o %{x-oio-req-id}i %U" log/cid-out
 
 ErrorLog <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd-errors.log

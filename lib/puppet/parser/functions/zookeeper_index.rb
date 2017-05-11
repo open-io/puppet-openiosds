@@ -17,11 +17,11 @@ module Puppet::Parser::Functions
       raise Puppet::ParseError, 'zookeeper_index(): 1st argument must be an array'
     end
 
-    in_array = args[0].collect {|x| x[/^(.*):.*:.*/,1]}
+    in_array = args[0].collect {|x| x[/[^:]*/, 0]}
     searched_elt = args[1]
     res = in_array.index searched_elt
     if res.nil?
-      -1
+      raise Puppet::ParseError, 'zookeeper_index(): Could not find the IP %s in zookeeper declaration %s' % args
     else
       res+1
     end

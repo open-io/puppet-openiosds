@@ -22,7 +22,7 @@ define openiosds::service (
   # Path
   if $ns { $service_path = "${ns}/${type}-${num}" }
   else   { $service_path = "${type}-${num}" }
-  if $volume { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}",$volume] }
+  if $volume and ! defined(File[$volume]) { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}",$volume] }
   else { $required_path = ["${openiosds::sysconfdir}/${service_path}","${openiosds::spoolstatedir}/${service_path}"] }
 
   file { $required_path:

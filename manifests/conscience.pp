@@ -75,6 +75,8 @@ define openiosds::conscience (
     'flat_hash_offset' => 0,
     'flat_hash_size'   => 0,
     'flat_bitlength'   => '17'},
+  $hub_me                                = undef,
+  $hub_group                             = undef,
 
   $no_exec               = false,
 ) {

@@ -17,8 +17,13 @@ sds_pool_connections = <%= @sds_pool_connections %>
 sds_pool_maxsize = <%= @sds_pool_maxsize %>
 sds_max_retries = <%= @sds_max_retries %>
 
+<% if @auto_storage_policies and @oio_storage_policies -%>
+oio_storage_policies=<% @oio_storage_policies %>
+auto_storage_policies=<% @auto_storage_policies %>
+<% end -%>
+
 [pipeline:main]
-pipeline = catch_errors gatekeeper healthcheck proxy-logging cache <% if @swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%>bulk tempurl ratelimit <%= @auth_filter %> container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
+pipeline = catch_errors <% if @middleware_hashedcontainer -%>hashedcontainer<% end -%> <% if @middleware_gatekeeper -%>gatekeeper<% end -%> <% if @middleware_healthcheck -%>healthcheck<% end -%> proxy-logging cache <% if @middleware_swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%>bulk tempurl ratelimit <%= @auth_filter -%> container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:oioswift#main
@@ -77,9 +82,14 @@ use = egg:swift#keystoneauth
 operator_roles = <%= @operator_roles %>
 
 <% end -%>
+<% if @middleware_gatekeeper -%>
 [filter:gatekeeper]
 use = egg:swift#gatekeeper
+<% @middleware_gatekeeper.each do |k,v| -%>
+<%= k %> = <%= v %>
+<% end -%>
 
+<% end -%>
 [filter:proxy-logging]
 use = egg:swift#proxy_logging
 access_log_headers = <%= @access_log_headers %>
@@ -94,18 +104,23 @@ use = egg:swift#catch_errors
 [filter:ratelimit]
 use = egg:swift#ratelimit
 
+<% if @middleware_healthcheck -%>
 [filter:healthcheck]
 use = egg:swift#healthcheck
+<% @middleware_healthcheck.each do |k,v| -%>
+<%= k %> = <%= v %>
+<% end -%>
 
+<% end -%>
 [filter:cache]
 use = egg:swift#memcache
 memcache_servers = <%= @memcache_servers %>
 memcache_max_connections = <%= memcache_max_connections %>
 
-<% if @swift3 -%>
+<% if @middleware_swift3 -%>
 [filter:swift3]
 use = egg:swift3#swift3
-<% @swift3.each do |k,v| -%>
+<% @middleware_swift3.each do |k,v| -%>
 <%= k %> = <%= v %>
 <% end -%>
 <% end -%>
@@ -120,4 +135,12 @@ paste.filter_factory = keystonemiddleware.s3_token:filter_factory
 auth_protocol = <%= @auth_protocol %>
 auth_host = <%= @auth_host %>
 auth_port = <%= @auth_port %>
+<% end -%>
+
+<% if @middleware_hashedcontainer -%>
+[filter:hashedcontainer]
+use = egg:oioswift#hashedcontainer
+<% @middleware_hashedcontainer.each do |k,v| -%>
+<%= k %> = <%= v %>
+<% end -%>
 <% end -%>

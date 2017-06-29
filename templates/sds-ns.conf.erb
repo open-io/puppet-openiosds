@@ -12,3 +12,17 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if scope.lookupvar('udp_allowed') != :undefined and not @udp_allowed.nil? %>udp_allowed=<%= @udp_allowed %>
 <%end -%>
+<% if @server_queue_max_delay %>server.queue.max_delay=<% @server_queue_max_delay %>
+<%end -%>
+<% if @meta_queue_max_delay %>meta.queue.max_delay=<% @meta_queue_max_delay %>
+<%end -%>
+<% if @server_queue_warn_delay %>server.queue.warn_delay=<% @server_queue_warn_delay %>
+<%end -%>
+<% if @server_fd_max_passive %>server.fd_max_passive=<% @server_fd_max_passive %>
+<%end -%>
+<% if scope.lookupvar('oio_log_outgoing') != :undefined and not @oio_log_outgoing.nil? %>oio_log_outgoing=<% @oio_log_outgoing %>
+<%end -%>
+<% if @events_common_pending_max %>events.common.pending.max=<% @events_common_pending_max %>
+<%end -%>
+<% if @ns_storage_policy %>ns.storage_policy=<% @ns_storage_policy %>
+<%end -%>

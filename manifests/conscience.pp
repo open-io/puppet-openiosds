@@ -26,9 +26,11 @@ define openiosds::conscience (
     'DUPONETWO'    => 'plain/distance=1,nb_copy=2',
     'DUPONETHREE'  => 'plain/distance=1,nb_copy=3',
     'ERASURECODE'  => 'ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1',
-    'ECLIBEC63D1'  => 'ec/k=14,m=4,algo=liberasurecode_rs_vand,distance=1',
+    'ECLIBEC63D1'  => 'ec/k=6,m=3,algo=liberasurecode_rs_vand,distance=1',
+    'ECLIBEC123D1' => 'ec/k=12,m=3,algo=liberasurecode_rs_vand,distance=1',
     'ECLIBEC144D1' => 'ec/k=14,m=4,algo=liberasurecode_rs_vand,distance=1',
-    'ECISAL63D1'   => 'ec/k=14,m=4,algo=isa_l_rs_vand,distance=1',
+    'ECISAL63D1'   => 'ec/k=6,m=3,algo=isa_l_rs_vand,distance=1',
+    'ECISAL123D1'  => 'ec/k=12,m=3,algo=isa_l_rs_vand,distance=1'},
     'ECISAL144D1'  => 'ec/k=14,m=4,algo=isa_l_rs_vand,distance=1'},
   $service_update_policy                 = {
     'meta2' => 'KEEP|1|1|',

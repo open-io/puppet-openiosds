@@ -1,14 +1,21 @@
 # Configure and install an OpenIO namespace
 define openiosds::namespace (
-  $action         = 'create',
-  $ns             = undef,
-  $conscience_url = undef,
-  $zookeeper_url  = undef,
-  $oioproxy_url   = undef,
-  $eventagent_url = undef,
-  $ecd_url        = undef,
-  $meta1_digits   = undef,
-  $udp_allowed    = undef,
+  $action                    = 'create',
+  $ns                        = undef,
+  $conscience_url            = undef,
+  $zookeeper_url             = undef,
+  $oioproxy_url              = undef,
+  $eventagent_url            = undef,
+  $ecd_url                   = undef,
+  $meta1_digits              = 3,
+  $udp_allowed               = 'yes',
+  $server_queue_max_delay    = undef,
+  $meta_queue_max_delay      = undef,
+  $server_queue_warn_delay   = undef,
+  $server_fd_max_passive     = undef,
+  $oio_log_outgoing          = undef,
+  $events_common_pending_max = undef,
+  $ns_storage_policy         = 'THREECOPIES',
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -27,6 +34,13 @@ define openiosds::namespace (
   if $ecd_url { validate_string($ecd_url) }
   if $meta1_digits { validate_integer($meta1_digits,4,0) }
   if $udp_allowed { validate_string($udp_allowed) }
+  if $server_queue_max_delay { validate_integer($server_queue_max_delay) }
+  if $meta_queue_max_delay { validate_integer($meta_queue_max_delay) }
+  if $server_queue_warn_delay { validate_integer($server_queue_warn_delay) }
+  if $server_fd_max_passive { validate_integer($server_fd_max_passive) }
+  if $oio_log_outgoing { validate_string($oio_log_outgoing) }
+  if $events_common_pending_max { validate_integer($events_common_pending_max) }
+  if $ns_storage_policy { validate_string($ns_storage_policy) }
 
   if $openiosds::action == 'create' {
     # Path

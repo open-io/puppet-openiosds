@@ -18,8 +18,8 @@ sds_pool_maxsize = <%= @sds_pool_maxsize %>
 sds_max_retries = <%= @sds_max_retries %>
 
 <% if @auto_storage_policies and @oio_storage_policies -%>
-oio_storage_policies=<% @oio_storage_policies %>
-auto_storage_policies=<% @auto_storage_policies %>
+oio_storage_policies=<%= @oio_storage_policies %>
+auto_storage_policies=<%= @auto_storage_policies %>
 <% end -%>
 
 [pipeline:main]

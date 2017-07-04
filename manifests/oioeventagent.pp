@@ -23,6 +23,8 @@ define openiosds::oioeventagent (
   $quarantine_queue_url  = undef,
   $replication           = false,
   $replication_queue_url = undef,
+  $rebuild               = false,
+  $rebuild_queue_url     = undef,
 
   $no_exec               = false,
 ) {
@@ -57,6 +59,7 @@ define openiosds::oioeventagent (
   validate_string($tube)
   if $quarantine { validate_string($quarantine_queue_url) }
   if $replication { validate_string($replication_queue_url) }
+  if $rebuild { validate_string($rebuild_queue_url) }
 
   validate_bool($no_exec)
 

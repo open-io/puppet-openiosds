@@ -1,11 +1,22 @@
 [handler:storage.content.new]
 <% if @quarantine or @replication -%>
 pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+<% else -%>
+pipeline = noop
 <% end -%>
 
 [handler:storage.content.append]
 <% if @quarantine or @replication -%>
 pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+<% else -%>
+pipeline = noop
+<% end -%>
+
+[handler:storage.content.broken]
+<% if @rebuild -%>
+pipeline = content_rebuild
+<% else -%>
+pipeline = noop
 <% end -%>
 
 [handler:storage.content.deleted]
@@ -32,11 +43,21 @@ pipeline = noop
 [filter:content_cleaner]
 use = egg:oio#content_cleaner
 
+<% if @rebuild -%>
+[filter:content_rebuild]
+use = egg:oio#notify
+tube = oio-rebuild
+queue_url = <%= @rebuild_queue_url %>
+<% end -%>
+
 [filter:account_update]
 use = egg:oio#account_update
 
 [filter:volume_index]
 use = egg:oio#volume_index
+
+[filter:logger]
+use = egg:oio#logger
 
 [filter:noop]
 use = egg:oio#noop

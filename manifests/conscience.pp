@@ -30,7 +30,7 @@ define openiosds::conscience (
     'ECLIBEC123D1' => 'ec/k=12,m=3,algo=liberasurecode_rs_vand,distance=1',
     'ECLIBEC144D1' => 'ec/k=14,m=4,algo=liberasurecode_rs_vand,distance=1',
     'ECISAL63D1'   => 'ec/k=6,m=3,algo=isa_l_rs_vand,distance=1',
-    'ECISAL123D1'  => 'ec/k=12,m=3,algo=isa_l_rs_vand,distance=1'},
+    'ECISAL123D1'  => 'ec/k=12,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL144D1'  => 'ec/k=14,m=4,algo=isa_l_rs_vand,distance=1'},
   $service_update_policy                 = {
     'meta2' => 'KEEP|1|1|',

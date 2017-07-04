@@ -8,6 +8,7 @@ define openiosds::namespace (
   $eventagent_url            = undef,
   $ecd_url                   = undef,
   $meta1_digits              = 3,
+  $ns_flat_bits              = undef,
   $udp_allowed               = 'yes',
   $server_queue_max_delay    = undef,
   $meta_queue_max_delay      = undef,
@@ -33,6 +34,7 @@ define openiosds::namespace (
   if $eventagent_url { validate_string($eventagent_url) }
   if $ecd_url { validate_string($ecd_url) }
   if $meta1_digits { validate_integer($meta1_digits,4,0) }
+  if $ns_flat_bits { validate_integer($ns_flat_bits) }
   if $udp_allowed { validate_string($udp_allowed) }
   if $server_queue_max_delay { validate_integer($server_queue_max_delay) }
   if $meta_queue_max_delay { validate_integer($meta_queue_max_delay) }

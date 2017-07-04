@@ -10,6 +10,8 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if @meta1_digits %>meta1_digits=<%= @meta1_digits %>
 <%end -%>
+<% if @ns_flat_bits %>ns.flat_bits=<%= @ns_flat_bits %>
+<%end -%>
 <% if scope.lookupvar('udp_allowed') != :undefined and not @udp_allowed.nil? %>udp_allowed=<%= @udp_allowed %>
 <%end -%>
 <% if @server_queue_max_delay %>server.queue.max_delay=<%= @server_queue_max_delay %>

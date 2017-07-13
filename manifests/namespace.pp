@@ -17,6 +17,7 @@ define openiosds::namespace (
   $oio_log_outgoing          = undef,
   $events_common_pending_max = undef,
   $ns_storage_policy         = 'THREECOPIES',
+  $ns_chunk_size = undef,
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -43,6 +44,7 @@ define openiosds::namespace (
   if $oio_log_outgoing { validate_string($oio_log_outgoing) }
   if $events_common_pending_max { validate_integer($events_common_pending_max) }
   if $ns_storage_policy { validate_string($ns_storage_policy) }
+  if $ns_chunk_size { validate_integer($ns_chunk_size) }
 
   if $openiosds::action == 'create' {
     # Path

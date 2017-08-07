@@ -79,7 +79,7 @@ class openiosds::params {
       $redis_package_name        = 'redis'
       $redis_service_name        = 'redis'
       $package_swift_proxy       = 'openstack-swift-proxy'
-      $package_swift_dep         = undef
+      $package_swift_dep         = ['python-keystonemiddleware','openio-sds-swift-plugin-swift3']
       $package_swift_dep_opt     = {}
       $httpd_wsgi_package_name   = 'mod_wsgi'
       $cmd_mkdir                 = '/usr/bin/mkdir'

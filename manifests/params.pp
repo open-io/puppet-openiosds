@@ -68,7 +68,7 @@ class openiosds::params {
           $package_openstack_release = undef
         }
         default: {
-          $package_openstack_release = 'centos-release-openstack-mitaka'
+          $package_openstack_release = 'centos-release-openstack-otaca'
         }
       }
       $httpd_daemon              = '/usr/sbin/httpd'

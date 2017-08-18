@@ -17,7 +17,11 @@ define openiosds::namespace (
   $oio_log_outgoing          = undef,
   $events_common_pending_max = undef,
   $ns_storage_policy         = 'THREECOPIES',
-  $ns_chunk_size = undef,
+  $ns_chunk_size             = undef,
+  $ns_service_update_policy     = {
+    'meta2' => 'KEEP|3|1|',
+    'sqlx'  => 'KEEP|1|1|',
+    'rdir'  => 'KEEP|1|1|user_is_a_service=rawx'},
 ) {
 
   if ! defined(Class['openiosds']) {
@@ -45,6 +49,7 @@ define openiosds::namespace (
   if $events_common_pending_max { validate_integer($events_common_pending_max) }
   if $ns_storage_policy { validate_string($ns_storage_policy) }
   if $ns_chunk_size { validate_integer($ns_chunk_size) }
+  if $service_update_policy { validate_hash($service_update_policy) }
 
   if $openiosds::action == 'create' {
     # Path

@@ -30,3 +30,5 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if @ns_chunk_size %>ns.chunk_size=<%= @ns_chunk_size %>
 <%end -%>
+<% if @ns_service_update_policy %>ns.service_update_policy=<% @ns_service_update_policy.keys.sort.each do |key| -%><%= key %>=<%= @ns_service_update_policy[key] %>;<% end %>
+<%end -%>

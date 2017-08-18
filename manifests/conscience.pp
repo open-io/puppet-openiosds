@@ -12,7 +12,6 @@ define openiosds::conscience (
   $worm                                  = false,
   $auto_container                        = false,
   $vns                                   = undef,
-  $storage_policy                        = 'SINGLE',
   $storage_policies                      = {
     'SINGLE'       => 'NONE:NONE',
     'TWOCOPIES'    => 'NONE:DUPONETWO',
@@ -32,10 +31,6 @@ define openiosds::conscience (
     'ECISAL63D1'   => 'ec/k=6,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL123D1'  => 'ec/k=12,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL144D1'  => 'ec/k=14,m=4,algo=isa_l_rs_vand,distance=1'},
-  $service_update_policy                 = {
-    'meta2' => 'KEEP|1|1|',
-    'sqlx'  => 'KEEP|1|1|',
-    'rdir'  => 'KEEP|1|1|user_is_a_service=rawx'},
   $pools                                 = {},
   $score_lock_at_first_register          = {},
   $services_score_timeout                = {
@@ -102,8 +97,6 @@ define openiosds::conscience (
   if $vns { validate_string($vns) }
   validate_hash($storage_policies)
   validate_hash($data_security)
-  if !has_key($storage_policies, $storage_policy) { fail("${storage_policy} is invalid.") }
-  validate_hash($service_update_policy)
   validate_bool($automatic_open)
   validate_integer($meta2_max_versions)
   validate_integer($min_workers)

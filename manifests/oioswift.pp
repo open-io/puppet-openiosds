@@ -89,7 +89,7 @@ define openiosds::oioswift (
   # Auth system
   case $auth_system {
     'keystone': { $auth_filter = 'authtoken keystoneauth' }
-    'tempauth': { $auth_filter = 'tempauth' }
+    'tempauth': { $auth_filter = 'tempauth proxy-logging' }
     'noauth': { $auth_filter = '' }
     default: { fail("Authentication system ${auth_filter} not supported.") }
   }

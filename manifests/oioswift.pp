@@ -7,25 +7,28 @@ define openiosds::oioswift (
   $ns                       = undef,
   $ipaddress                = $::ipaddress,
   $port                     = $::openiosds::params::oioswift_port,
+  $use_stderr               = 'False',
   $workers                  = '2',
   $sds_proxy_url            = "http://${::openiosds::params::oioproxy_url}",
   $object_post_as_copy      = false,
   $memcache_servers         = "${ipaddress}:11211",
   $memcache_max_connections = 2,
-  $auth_uri                 = "http://${ipaddress}:5000/v2.0",
-  $auth_protocol            = 'http',
-  $auth_host                = $::ipaddress,
-  $auth_port                = '35357',
-  $identity_uri             = "http://${ipaddress}:35357",
-  $admin_tenant_name        = 'services',
-  $admin_user               = 'swift',
-  $admin_password           = 'SWIFT_PASS',
+  $memcache_secret_key      = 'memcache_secret_key',
+  $auth_uri                 = "http://${ipaddress}:5000",
+  $auth_url                 = "http://${ipaddress}:35357",
+  $region_name              = 'RegionOne',
+  $project_domain_id        = 'default',
+  $user_domain_id           = 'default',
+  $project_name             = 'service',
+  $username                 = 'swift',
+  $password                 = 'SWIFT_PASS',
   $delay_auth_decision      = true,
-  $operator_roles           = 'admin,_member_',
+  $operator_roles           = 'admin,swiftoperator',
   $access_log_headers       = false,
   $access_log_headers_only  = undef,
   $auth_system              = 'keystone',
   $log_facility             = '/dev/log',
+  $log_level                = 'INFO',
   $eventlet_debug           = false,
   $sds_default_account      = 'default',
   $sds_connection_timeout   = 2,
@@ -35,7 +38,7 @@ define openiosds::oioswift (
   $sds_pool_maxsize         = 10,
   $sds_max_retries          = 0,
   $tempauth_users           = [],
-  $middleware_swift3          = {},
+  $middleware_swift3          = {'location' => 'RegionOne'},
   $oio_storage_policies       = undef,
   $auto_storage_policies      = undef,
   $middleware_hashedcontainer = undef,
@@ -63,13 +66,7 @@ define openiosds::oioswift (
   validate_string($memcache_servers)
   validate_integer($memcache_max_connections)
   validate_string($auth_uri)
-  validate_string($auth_protocol)
-  validate_string($auth_host)
-  validate_integer($auth_port)
-  validate_string($identity_uri)
-  validate_string($admin_tenant_name)
-  validate_string($admin_user)
-  validate_string($admin_password)
+  validate_string($auth_url)
   validate_bool($delay_auth_decision)
   validate_string($operator_roles)
   validate_bool($access_log_headers)
@@ -88,7 +85,7 @@ define openiosds::oioswift (
 
   # Auth system
   case $auth_system {
-    'keystone': { $auth_filter = 'authtoken keystoneauth' }
+    'keystone': { $auth_filter = 'keystoneauth' }
     'tempauth': { $auth_filter = 'tempauth proxy-logging' }
     'noauth': { $auth_filter = '' }
     default: { fail("Authentication system ${auth_filter} not supported.") }

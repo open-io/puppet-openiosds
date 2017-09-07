@@ -1,8 +1,10 @@
 [DEFAULT]
+use_stderr = <%= @use_stderr %>
 bind_port = <%= @port %>
 workers = <%= @workers %>
 user = <%= scope['openiosds::user'] %>
 log_facility = <%= @log_facility %>
+log_level = <%= @log_level %>
 eventlet_debug = <%= @eventlet_debug %>
 
 sds_namespace = <%= @ns %>
@@ -23,7 +25,7 @@ auto_storage_policies=<%= @auto_storage_policies %>
 <% end -%>
 
 [pipeline:main]
-pipeline = catch_errors <% if @middleware_hashedcontainer -%>hashedcontainer<% end -%> <% if @middleware_gatekeeper -%>gatekeeper<% end -%> <% if @middleware_healthcheck -%>healthcheck<% end -%> proxy-logging cache <% if @middleware_swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%>bulk tempurl ratelimit <%= @auth_filter -%> container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
+pipeline = catch_errors <% if @middleware_hashedcontainer -%>hashedcontainer<% end -%> <% if @middleware_gatekeeper -%>gatekeeper<% end -%> <% if @middleware_healthcheck -%>healthcheck<% end -%> proxy-logging cache bulk tempurl proxy-logging ratelimit authtoken <% if @middleware_swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%><%= @auth_filter -%> staticweb copy container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:oioswift#main
@@ -67,16 +69,30 @@ user_<%= user1 %>_<%= user2 %>=<%= passwd %> <%= priv %>
 <% end -%>
 <% end -%>
 
-<% if @auth_system == 'keystone' -%>
+<% if @auth_system == 'keystone' or @auth_system == 'tempauth' -%>
 [filter:authtoken]
 paste.filter_factory = keystonemiddleware.auth_token:filter_factory
+auth_type = password
+auth_url = <%= @auth_url %>
 auth_uri = <%= @auth_uri %>
-identity_uri = <%= @identity_uri %>
-admin_tenant_name = <%= @admin_tenant_name %>
-admin_user = <%= @admin_user %>
-admin_password = <%= @admin_password %>
-delay_auth_decision = <%= @delay_auth_decision %>
+insecure = True
+region_name = <%= @region_name %>
+project_domain_id = <%= @project_domain_id %>
+user_domain_id = <%= @user_domain_id %>
+project_name = <%= @project_name %>
+username = <%= @username %>
+password = <%= @password %>
+delay_auth_decision = True
+include_service_catalog = False
+memcached_servers = <%= @memcache_servers %>
+cache = swift.cache
+token_cache_time = 300
+revocation_cache_time = 60
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = <%= @memcache_secret_key %>
+<% end -%>
 
+<% if @auth_system == 'keystone' -%>
 [filter:keystoneauth]
 use = egg:swift#keystoneauth
 operator_roles = <%= @operator_roles %>
@@ -132,10 +148,8 @@ object_post_as_copy = false
 
 <% if @auth_system == 'keystone' -%>
 [filter:s3token]
-paste.filter_factory = keystonemiddleware.s3_token:filter_factory
-auth_protocol = <%= @auth_protocol %>
-auth_host = <%= @auth_host %>
-auth_port = <%= @auth_port %>
+use = egg:swift3#s3token
+auth_uri = <%= @auth_url %>
 <% end -%>
 
 <% if @middleware_hashedcontainer -%>

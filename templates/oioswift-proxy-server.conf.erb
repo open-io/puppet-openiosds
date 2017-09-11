@@ -60,7 +60,7 @@ allow_versioned_writes = true
 [filter:crossdomain]
 use = egg:swift#crossdomain
 
-<% if @auth_filter == 'tempauth' -%>
+<% if @auth_system == 'tempauth' -%>
 [filter:tempauth]
 use = egg:swift#tempauth
 <% @tempauth_users.each do |cred|

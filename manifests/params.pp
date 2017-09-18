@@ -19,6 +19,7 @@ class openiosds::params {
             '17.04': { $redis32 = true }
             default: { $redis32 = false }
           }
+          $package_swift_dep       = ['python-keystonemiddleware','openio-sds-swift-plugin-s3']
         }
         'Debian': {
           $user_log                = 'openio'
@@ -34,12 +35,14 @@ class openiosds::params {
             '8': { $redis32 = true }
             default: { $redis32 = false }
           }
+          $package_swift_dep       = ['python2-keystonemiddleware','openio-sds-swift-plugin-s3']
         }
         default: {
           $package_install_options = {}
           $user_log                = 'openio'
           $group_log               = 'openio'
           $directory_mode_log      = '751'
+          $package_swift_dep       = ['python2-keystonemiddleware','openio-sds-swift-plugin-s3']
         }
       }
       $libdir                  = "${prefixdir}/lib"
@@ -50,7 +53,6 @@ class openiosds::params {
       $redis_package_name      = 'redis-server'
       $redis_service_name      = 'redis-server'
       $package_swift_proxy     = 'swift-proxy'
-      $package_swift_dep       = ['python2-keystonemiddleware','openio-sds-swift-plugin-s3']
       $package_swift_dep_opt   = {}
       $httpd_wsgi_package_name = 'libapache2-mod-wsgi'
       $cmd_mkdir               = '/bin/mkdir'

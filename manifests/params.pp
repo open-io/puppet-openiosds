@@ -49,7 +49,7 @@ class openiosds::params {
       $httpd_daemon            = '/usr/sbin/apache2'
       $httpd_moduledir         = "${libdir}/apache2/modules"
       $httpd_package_name      = ['openio-sds']
-      $package_names           = ['openio-sds','openio-sds-rsyslog','openio-sds-logrotate']
+      $package_names           = ['openio-sds']
       $redis_package_name      = 'redis-server'
       $redis_service_name      = 'redis-server'
       $package_swift_proxy     = 'swift-proxy'
@@ -76,7 +76,7 @@ class openiosds::params {
       $httpd_daemon              = '/usr/sbin/httpd'
       $httpd_moduledir           = "${libdir}/httpd/modules"
       $httpd_package_name        = ['openio-sds-mod-httpd']
-      $package_names             = ['openio-sds-server','openio-sds-rsyslog','openio-sds-logrotate']
+      $package_names             = ['openio-sds-server']
       $package_install_options   = {}
       $redis_package_name        = 'redis'
       $redis_service_name        = 'redis'
@@ -94,6 +94,7 @@ class openiosds::params {
         default: { $redis32 = false }
       }
     }
+    $package_reqs_names             = ['openio-sds-rsyslog','openio-sds-logrotate']
     default: { fail("osfamily ${::osfamily} not supported.") }
   }
   $memcached_package_name   = 'memcached'

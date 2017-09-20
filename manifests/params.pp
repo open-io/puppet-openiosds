@@ -94,9 +94,9 @@ class openiosds::params {
         default: { $redis32 = false }
       }
     }
-    $package_reqs_names             = ['openio-sds-rsyslog','openio-sds-logrotate']
     default: { fail("osfamily ${::osfamily} not supported.") }
   }
+  $package_reqs_names       = ['openio-sds-rsyslog','openio-sds-logrotate']
   $memcached_package_name   = 'memcached'
   $beanstalkd_package_name  = 'beanstalkd'
   $replicator_package_name  = 'openio-sds-replicator'

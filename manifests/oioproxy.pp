@@ -38,19 +38,19 @@ define openiosds::oioproxy (
     if $debug { $verbose = '-v ' }
     if $preferMaster {
       validate_string($preferMaster)
-      $_preferMaster = "-O PreferMaster=${preferMaster}"
+      $_preferMaster = "-O proxy.prefer.master=${preferMaster}"
     }
     if $preferSlave {
       validate_string($preferSlave)
-      $_preferSlave = "-O PreferSlave=${preferSlave}"
+      $_preferSlave = "-O proxy.prefer.slave=${preferSlave}"
     }
     if $preferMasterForWrites {
       validate_string($preferMasterForWrites)
-      $_preferMasterForWrites = "-O PreferMasterForWrites=${preferMasterForWrites}"
+      $_preferMasterForWrites = "-O proxy.prefer.master_for_write=${preferMasterForWrites}"
     }
     if $forceMaster {
       validate_string($forceMaster)
-      $_forceMaster = "-O ForceMaster=${forceMaster}"
+      $_forceMaster = "-O proxy.force.master=${forceMaster}"
     }
     $_cmdoptions = "$verbose $_preferMaster $_preferSlave $_preferMasterForWrites $_forceMaster"
   }

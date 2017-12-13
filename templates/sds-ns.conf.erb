@@ -32,3 +32,73 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if @ns_service_update_policy %>ns.service_update_policy=<% @ns_service_update_policy.keys.sort.each do |key| -%><%= key %>=<%= @ns_service_update_policy[key] %>;<% end %>
 <%end -%>
+<% if @client_errors_cache_enabled %>client.errors_cache.enabled = <%= @client_errors_cache_enabled %>
+<%end -%>
+<% if @client_errors_cache_period %>client.errors_cache.period = <%= @client_errors_cache_period %>
+<%end -%>
+<% if @client_errors_cache_max %>client.errors_cache.max = <%= @client_errors_cache_max %>
+<%end -%>
+<% if @client_down_cache_avoid %>client.down_cache.avoid = <%= @client_down_cache_avoid %>
+<%end -%>
+<% if @gridd_timeout_connect_common %>gridd.timeout.connect.common = <%= @gridd_timeout_connect_common %>
+<%end -%>
+<% if @meta0_outgoing_timeout_common_req %>meta0.outgoing.timeout.common.req = <%= @meta0_outgoing_timeout_common_req %>
+<%end -%>
+<% if @meta1_outgoing_timeout_common_req %>meta1.outgoing.timeout.common.req = <%= @meta1_outgoing_timeout_common_req %>
+<%end -%>
+<% if @proxy_outgoing_timeout_stat %>proxy.outgoing.timeout.stat = <%= @proxy_outgoing_timeout_stat %>
+<%end -%>
+<% if @proxy_outgoing_timeout_conscience %>proxy.outgoing.timeout.conscience = <%= @proxy_outgoing_timeout_conscience %>
+<%end -%>
+<% if @proxy_outgoing_timeout_common %>proxy.outgoing.timeout.common = <%= @proxy_outgoing_timeout_common %>
+<%end -%>
+<% if @resolver_cache_srv_max_default %>resolver.cache.srv.max.default = <%= @resolver_cache_srv_max_default %>
+<%end -%>
+<% if @resolver_cache_csm0_max_default %>resolver.cache.csm0.max.default = <%= @resolver_cache_csm0_max_default %>
+<%end -%>
+<% if @server_udp_queue_ttl %>server.udp_queue.ttl = <%= @server_udp_queue_ttl %>
+<%end -%>
+<% if @server_udp_queue_max %>server.udp_queue.max = <%= @server_udp_queue_max %>
+<%end -%>
+<% if @sqliterepo_cache_heavyload_fail %>sqliterepo.cache.heavyload.fail = <%= @sqliterepo_cache_heavyload_fail %>
+<%end -%>
+<% if @sqliterepo_cache_ttl_cool %>sqliterepo.cache.ttl.cool = <%= @sqliterepo_cache_ttl_cool %>
+<%end -%>
+<% if @sqliterepo_cache_ttl_hot %>sqliterepo.cache.ttl.hot = <%= @sqliterepo_cache_ttl_hot %>
+<%end -%>
+<% if @sqliterepo_repo_hard_max %>sqliterepo.repo.hard_max = <%= @sqliterepo_repo_hard_max %>
+<%end -%>
+<% if @sqliterepo_repo_soft_max %>sqliterepo.repo.soft_max = <%= @sqliterepo_repo_soft_max %>
+<%end -%>
+<% if @sqliterepo_election_delay_ping_final %>sqliterepo.election.delay.ping_final = <%= @sqliterepo_election_delay_ping_final %>
+<%end -%>
+<% if @sqliterepo_election_delay_expire_slave %>sqliterepo.election.delay.expire_slave = <%= @sqliterepo_election_delay_expire_slave %>
+<%end -%>
+<% if @sqliterepo_election_delay_expire_master %>sqliterepo.election.delay.expire_master = <%= @sqliterepo_election_delay_expire_master %>
+<%end -%>
+<% if @sqliterepo_election_delay_expire_none %>sqliterepo.election.delay.expire_none = <%= @sqliterepo_election_delay_expire_none %>
+<%end -%>
+<% if @sqliterepo_election_wait_delay %>sqliterepo.election.wait.delay = <%= @sqliterepo_election_wait_delay %>
+<%end -%>
+<% if @sqliterepo_election_wait_quantum %>sqliterepo.election.wait.quantum = <%= @sqliterepo_election_wait_quantum %>
+<%end -%>
+<% if @sqliterepo_election_nowait_after %>sqliterepo.election.nowait.after = <%= @sqliterepo_election_nowait_after %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_cnx_use %>sqliterepo.outgoing.timeout.cnx.use = <%= @sqliterepo_outgoing_timeout_cnx_use %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_req_use %>sqliterepo.outgoing.timeout.req.use = <%= @sqliterepo_outgoing_timeout_req_use %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_cnx_getvers %>sqliterepo.outgoing.timeout.cnx.getvers = <%= @sqliterepo_outgoing_timeout_cnx_getvers %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_req_getvers %>sqliterepo.outgoing.timeout.req.getvers = <%= @sqliterepo_outgoing_timeout_req_getvers %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_cnx_replicate %>sqliterepo.outgoing.timeout.cnx.replicate = <%= @sqliterepo_outgoing_timeout_cnx_replicate %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_req_replicate %>sqliterepo.outgoing.timeout.req.replicate = <%= @sqliterepo_outgoing_timeout_req_replicate %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_cnx_resync %>sqliterepo.outgoing.timeout.cnx.resync = <%= @sqliterepo_outgoing_timeout_cnx_resync %>
+<%end -%>
+<% if @sqliterepo_outgoing_timeout_req_resync %>sqliterepo.outgoing.timeout.req.resync = <%= @sqliterepo_outgoing_timeout_req_resync %>
+<%end -%>
+<% if @sqliterepo_repo_fd_max_active %>sqliterepo.repo.fd_max_active = <%= @sqliterepo_repo_fd_max_active %>
+<%end -%>

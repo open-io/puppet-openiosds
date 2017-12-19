@@ -25,7 +25,7 @@ auto_storage_policies=<%= @auto_storage_policies %>
 <% end -%>
 
 [pipeline:main]
-pipeline = catch_errors <% if @middleware_hashedcontainer -%>hashedcontainer<% end -%> <% if @middleware_gatekeeper -%>gatekeeper<% end -%> <% if @middleware_healthcheck -%>healthcheck<% end -%> proxy-logging cache bulk tempurl proxy-logging ratelimit <% if @auth_system == 'keystone' -%>authtoken <% end -%><% if @middleware_swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%><%= @auth_filter -%> staticweb copy container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
+pipeline = catch_errors <% if @middleware_hashedcontainer -%>proxy-logging hashedcontainer<% end -%> <% if @middleware_gatekeeper -%>gatekeeper<% end -%> <% if @middleware_healthcheck -%>healthcheck<% end -%> proxy-logging cache bulk tempurl proxy-logging ratelimit <% if @auth_system == 'keystone' -%>authtoken <% end -%><% if @middleware_swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%><%= @auth_filter -%><% if @middleware_regexcontainer -%>proxy-logging regexcontainer <% end -%> staticweb copy container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:oioswift#main
@@ -158,4 +158,20 @@ use = egg:oioswift#hashedcontainer
 <% @middleware_hashedcontainer.each do |k,v| -%>
 <%= k %> = <%= v %>
 <% end -%>
+<% end -%>
+<% if @middleware_regexcontainer -%>
+[filter:regexcontainer]
+use = egg:oioswift#regexcontainer
+account_first = true
+strip_v1 = true
+# Set this option to true if you use this middleware along with swift3
+swift3_compat = true
+stop_at_first_match = true
+# Patterns to apply on incoming URLs to deduce the container name.
+# The container name will be the concatenation of captured groups.
+# The patterns are sorted, and applied successively until one matches the URL.
+# If no pattern matches, an error is returned. You should ensure the last
+# pattern always matches something.
+# pattern1 = (\d{3})/(\d{3})/(\d)\d\d/\d\d(\d)/
+# pattern9 = ^/?([^/]+)
 <% end -%>

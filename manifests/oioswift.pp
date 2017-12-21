@@ -42,6 +42,7 @@ define openiosds::oioswift (
   $oio_storage_policies       = undef,
   $auto_storage_policies      = undef,
   $middleware_hashedcontainer = undef,
+  $middleware_regexcontainer  = undef,
   $middleware_gatekeeper      = {},
   $middleware_healthcheck     = {},
 

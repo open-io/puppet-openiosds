@@ -49,7 +49,7 @@ define openiosds::namespace (
   if $events_common_pending_max { validate_integer($events_common_pending_max) }
   if $ns_storage_policy { validate_string($ns_storage_policy) }
   if $ns_chunk_size { validate_integer($ns_chunk_size) }
-  if $service_update_policy { validate_hash($service_update_policy) }
+  if $ns_service_update_policy { validate_hash($ns_service_update_policy) }
 
   if $openiosds::action == 'create' {
     # Path

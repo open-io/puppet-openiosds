@@ -32,10 +32,15 @@ class openiosds::params {
             default: { $package_install_options = {} }
           }
           case $::os['release']['major'] {
-            '8': { $redis32 = true }
-            default: { $redis32 = false }
+            '8': {
+              $redis32 = true
+              $package_swift_dep  = ['python2-keystonemiddleware','openio-sds-swift-plugin-s3']
+            }
+            default: {
+              $redis32 = false
+              $package_swift_dep = ['python-keystonemiddleware','openio-sds-swift-plugin-s3']
+            }
           }
-          $package_swift_dep       = ['python2-keystonemiddleware','openio-sds-swift-plugin-s3']
         }
         default: {
           $package_install_options = {}

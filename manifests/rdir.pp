@@ -68,7 +68,7 @@ define openiosds::rdir (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "oio-rdir-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
+    command => "${openiosds::bindir}/oio-rdir-server ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}.conf",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

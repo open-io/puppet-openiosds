@@ -52,7 +52,7 @@ define openiosds::oioeventagent (
   validate_string($_log_name)
   validate_bool($acct_update)
   if $queue_url { $_queue_url = $queue_url }
-  else { $_queue_url = "tcp://${ipaddress}:${::openiosds::params::beanstalkd_port}" }
+  else { $_queue_url = "beanstalk://${ipaddress}:${::openiosds::params::beanstalkd_port}" }
   validate_integer($retries_per_second)
   validate_integer($batch_size)
   validate_bool($rdir_update)

@@ -7,15 +7,15 @@ class openiosds::params {
   $product_name             = 'sds'
   # Path
   $prefixdir                = '/usr'
-  case $::os['family'] {
+  case $::osfamily {
     'Debian': {
-      case $::os['name'] {
+      case $::operatingsystem {
         'Ubuntu': {
           $package_install_options = {}
           $user_log                = 'syslog'
           $group_log               = 'openio'
           $directory_mode_log      = '771'
-          case $::os['release']['major'] {
+          case $::operatingsystemmajrelease {
             '17.04': { $redis32 = true }
             default: { $redis32 = false }
           }
@@ -31,7 +31,7 @@ class openiosds::params {
             }
             default: { $package_install_options = {} }
           }
-          case $::os['release']['major'] {
+          case $::operatingsystemmajrelease {
             '8': {
               $redis32 = true
               $package_swift_dep  = ['python2-keystonemiddleware','openio-sds-swift-plugin-s3']
@@ -67,7 +67,7 @@ class openiosds::params {
         'x86_64': { $libdir = "${prefixdir}/lib64" }
         default:  { $libdir = "${prefixdir}/lib" }
       }
-      case $::os['name'] {
+      case $::operatingsystem {
         'RedHat': {
           $package_openstack_release = 'https://rdoproject.org/repos/rdo-release.rpm'
         }
@@ -94,7 +94,7 @@ class openiosds::params {
       $user_log                 = 'openio'
       $group_log                = 'openio'
       $directory_mode_log       = '751'
-      case $::os['release']['major'] {
+      case $::operatingsystemmajrelease {
         '8': { $redis32 = true }
         default: { $redis32 = false }
       }

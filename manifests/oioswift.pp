@@ -100,8 +100,8 @@ define openiosds::oioswift (
   }
 
   # Packages
-  if $::os['family'] == 'RedHat' {
-    if $::os['name'] == 'RedHat' {
+  if $::osfamily == 'RedHat' {
+    if $::operatingsystem == 'RedHat' {
       if ! defined(Package[basename($::openiosds::params::package_openstack_release,'.rpm')]) {
         ensure_resource('package', basename($::openiosds::params::package_openstack_release,'.rpm'), {
           source   => $::openiosds::params::package_rdo_release,

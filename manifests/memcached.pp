@@ -51,7 +51,7 @@ define openiosds::memcached (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::bindir}/memcached -p ${port} -u ${user} -c ${connections} -l ${ipaddress}",
+    command => "${openiosds::bindir}/memcached -U 0 -p ${port} -u ${user} -c ${connections} -l ${ipaddress}",
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

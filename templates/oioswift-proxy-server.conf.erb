@@ -25,7 +25,7 @@ auto_storage_policies=<%= @auto_storage_policies %>
 <% end -%>
 
 [pipeline:main]
-pipeline = catch_errors <% if @middleware_hashedcontainer -%>proxy-logging hashedcontainer<% end -%> <% if @middleware_gatekeeper -%>gatekeeper<% end -%> <% if @middleware_healthcheck -%>healthcheck<% end -%> proxy-logging cache bulk tempurl proxy-logging <% if @ratelimit_filter -%>ratelimit <% end -%><% if @auth_system == 'keystone' -%>authtoken <% end -%><% if @middleware_swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%><%= @auth_filter -%> <% if @middleware_regexcontainer -%> proxy-logging regexcontainer <% end -%> staticweb copy container-quotas account-quotas slo dlo <% if @middleware_containerhierarchy -%> proxy-logging container_hierarchy <% end -%> versioned_writes proxy-logging proxy-server
+pipeline = catch_errors <% if @middleware_hashedcontainer -%>proxy-logging hashedcontainer<% end -%> <% if @middleware_gatekeeper -%>gatekeeper<% end -%> <% if @middleware_healthcheck -%>healthcheck<% end -%> proxy-logging cache bulk tempurl proxy-logging <% if @ratelimit_filter -%>ratelimit <% end -%><% if @auth_system == 'keystone' -%>authtoken <% end -%><% if @middleware_swift3 -%>swift3 <% end -%><% if @auth_system == 'keystone' -%>s3token <% end -%><%= @auth_filter -%> <% if @middleware_regexcontainer -%> proxy-logging regexcontainer <% end -%> <% if @staticweb -%> staticweb <% end -%> copy container-quotas account-quotas slo dlo <% if @middleware_containerhierarchy -%> proxy-logging container_hierarchy <% end -%> versioned_writes proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:oioswift#main

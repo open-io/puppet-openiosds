@@ -38,6 +38,7 @@ define openiosds::oioswift (
   $sds_pool_maxsize         = 10,
   $sds_max_retries          = 0,
   $tempauth_users           = [],
+  $ratelimit_filter         = undef,
   $middleware_swift3             = {'location' => 'RegionOne'},
   $oio_storage_policies          = undef,
   $auto_storage_policies         = undef,

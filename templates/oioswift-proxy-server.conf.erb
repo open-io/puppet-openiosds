@@ -137,6 +137,7 @@ memcache_max_connections = <%= @memcache_max_connections %>
 [filter:swift3]
 use = egg:swift3#swift3
 force_swift_request_proxy_log = true
+location = <%= @region_name %>
 <% @middleware_swift3.each do |k,v| -%>
 <%= k %> = <%= v %>
 <% end -%>

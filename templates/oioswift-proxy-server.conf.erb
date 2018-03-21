@@ -147,7 +147,7 @@ force_swift_request_proxy_log = true
 <% end -%>
 
 [filter:copy]
-use = egg:swift#copy
+use = egg:oioswift#copy
 object_post_as_copy = false
 
 <% if @auth_system == 'keystone' -%>

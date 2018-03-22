@@ -111,6 +111,8 @@ define openiosds::namespace (
   if $client_errors_cache_max { validate_string($client_errors_cache_max) }
   if $client_down_cache_avoid { validate_bool($client_down_cache_avoid) }
   if $ns_worm { validate_bool($ns_worm) }
+  if $server_periodic_decache_max_bases { validate_string($server_periodic_decache_max_bases) }
+  if $server_periodic_decache_period { validate_string($server_periodic_decache_period) }
   if $meta2_max_versions { validate_string($meta2_max_versions) }
 
   if $openiosds::action == 'create' {

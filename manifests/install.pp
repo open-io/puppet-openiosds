@@ -13,7 +13,7 @@ class openiosds::install inherits openiosds {
   }
 
   # Pre-required packages
-  ensure_packages([$::openiosds::package_reqs_names],merge($::openiosds::params::package_install_options,{before => [File[$openiosds::globaldirs],File[$openiosds::sharedstatedir_global]]}))
+  ensure_packages([$::openiosds::package_reqs_names],merge($::openiosds::params::package_install_options,{before => [File[$openiosds::globaldirs],File[$openiosds::sharedstatedir_global],Package[$::openiosds::package_names]]}))
 
   # Packages
   ensure_packages([$::openiosds::package_names],merge($::openiosds::params::package_install_options,{before => [File[$openiosds::globaldirs],File[$openiosds::sharedstatedir_global]]}))

@@ -21,6 +21,7 @@ define openiosds::conscience (
     'ECLIBEC144D1' => 'NONE:ECLIBEC144D1',
     'ECISAL63D1'   => 'NONE:ECISAL63D1',
     'ECISAL144D1'  => 'NONE:ECISAL144D1'},
+    'ECISALC75D1'  => 'NONE:ECISALC75D1'},
   $data_security                         = {
     'DUPONETWO'    => 'plain/distance=1,nb_copy=2',
     'DUPONETHREE'  => 'plain/distance=1,nb_copy=3',
@@ -31,6 +32,7 @@ define openiosds::conscience (
     'ECISAL63D1'   => 'ec/k=6,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL123D1'  => 'ec/k=12,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL144D1'  => 'ec/k=14,m=4,algo=isa_l_rs_vand,distance=1'},
+    'ECISALC75D1'  => 'ec/k=7,m=5,algo=isa_l_rs_cauchy,distance=1'},
   $pools                                 = {},
   $score_lock_at_first_register          = {},
   $services_score_timeout                = {

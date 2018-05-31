@@ -48,6 +48,7 @@ define openiosds::oioswift (
   $middleware_ratelimit          = undef,
   $middleware_gatekeeper         = {},
   $middleware_healthcheck        = {},
+  $middleware_versioning         = true,
 
   $no_exec                 = false,
 ) {

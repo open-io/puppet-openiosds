@@ -147,7 +147,11 @@ force_swift_request_proxy_log = true
 <% end -%>
 
 [filter:copy]
+<% if @copy_fastcopy -%>
 use = egg:oioswift#copy
+<% else -%>
+use = egg:swift#copy
+<% end -%>
 object_post_as_copy = false
 
 <% if @auth_system == 'keystone' or @auth_system == 's3only' -%>

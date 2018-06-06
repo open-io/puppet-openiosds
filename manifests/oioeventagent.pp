@@ -23,7 +23,7 @@ define openiosds::oioeventagent (
   $quarantine_queue_url  = undef,
   $replication           = false,
   $replication_queue_url = undef,
-  $rebuild               = false,
+  $rebuild               = true,
   $rebuild_queue_url     = undef,
 
   $no_exec               = false,

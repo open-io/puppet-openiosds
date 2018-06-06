@@ -106,6 +106,8 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if @meta2_max_versions %>meta2.max_versions = <%= @meta2_max_versions %>
 <%end -%>
+<% if @meta2_batch_maxlen %>meta2.batch.maxlen = <%= @meta2_batch_maxlen %>
+<%end -%>
 <% if @server_periodic_decache_max_bases%>server.periodic_decache.max_bases = <%= @server_periodic_decache_max_bases %>
 <%end -%>
 <% if @server_periodic_decache_period%>server.periodic_decache.period = <%= @server_periodic_decache_period %>

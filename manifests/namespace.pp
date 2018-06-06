@@ -49,6 +49,7 @@ define openiosds::namespace (
   $client_down_cache_avoid = undef,
   $ns_worm = undef,
   $meta2_max_versions = undef,
+  $meta2_batch_maxlen = undef,
   $ns_service_update_policy     = {
     'meta2' => 'KEEP|3|1|',
     'sqlx'  => 'KEEP|1|1|',
@@ -114,6 +115,7 @@ define openiosds::namespace (
   if $server_periodic_decache_max_bases { validate_string($server_periodic_decache_max_bases) }
   if $server_periodic_decache_period { validate_string($server_periodic_decache_period) }
   if $meta2_max_versions { validate_string($meta2_max_versions) }
+  if $meta2_batch_maxlen { validate_integer($meta2_max_versions, 100000, 1) }
 
   if $openiosds::action == 'create' {
     # Path

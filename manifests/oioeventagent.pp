@@ -59,7 +59,9 @@ define openiosds::oioeventagent (
   validate_string($tube)
   if $quarantine { validate_string($quarantine_queue_url) }
   if $replication { validate_string($replication_queue_url) }
-  if $rebuild { validate_string($rebuild_queue_url) }
+  if $rebuild_queue_url { $_rebuild_queue_url = $rebuild_queue_url }
+  else { $_rebuild_queue_url = "beanstalk://${ipaddress}:${::openiosds::params::beanstalkd_port}" }
+  if $rebuild { validate_string($_rebuild_queue_url) }
 
   validate_bool($no_exec)
 

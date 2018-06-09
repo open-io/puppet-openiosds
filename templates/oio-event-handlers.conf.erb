@@ -47,7 +47,7 @@ use = egg:oio#content_cleaner
 [filter:content_rebuild]
 use = egg:oio#notify
 tube = oio-rebuild
-queue_url = <%= @rebuild_queue_url %>
+queue_url = <%= @_rebuild_queue_url %>
 <% end -%>
 
 [filter:account_update]

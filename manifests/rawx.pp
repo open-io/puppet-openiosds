@@ -19,7 +19,7 @@ define openiosds::rawx (
   $typesConfig                = '/etc/mime.types',
   $grid_fsync                 = 'enabled',
   $grid_fsync_dir             = 'enabled',
-  $httpd_mpm                  = {'worker'=>{'StartServers'=>3,'MinSpareThreads'=>75,'MaxSpareThreads'=>250,'ThreadsPerChild'=>25,'MaxRequestsPerChild'=>0,'ServerLimit'=>16}},
+  $httpd_mpm                  = {'worker'=>{'StartServers'=>1,'MinSpareThreads'=>32,'MaxSpareThreads'=>256,'ThreadsPerChild'=>256,'MaxRequestsPerChild'=>0,'ServerLimit'=>16}},
 
   $location                   = $hostname,
   $slots                      = undef,

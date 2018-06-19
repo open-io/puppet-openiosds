@@ -56,6 +56,10 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if @resolver_cache_csm0_max_default %>resolver.cache.csm0.max.default = <%= @resolver_cache_csm0_max_default %>
 <%end -%>
+<% if @resolver_cache_srv_ttl_default %>resolver.cache.srv.ttl.default = <%= @resolver_cache_srv_ttl_default %>
+<%end -%>
+<% if @resolver_cache_csm0_ttl_default %>resolver.cache.csm0.ttl.default = <%= @resolver_cache_csm0_ttl_default %>
+<%end -%>
 <% if @server_udp_queue_ttl %>server.udp_queue.ttl = <%= @server_udp_queue_ttl %>
 <%end -%>
 <% if @server_udp_queue_max %>server.udp_queue.max = <%= @server_udp_queue_max %>

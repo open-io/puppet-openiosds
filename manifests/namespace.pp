@@ -41,6 +41,8 @@ define openiosds::namespace (
   $gridd_timeout_connect_common = undef,
   $resolver_cache_srv_max_default = undef,
   $resolver_cache_csm0_max_default = undef,
+  $resolver_cache_srv_ttl_default = undef,
+  $resolver_cache_csm0_ttl_default = undef,
   $sqliterepo_cache_ttl_cool = undef,
   $sqliterepo_cache_ttl_hot = undef,
   $client_errors_cache_enabled = undef,
@@ -105,6 +107,8 @@ define openiosds::namespace (
   if $gridd_timeout_connect_common { validate_string($gridd_timeout_connect_common) }
   if $resolver_cache_srv_max_default { validate_string($resolver_cache_srv_max_default) }
   if $resolver_cache_csm0_max_default { validate_string($resolver_cache_csm0_max_default) }
+  if $resolver_cache_srv_ttl_default { validate_string($resolver_cache_srv_ttl_default) }
+  if $resolver_cache_csm0_ttl_default { validate_string($resolver_cache_csm0_ttl_default) }
   if $sqliterepo_cache_ttl_cool { validate_string($sqliterepo_cache_ttl_cool) }
   if $sqliterepo_cache_ttl_hot { validate_string($sqliterepo_cache_ttl_hot) }
   if $client_errors_cache_enabled { validate_string($client_errors_cache_enabled) }

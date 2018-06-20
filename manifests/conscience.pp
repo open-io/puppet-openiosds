@@ -37,7 +37,7 @@ define openiosds::conscience (
     'ECISAL63D1'   => 'ec/k=6,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL123D1'  => 'ec/k=12,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL144D1'  => 'ec/k=14,m=4,algo=isa_l_rs_vand,distance=1',
-    'ECISALC35D1'  => 'ec/k=3,m=5,algo=isa_l_rs_cauchy,distance=1'},
+    'ECISALC35D1'  => 'ec/k=3,m=5,algo=isa_l_rs_cauchy,distance=1',
     'ECISALC75D1'  => 'ec/k=7,m=5,algo=isa_l_rs_cauchy,distance=1'},
   $pools                                 = {},
   $score_lock_at_first_register          = {},

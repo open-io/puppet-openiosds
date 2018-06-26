@@ -11,6 +11,7 @@ queue_url = <%= @_queue_url %>
 handlers_conf = <%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/oio-event-handlers.conf
 tube = <%= @tube %>
 acct_update = <%= @acct_update %>
+acct_refresh_interval = <%= @acct_refresh_interval %>
 rdir_update = <%= @rdir_update %>
 log_facility = <%= @log_facility %>
 log_level = <%= @log_level %>

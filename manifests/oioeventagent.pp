@@ -14,6 +14,7 @@ define openiosds::oioeventagent (
   $log_name              = undef,
   $log_address           = '/dev/log',
   $acct_update           = true,
+  $acct_refresh_interval = 60,
   $queue_url             = undef,
   $rdir_update           = true,
   $tube                  = 'oio',
@@ -49,6 +50,7 @@ define openiosds::oioeventagent (
   else { $_log_name = "${type}-${num}" }
   validate_string($_log_name)
   validate_bool($acct_update)
+  validate_integer($acct_refresh_interval)
   if $queue_url { $_queue_url = $queue_url }
   else { $_queue_url = "beanstalk://${ipaddress}:${::openiosds::params::beanstalkd_port}" }
   validate_bool($rdir_update)

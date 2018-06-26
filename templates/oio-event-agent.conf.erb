@@ -10,8 +10,6 @@ concurrency = <%= @concurrency %>
 queue_url = <%= @_queue_url %>
 handlers_conf = <%= scope['openiosds::sysconfdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/oio-event-handlers.conf
 tube = <%= @tube %>
-retries_per_second = <%= @retries_per_second %>
-batch_size = <%= @batch_size %>
 acct_update = <%= @acct_update %>
 rdir_update = <%= @rdir_update %>
 log_facility = <%= @log_facility %>

@@ -17,7 +17,7 @@ DocumentRoot    <%= @_documentRoot %>
 User  <%= scope['openiosds::user'] %>
 Group <%= scope['openiosds::group'] %>
 
-LogFormat "%h %l %t \"%r\" %>s %b %D" log/common
+LogFormat "%h %l %{%Y-%m-%dT%H:%M:%S%z}t \"%r\" %>s %b %D" log/common
 ErrorLog  <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd-errors.log
 CustomLog <%= scope['openiosds::logdir'] %>/<%= @ns %>/<%= @type %>-<%= @num %>/<%= @type %>-<%= @num %>-httpd-access.log log/common env=!dontlog
 LogLevel  <%= scope['openiosds::log_level'] %>

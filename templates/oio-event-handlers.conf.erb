@@ -2,7 +2,7 @@
 <% if @quarantine or @replication -%>
 pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
 <% else -%>
-pipeline = noop
+pipeline = webhook
 <% end -%>
 
 [handler:storage.content.append]
@@ -20,7 +20,7 @@ pipeline = noop
 <% end -%>
 
 [handler:storage.content.deleted]
-pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %> webhook
 
 [handler:storage.container.new]
 pipeline = account_update
@@ -61,6 +61,9 @@ use = egg:oio#logger
 
 [filter:noop]
 use = egg:oio#noop
+
+[filter:webhook]
+use = egg:oio#webhook
 
 <% if @quarantine -%>
 [filter:quarantine]

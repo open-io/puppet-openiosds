@@ -1,44 +1,45 @@
+<% webhooks_handlers = @webhooks.fetch("handlers", {}) -%>
 [handler:storage.content.new]
-<% if @quarantine or @replication -%>
-pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+<% if @quarantine or @replication or !webhooks_handlers.fetch("storage.content.new", []).empty? -%>
+pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %> <%= webhooks_handlers.fetch("storage.content.new", []).join(" ") %>
 <% else -%>
 pipeline = noop
 <% end -%>
 
 [handler:storage.content.append]
-<% if @quarantine or @replication -%>
-pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+<% if @quarantine or @replication or !webhooks_handlers.fetch("storage.content.append", []).empty? -%>
+pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %> <%= webhooks_handlers.fetch("storage.content.append", []).join(" ") %>
 <% else -%>
 pipeline = noop
 <% end -%>
 
 [handler:storage.content.broken]
-<% if @rebuild -%>
-pipeline = content_rebuild
+<% if @rebuild or !webhooks_handlers.fetch("storage.content.broken", []).empty? -%>
+pipeline = content_rebuild <%= webhooks_handlers.fetch("storage.content.broken", []).join(" ") %>
 <% else -%>
 pipeline = noop
 <% end -%>
 
 [handler:storage.content.deleted]
-pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %>
+pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %> <%= webhooks_handlers.fetch("storage.content.deleted", []).join(" ") %>
 
 [handler:storage.container.new]
-pipeline = account_update
+pipeline = account_update <%= webhooks_handlers.fetch("storage.container.new", []).join(" ") %>
 
 [handler:storage.container.deleted]
-pipeline = account_update
+pipeline = account_update <%= webhooks_handlers.fetch("storage.container.deleted", []).join(" ") %>
 
 [handler:storage.container.state]
-pipeline = account_update
+pipeline = account_update <%= webhooks_handlers.fetch("storage.container.state", []).join(" ") %>
 
 [handler:storage.chunk.new]
-pipeline = volume_index
+pipeline = volume_index <%= webhooks_handlers.fetch("storage.chunk.new", []).join(" ") %>
 
 [handler:storage.chunk.deleted]
-pipeline = volume_index
+pipeline = volume_index <%= webhooks_handlers.fetch("storage.chunk.deleted", []).join(" ") %>
 
 [handler:account.services]
-pipeline = noop
+pipeline = noop <%= webhooks_handlers.fetch("account.services", []).join(" ") %>
 
 [filter:content_cleaner]
 use = egg:oio#content_cleaner
@@ -70,11 +71,14 @@ queue_url = <%= @quarantine_queue_url %>
 <% end -%>
 
 <% if @replication -%>
-[handler:storage.content.append]
-pipeline = replication
-
 [filter:replication]
 use = egg:oio#notify
 tube = oio-repli
 queue_url = <%= @replication_queue_url %>
+<% end -%>
+
+<% @webhooks.fetch("filters", {}).each do |filtername, config| -%>
+[filter:<%= filtername %>]
+use = egg:oio#webhook
+endpoint = <%= config["endpoint"] %>
 <% end -%>

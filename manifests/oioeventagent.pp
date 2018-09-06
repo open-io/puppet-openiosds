@@ -24,6 +24,7 @@ define openiosds::oioeventagent (
   $replication_queue_url = undef,
   $rebuild               = true,
   $rebuild_queue_url     = undef,
+  $webhooks              = {},
 
   $no_exec               = false,
 ) {

@@ -23,6 +23,7 @@ define openiosds::rawx (
 
   $location                   = $hostname,
   $slots                      = undef,
+  $golang_version             = false,
   $no_exec                    = false,
 ) {
 
@@ -53,6 +54,7 @@ define openiosds::rawx (
   validate_integer($grid_hash_width)
   validate_string($location)
   if $slots { validate_array($slots) }
+  validate_bool($golang_version)
 
   # Namespace
   if $action == 'create' {
@@ -86,7 +88,10 @@ define openiosds::rawx (
   # Init
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
-    command => "${openiosds::httpd_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
+    command =>  $golang_version ? {
+      true  => "${openiosds::rawx_go_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
+      false => "${openiosds::httpd_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
+    },
     group   => "${ns},${type},${type}-${num}",
     uid     => $openiosds::user,
     gid     => $openiosds::group,

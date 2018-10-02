@@ -49,6 +49,14 @@ use = egg:oio#content_cleaner
 use = egg:oio#notify
 tube = oio-rebuild
 queue_url = <%= @_rebuild_queue_url %>
+
+[handler:storage.content.perfectible]
+pipeline = content_improve
+
+[filter:content_improve]
+use = egg:oio#notify
+tube = oio-improve
+queue_url = <%= @_rebuild_queue_url %>
 <% end -%>
 
 [filter:account_update]

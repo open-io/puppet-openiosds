@@ -89,7 +89,7 @@ define openiosds::rawx (
   gridinit::program { "${ns}-${type}-${num}":
     action  => $action,
     command =>  $golang_version ? {
-      true  => "${openiosds::rawx_go_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
+      true  => "${openiosds::rawx_go_daemon} -D FOREGROUND -s OIO,${ns},${type},${num} -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
       false => "${openiosds::httpd_daemon} -D FOREGROUND -f ${openiosds::sysconfdir}/${ns}/${type}-${num}/${type}-${num}-httpd.conf",
     },
     group   => "${ns},${type},${type}-${num}",

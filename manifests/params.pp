@@ -52,7 +52,7 @@ class openiosds::params {
       }
       $libdir                  = "${prefixdir}/lib"
       $httpd_daemon            = '/usr/sbin/apache2'
-      $rawx_go_daemon          = '/bin/oio-rawx'
+      $rawx_go_daemon          = '/usr/bin/oio-rawx'
       $httpd_moduledir         = "${libdir}/apache2/modules"
       $httpd_package_name      = ['openio-sds']
       $package_names           = ['openio-sds']
@@ -80,7 +80,7 @@ class openiosds::params {
         }
       }
       $httpd_daemon              = '/usr/sbin/httpd'
-      $rawx_go_daemon            = '/bin/oio-rawx'
+      $rawx_go_daemon            = '/usr/bin/oio-rawx'
       $httpd_moduledir           = "${libdir}/httpd/modules"
       $httpd_package_name        = ['openio-sds-mod-httpd']
       $package_names             = ['openio-sds-server']

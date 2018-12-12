@@ -13,6 +13,20 @@ pipeline =<% if @quarantine %> quarantine<% end %><% if @replication %> replicat
 pipeline = noop
 <% end -%>
 
+[handler:storage.content.update]
+<% if @replication -%>
+pipeline = replication %>
+<% else -%>
+pipeline = noop
+<% end -%>
+
+[handler:storage.content.drained]
+<% if @replication -%>
+pipeline = replication %>
+<% else -%>
+pipeline = noop
+<% end -%>
+
 [handler:storage.content.broken]
 <% if @rebuild or !webhooks_handlers.fetch("storage.content.broken", []).empty? -%>
 pipeline = content_rebuild <%= webhooks_handlers.fetch("storage.content.broken", []).join(" ") %>

@@ -38,7 +38,7 @@ define openiosds::conscience (
     'ECLIBEC144D1' => 'ec/k=14,m=4,algo=liberasurecode_rs_vand,distance=1',
     'ECISAL42D1'   => 'ec/k=4,m=2,algo=isa_l_rs_vand,distance=1',
     'ECISAL63D1'   => 'ec/k=6,m=3,algo=isa_l_rs_vand,distance=1',
-    'ECISAL84D1'   => 'ec/k=8,m=4,algo=isa_l_rs_vand,distance=1,
+    'ECISAL84D1'   => 'ec/k=8,m=4,algo=isa_l_rs_vand,distance=1',
     'ECISAL123D1'  => 'ec/k=12,m=3,algo=isa_l_rs_vand,distance=1',
     'ECISAL144D1'  => 'ec/k=14,m=4,algo=isa_l_rs_vand,distance=1',
     'ECISALC35D1'  => 'ec/k=3,m=5,algo=isa_l_rs_cauchy,distance=1',

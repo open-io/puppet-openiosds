@@ -38,10 +38,10 @@ pipeline = noop
 pipeline = content_cleaner<% if @quarantine %> quarantine<% end %><% if @replication %> replication<% end %> <%= webhooks_handlers.fetch("storage.content.deleted", []).join(" ") %>
 
 [handler:storage.container.new]
-pipeline = account_update meta2_index <%= webhooks_handlers.fetch("storage.container.new", []).join(" ") %>
+pipeline = account_update <%= webhooks_handlers.fetch("storage.container.new", []).join(" ") %>
 
 [handler:storage.container.deleted]
-pipeline = account_update meta2_index <%= webhooks_handlers.fetch("storage.container.deleted", []).join(" ") %>
+pipeline = account_update <%= webhooks_handlers.fetch("storage.container.deleted", []).join(" ") %>
 
 [handler:storage.container.state]
 pipeline = account_update <%= webhooks_handlers.fetch("storage.container.state", []).join(" ") %>
@@ -64,9 +64,6 @@ use = egg:oio#notify
 tube = oio-rebuild
 queue_url = <%= @_rebuild_queue_url %>
 <% end -%>
-
-[filter:meta2_index]
-use = egg:oio#meta2_index
 
 [filter:account_update]
 use = egg:oio#account_update

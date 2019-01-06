@@ -15,14 +15,14 @@ pipeline = noop
 
 [handler:storage.content.update]
 <% if @replication -%>
-pipeline = replication %>
+pipeline = replication
 <% else -%>
 pipeline = noop
 <% end -%>
 
 [handler:storage.content.drained]
 <% if @replication -%>
-pipeline = replication %>
+pipeline = replication
 <% else -%>
 pipeline = noop
 <% end -%>

@@ -18,6 +18,7 @@ define openiosds::namespace (
   $events_common_pending_max = undef,
   $ns_storage_policy         = 'THREECOPIES',
   $ns_chunk_size             = undef,
+  $ns_chunk_size_minimum     = '10M',
   $sqliterepo_election_delay_ping_final = undef,
   $sqliterepo_election_delay_expire_slave = undef,
   $sqliterepo_election_delay_expire_master = undef,

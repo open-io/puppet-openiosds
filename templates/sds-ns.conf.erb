@@ -30,6 +30,8 @@ conscience=<%= @conscience_url %>
 <%end -%>
 <% if @ns_chunk_size %>ns.chunk_size=<%= @ns_chunk_size %>
 <%end -%>
+<% if @ns_chunk_size_minimum %>core.chunk_size.minimum=<%= @ns_chunk_size_minimum %>
+<%end -%>
 <% if @ns_service_update_policy %>ns.service_update_policy=<% @ns_service_update_policy.keys.sort.each do |key| -%><%= key %>=<%= @ns_service_update_policy[key] %>;<% end %>
 <%end -%>
 <% if @client_errors_cache_enabled %>client.errors_cache.enabled = <%= @client_errors_cache_enabled %>

@@ -48,6 +48,8 @@ define openiosds::namespace (
   $sqliterepo_cache_ttl_hot = undef,
   $client_errors_cache_enabled = undef,
   $client_errors_cache_period = undef,
+  $sqliterepo_repo_hard_max = undef,
+  $sqliterepo_repo_soft_max = undef,
   $client_errors_cache_max = undef,
   $client_down_cache_avoid = undef,
   $ns_worm = undef,
@@ -85,6 +87,8 @@ define openiosds::namespace (
   if $ns_storage_policy { validate_string($ns_storage_policy) }
   if $ns_chunk_size { validate_integer($ns_chunk_size) }
   if $ns_service_update_policy { validate_hash($ns_service_update_policy) }
+  if $sqliterepo_repo_hard_max { validate_integer($sqliterepo_repo_hard_max) }
+  if $sqliterepo_repo_soft_max { validate_integer($sqliterepo_repo_soft_max) }
   if $sqliterepo_election_delay_ping_final { validate_string($sqliterepo_election_delay_ping_final) }
   if $sqliterepo_election_delay_expire_slave { validate_string($sqliterepo_election_delay_expire_slave) }
   if $sqliterepo_election_delay_expire_master { validate_string($sqliterepo_election_delay_expire_master) }
